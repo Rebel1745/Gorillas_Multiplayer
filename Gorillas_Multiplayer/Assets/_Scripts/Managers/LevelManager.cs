@@ -52,11 +52,14 @@ public class LevelManager : NetworkBehaviour
         {
             newPos = new(startingXPos + xOffset + (led.ElementWidth / 2), led.ElementHeight, 0f);
             newElement = Instantiate(led.ElementPrefab, newPos, Quaternion.identity);
-            randomBuildingColour = new(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
-            newElement.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().color = randomBuildingColour;
             elementNO = newElement.GetComponent<NetworkObject>();
             elementNO.Spawn(true);
             elementNO.TrySetParent(_levelElementHolder, true);
+            randomBuildingColour = new(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+            // set the building colour on the server
+            newElement.transform.GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().color = randomBuildingColour;
+            // save the colour to update on the client using an rpc
+            newElement.GetComponent<Building>().SetBuildingSpriteColourRpc(randomBuildingColour);
             xOffset += led.ElementWidth;
 
             // spawn points are the second child of the building (first is GFX)
@@ -74,6 +77,8 @@ public class LevelManager : NetworkBehaviour
 
             ledIndex++;
         }
+
+        UpdateBuildingSpriteColours();
     }
 
     private void ChooseElements()
@@ -160,6 +165,14 @@ public class LevelManager : NetworkBehaviour
 
         firstSpawnPoint = GetSpawnPointAtIndex(firstSpawnPointIndex);
         lastSpawnPoint = GetSpawnPointAtIndex(lastSpawnPointIndex);
+    }
+
+    private void UpdateBuildingSpriteColours()
+    {
+        foreach (GameObject go in _levelElementGOs)
+        {
+            go.GetComponent<Building>().UpdateBuildingSpriteColourRpc();
+        }
     }
 }
 

@@ -18491,6 +18491,7 @@ GameObject:
   - component: {fileID: 8756603287096427386}
   - component: {fileID: 2333904184075406674}
   - component: {fileID: -5194005211614923510}
+  - component: {fileID: -477641978836328478}
   m_Layer: 6
   m_Name: Building2
   m_TagString: Ground
@@ -18587,6 +18588,19 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &-477641978836328478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7051889797630888576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d106d3c41166040b1e3e986e77c988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  _buildingSpriteRenderer: {fileID: 3860391784099635998}
 --- !u!1 &7108483801655818941
 GameObject:
   m_ObjectHideFlags: 0

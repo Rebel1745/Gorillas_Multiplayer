@@ -915,6 +915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 945862827}
   - component: {fileID: 945862828}
+  - component: {fileID: 945862829}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -960,6 +961,31 @@ MonoBehaviour:
   _maximumDistanceBetweenPlayers: 30
   _minimumBuildingHeight: -13
   _maximumBuildingHeight: -8
+--- !u!114 &945862829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945862826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 488738920
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &1022762111
 GameObject:
   m_ObjectHideFlags: 0
@@ -2356,8 +2382,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4290164479
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2827,8 +2853,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4290164479
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2982,8 +3008,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4290164479
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4296,7 +4322,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5104,7 +5130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.14509805, g: 0.14901961, b: 0.16862746, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5842,7 +5868,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6281,7 +6307,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7488,6 +7514,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUI
   ShowTopMostFoldoutHeaderGroup: 1
+  _playerId: 0
+  _powerText: {fileID: 2396180147247685837}
+  _powerSlider: {fileID: 5515842103579616550}
+  _angleText: {fileID: 4226720454826245718}
+  _angleSlider: {fileID: 4686745150004305263}
+  _launchButton: {fileID: 3836140500319847057}
+  _powerInput: {fileID: 706832865201456772}
+  _angleInput: {fileID: 1863876572505659216}
 --- !u!114 &6865573088150978785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7608,7 +7642,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7898,8 +7932,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4290164479
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8285,6 +8319,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUI
   ShowTopMostFoldoutHeaderGroup: 1
+  _playerId: 1
+  _powerText: {fileID: 4747596108807963087}
+  _powerSlider: {fileID: 1551446913713956711}
+  _angleText: {fileID: 7156142866683375384}
+  _angleSlider: {fileID: 2889075768557597125}
+  _launchButton: {fileID: 3318608438233712155}
+  _powerInput: {fileID: 2548666502440905844}
+  _angleInput: {fileID: 4380592521960831076}
 --- !u!224 &8196323337960408473
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8480,6 +8522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreUI
   ShowTopMostFoldoutHeaderGroup: 1
+  _scoreText: {fileID: 2390456059303415376}
 --- !u!222 &8491025498629429278
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8816,7 +8859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4745098, g: 0.36078432, b: 0.36078432, a: 1}
+  m_Color: {r: 0.14509805, g: 0.14901961, b: 0.16862746, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8846,7 +8889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4745098, g: 0.36078432, b: 0.36078432, a: 1}
+  m_Color: {r: 0.14509805, g: 0.14901961, b: 0.16862746, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

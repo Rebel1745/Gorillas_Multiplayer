@@ -75,12 +75,14 @@ public class PlayerManager : NetworkBehaviour
             //Players[1].PlayerController.PlacePlayerAndEnable(lastSpawnPoint, lastSpawnPointIndex);
         }
 
-        Players[0].PlayerUIGO.SetActive(false);
         //CameraManager.Instance.AddPlayer(Players[0].PlayerGameObject.transform.position);
 
-
-        Players[1].PlayerUIGO.SetActive(false);
         //CameraManager.Instance.AddPlayer(Players[1].PlayerGameObject.transform.position);
 
+    }
+
+    public int GetOtherPlayerId(int playerId)
+    {
+        return (playerId + 1) % 2;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,6 +11,10 @@ public class GameManager : NetworkBehaviour
 
     private int _currentRound = 0;
     public int CurrentRound { get { return _currentRound; } }
+
+    #region Events
+    public event EventHandler OnNewGame;
+    #endregion
 
     private void Awake()
     {
@@ -73,8 +78,15 @@ public class GameManager : NetworkBehaviour
         UIManager.Instance.UpdateStatusScreenText("Initialising game...");
         // in here we initialse the scores (move to a new script - i.e. GameScore.cs and GameScoreUI.cs)
         // reset the current round number and current player id
+        OnNewGameEventRpc();
         _currentRound = 0;
         UpdateGameState(GameState.BuildLevel);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void OnNewGameEventRpc()
+    {
+        OnNewGame?.Invoke(this, EventArgs.Empty);
     }
 
     private void BuildLevel()
