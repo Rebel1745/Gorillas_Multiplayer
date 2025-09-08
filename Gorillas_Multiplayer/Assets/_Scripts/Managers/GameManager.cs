@@ -40,6 +40,13 @@ public class GameManager : NetworkBehaviour
             case GameState.SetupPlayers:
                 SetupPlayers();
                 break;
+            case GameState.SetupGame:
+                SetupGame();
+                break;
+            case GameState.WaitingForLaunch:
+                break;
+            case GameState.WaitingForDetonation:
+                break;
         }
     }
 
@@ -56,16 +63,9 @@ public class GameManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.ConnectedClientsList.Count == 2)
         {
-            ClientConnectedRpc();
             // Setup game
             UpdateGameState(GameState.InitialiseGame);
         }
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    private void ClientConnectedRpc()
-    {
-        UIManager.Instance.ShowHideUIElement(UIManager.Instance.StatusScreenUI, true);
     }
 
     private void WaitingForClientConnection()
@@ -99,6 +99,12 @@ public class GameManager : NetworkBehaviour
     {
         UIManager.Instance.UpdateStatusScreenText("Setting up players...");
         PlayerManager.Instance.SetupPlayers();
+    }
+
+    private void SetupGame()
+    {
+        UIManager.Instance.UpdateStatusScreenText("Setting up game...");
+        UIManager.Instance.ShowHideUIElementRpc(UIManager.Instance.StatusScreenUI, false);
     }
 }
 

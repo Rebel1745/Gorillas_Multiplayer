@@ -878,6 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30594b610d062d141a59272b726ccb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  ShowTopMostFoldoutHeaderGroup: 1
   NetworkManagerUI: {fileID: 1022762111}
   StatusScreenUI: {fileID: 268274506}
 --- !u!114 &880960080
@@ -1116,6 +1117,82 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1193391740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1193391741}
+  - component: {fileID: 1193391742}
+  - component: {fileID: 1193391743}
+  m_Layer: 0
+  m_Name: CameraManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1193391741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193391740}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1955909302}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1193391742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193391740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d7b979d745f9a45b777a253067e180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  _cameraOffset: {x: 5, y: 2, z: -10}
+  _minZoom: 5
+  _maxZoom: 20
+  _zoomSmoothTime: 0.5
+  _moveSmoothTime: 0.5
+--- !u!114 &1193391743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193391740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 1612719437
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &1240068596
 GameObject:
   m_ObjectHideFlags: 0
@@ -1866,7 +1943,7 @@ MonoBehaviour:
     PlayerUIGO: {fileID: 8557842400926540981}
     PlayerUIPowerupHolder: {fileID: 5095249482074085416}
     PlayerController: {fileID: 0}
-    PlayerPrefab: {fileID: 4972102006553089897, guid: a712140191944ae4d9946f21cddeaddc, type: 3}
+    PlayerPrefab: {fileID: 4972102006553089897, guid: 785a95cf9c8ff5840aa2196bdccec6ec, type: 3}
     PlayerAnimator: {fileID: 0}
     PlayerGameObject: {fileID: 0}
     PlayerLineRenderer: {fileID: 0}
@@ -2192,6 +2269,7 @@ Transform:
   - {fileID: 945862827}
   - {fileID: 880960078}
   - {fileID: 1620002582}
+  - {fileID: 1193391741}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2097185625

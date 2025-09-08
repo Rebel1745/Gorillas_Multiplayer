@@ -19,6 +19,7 @@ public class PlayerUI : NetworkBehaviour
 
     private void Awake()
     {
+        SetupListeners();
     }
 
     private void Start()
@@ -28,7 +29,6 @@ public class PlayerUI : NetworkBehaviour
 
     private void GameManager_OnOnNewGame(object sender, EventArgs e)
     {
-        SetupListeners();
         Show();
         SetViewMode();
         _powerValue = 50f;
@@ -44,6 +44,8 @@ public class PlayerUI : NetworkBehaviour
 
         _powerInput.onValueChanged.AddListener(OnPowerInputChanged);
         _angleInput.onValueChanged.AddListener(OnAngleInputChanged);
+
+        _launchButton.onClick.AddListener(OnLaunchButtonClicked);
     }
 
     #region Power and angle controls
@@ -115,6 +117,11 @@ public class PlayerUI : NetworkBehaviour
 
         _angleValue = angleInput;
         UpdateAngleDetails();
+    }
+
+    private void OnLaunchButtonClicked()
+    {
+        PlayerManager.Instance.StartLaunchProjectileForPlayerRpc(_playerId, _powerValue, _angleValue);
     }
     #endregion
 

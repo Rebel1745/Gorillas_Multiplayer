@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : NetworkBehaviour
 {
     public static UIManager Instance { get; private set; }
 
@@ -12,9 +13,16 @@ public class UIManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
-    public void ShowHideUIElement(GameObject element, bool show)
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ShowHideUIElementRpc(NetworkObjectReference element, bool show)
     {
-        element.SetActive(show);
+        if (!element.TryGet(out NetworkObject networkObject))
+        {
+            Debug.Log("Error: Could not retrieve NetworkObject");
+            return;
+        }
+        Debug.Log($"{networkObject.gameObject.name} - {show}");
+        networkObject.gameObject.SetActive(show);
     }
 
     public void UpdateStatusScreenText(string text)
