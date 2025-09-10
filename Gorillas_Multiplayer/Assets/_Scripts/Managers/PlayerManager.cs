@@ -46,40 +46,48 @@ public class PlayerManager : NetworkBehaviour
             newPlayerNO.TrySetParent(_playerHolder);
 
             newPlayer.name = Players[0].Name;
-            Players[0].PlayerGameObject = newPlayer;
-            Players[0].PlayerController = newPlayer.GetComponent<PlayerController>();
-            Players[0].PlayerAnimator = newPlayer.GetComponentInChildren<Animator>();
-            Players[0].PlayerLineRenderer = newPlayer.GetComponent<LineRenderer>();
-            Players[0].PlayerUI = Players[0].PlayerUIGO.GetComponent<PlayerUI>();
-            Players[0].SpawnPointIndex = firstSpawnPointIndex;
-            Players[0].PlayerController.SetPlayerDetails(0, Players[0]);
+            SetPlayersDetailsRpc(0, newPlayerNO, firstSpawnPointIndex);
 
             newPlayer = Instantiate(Players[1].PlayerPrefab, lastSpawnPoint, Quaternion.identity);
             newPlayerNO = newPlayer.GetComponent<NetworkObject>();
             newPlayerNO.Spawn(true);
             newPlayerNO.TrySetParent(_playerHolder);
-            newPlayer.GetComponentInChildren<SpriteRenderer>().transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-            newPlayer.transform.GetChild(1).transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 
             newPlayer.name = Players[1].Name;
-            Players[1].PlayerGameObject = newPlayer;
-            Players[1].PlayerController = newPlayer.GetComponent<PlayerController>();
-            Players[1].PlayerAnimator = newPlayer.GetComponentInChildren<Animator>();
-            Players[1].PlayerLineRenderer = newPlayer.GetComponent<LineRenderer>();
-            Players[1].PlayerUI = Players[1].PlayerUIGO.GetComponent<PlayerUI>();
-            Players[1].SpawnPointIndex = lastSpawnPointIndex;
-            Players[1].PlayerController.SetPlayerDetails(1, Players[1]);
+            SetPlayersDetailsRpc(1, newPlayerNO, lastSpawnPointIndex);
         }
         else
         {
-            //Players[0].PlayerController.PlacePlayerAndEnable(firstSpawnPoint, firstSpawnPointIndex);
+            PlacePlayerAndEnableRpc(0, firstSpawnPoint, firstSpawnPointIndex);
 
-            //Players[1].PlayerController.PlacePlayerAndEnable(lastSpawnPoint, lastSpawnPointIndex);
+            PlacePlayerAndEnableRpc(1, lastSpawnPoint, lastSpawnPointIndex);
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SetPlayersDetailsRpc(int playerId, NetworkObjectReference player, int spawnPointIndex)
+    {
+        if (!player.TryGet(out NetworkObject networkObject))
+        {
+            Debug.Log("Error: Could not retrieve NetworkObject");
+            return;
         }
 
-        CameraManager.Instance.AddPlayerRpc(Players[0].PlayerGameObject.transform.position);
+        Players[playerId].PlayerGameObject = networkObject.gameObject;
+        Players[playerId].PlayerController = networkObject.gameObject.GetComponent<PlayerController>();
+        Players[playerId].PlayerAnimator = networkObject.gameObject.GetComponentInChildren<Animator>();
+        Players[playerId].PlayerLineRenderer = networkObject.gameObject.GetComponent<LineRenderer>();
+        Players[playerId].PlayerUI = Players[playerId].PlayerUIGO.GetComponent<PlayerUI>();
+        Players[playerId].SpawnPointIndex = spawnPointIndex;
+        Players[playerId].PlayerController.SetPlayerDetails(playerId, Players[playerId]);
 
-        CameraManager.Instance.AddPlayerRpc(Players[1].PlayerGameObject.transform.position);
+        if (playerId == 1)
+        {
+            networkObject.gameObject.GetComponentInChildren<SpriteRenderer>().transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            networkObject.gameObject.transform.GetChild(1).transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+
+        CameraManager.Instance.AddPlayerRpc(Players[playerId].PlayerGameObject.transform.position);
     }
 
     public int GetOtherPlayerId(int playerId)
@@ -91,5 +99,24 @@ public class PlayerManager : NetworkBehaviour
     public void StartLaunchProjectileForPlayerRpc(int playerId, float power, float angle)
     {
         Players[playerId].PlayerController.StartLaunchProjectile(power, angle);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void DestroyPlayerRpc(int playerId)
+    {
+        Players[playerId].PlayerGameObject.SetActive(false);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void PlacePlayerAndEnableRpc(int playerId, Vector3 position, int spawnPointIndex)
+    {
+        transform.position = position;
+        Players[playerId].SpawnPointIndex = spawnPointIndex;
+        gameObject.SetActive(true);
+    }
+
+    public void DestroyPlayer()
+    {
+        gameObject.SetActive(false);
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,9 +12,11 @@ public class GameManager : NetworkBehaviour
 
     private int _currentRound = 0;
     public int CurrentRound { get { return _currentRound; } }
+    public NetworkVariable<int> CurrentPlayerId = new();
 
     #region Events
     public event EventHandler OnNewGame;
+    public event EventHandler OnCurrentPlayerIdChanged;
     #endregion
 
     private void Awake()
@@ -47,6 +50,18 @@ public class GameManager : NetworkBehaviour
                 break;
             case GameState.WaitingForDetonation:
                 break;
+            case GameState.WaitingForMovement:
+                //WaitingForMovement();
+                break;
+            case GameState.NextTurn:
+                StartCoroutine(nameof(NextTurn), delay);
+                break;
+            case GameState.RoundComplete:
+                //StartCoroutine(RoundComplete(_timeBetweenRounds));
+                break;
+            case GameState.GameOver:
+                //StartCoroutine(nameof(GameOver), delay);
+                break;
         }
     }
 
@@ -54,9 +69,15 @@ public class GameManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+            CurrentPlayerId.Value = 3;
             UpdateGameState(GameState.WaitingForClientConnection);
+            NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
         }
+
+        CurrentPlayerId.OnValueChanged += (int oldValue, int newValue) =>
+        {
+            OnCurrentPlayerIdChanged?.Invoke(this, EventArgs.Empty);
+        };
     }
 
     private void NetworkManager_OnClientConnectedCallback(ulong obj)
@@ -105,6 +126,24 @@ public class GameManager : NetworkBehaviour
     {
         UIManager.Instance.UpdateStatusScreenText("Setting up game...");
         UIManager.Instance.ShowHideUIElementRpc(UIManager.Instance.StatusScreenUI, false);
+        CurrentPlayerId.Value = 0;
+        UpdateGameState(GameState.WaitingForLaunch);
+    }
+
+    private IEnumerator NextTurn(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        NextTurnRpc();
+    }
+
+    [Rpc(SendTo.Server)]
+    private void NextTurnRpc()
+    {
+        // advance player
+        CurrentPlayerId.Value = PlayerManager.Instance.GetOtherPlayerId(CurrentPlayerId.Value);
+
+        UpdateGameState(GameState.WaitingForLaunch);
     }
 }
 

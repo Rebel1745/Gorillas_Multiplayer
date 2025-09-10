@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 1810292093481192050}
   - component: {fileID: 5460732819006931798}
   - component: {fileID: 5124954363278946462}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ GameObject:
   - component: {fileID: 1856526456601640009}
   - component: {fileID: 866255064837551057}
   - component: {fileID: 3656763517248901086}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1080,7 +1080,7 @@ GameObject:
   - component: {fileID: 7019808806365503864}
   - component: {fileID: 8435940808423806664}
   - component: {fileID: 7677919555039784565}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1245,7 +1245,7 @@ GameObject:
   - component: {fileID: 5482432602131633055}
   - component: {fileID: 3462392649816492146}
   - component: {fileID: 8054808431306812319}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1680,7 +1680,7 @@ GameObject:
   - component: {fileID: 1885858470954302691}
   - component: {fileID: 3829606984214609859}
   - component: {fileID: 3691329993542225583}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2370,7 +2370,7 @@ GameObject:
   - component: {fileID: 2860299031279350656}
   - component: {fileID: 4056608388769703354}
   - component: {fileID: 4291204346682940575}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2568,7 +2568,7 @@ GameObject:
   - component: {fileID: 2467119983058036081}
   - component: {fileID: 6579128477930625350}
   - component: {fileID: 4670749773500729012}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2733,7 +2733,7 @@ GameObject:
   - component: {fileID: 6829521214152033762}
   - component: {fileID: 6338709715806346262}
   - component: {fileID: 1621908617302071832}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3120,7 +3120,7 @@ GameObject:
   - component: {fileID: 5315016479568022987}
   - component: {fileID: 55020543241542163}
   - component: {fileID: 5805011482037156408}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3285,7 +3285,7 @@ GameObject:
   - component: {fileID: 3384482758691528599}
   - component: {fileID: 1243950120651722924}
   - component: {fileID: 3625547699957545053}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3450,7 +3450,7 @@ GameObject:
   - component: {fileID: 8349486978582429820}
   - component: {fileID: 8828189642021624001}
   - component: {fileID: 554200092464818916}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3746,7 +3746,7 @@ GameObject:
   - component: {fileID: 6399752488736874176}
   - component: {fileID: 4583030890114532794}
   - component: {fileID: 421298461420874449}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3911,7 +3911,7 @@ GameObject:
   - component: {fileID: 8293919214521646746}
   - component: {fileID: 3493941065049096790}
   - component: {fileID: 5955070057143977255}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4175,7 +4175,7 @@ GameObject:
   - component: {fileID: 5438767452444557670}
   - component: {fileID: 1483945788343460015}
   - component: {fileID: 1159385887157064994}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4709,7 +4709,7 @@ GameObject:
   - component: {fileID: 6435431197451345496}
   - component: {fileID: 5094638484674429513}
   - component: {fileID: 8339080412500357716}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5219,7 +5219,7 @@ GameObject:
   - component: {fileID: 4340904085211577676}
   - component: {fileID: 8173297352249120633}
   - component: {fileID: 2715810987248803365}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5630,7 +5630,7 @@ GameObject:
   - component: {fileID: 6944234761571730435}
   - component: {fileID: 1314127195897997291}
   - component: {fileID: 1915215258363284050}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5795,7 +5795,7 @@ GameObject:
   - component: {fileID: 4020139212603519055}
   - component: {fileID: 6603978645233404026}
   - component: {fileID: 5144663398729622726}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5960,7 +5960,7 @@ GameObject:
   - component: {fileID: 7396176678370068092}
   - component: {fileID: 2385011761549213055}
   - component: {fileID: 5338721793093256902}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6305,7 +6305,7 @@ GameObject:
   - component: {fileID: 8004205376287760147}
   - component: {fileID: 5594092527755186835}
   - component: {fileID: 9190268735483342033}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6470,7 +6470,7 @@ GameObject:
   - component: {fileID: 4219008272650945631}
   - component: {fileID: 5379533694776509857}
   - component: {fileID: 6851566845677316914}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6635,7 +6635,7 @@ GameObject:
   - component: {fileID: 4936747313407440045}
   - component: {fileID: 3636289923693706885}
   - component: {fileID: 5609037164263621217}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6923,7 +6923,7 @@ GameObject:
   - component: {fileID: 4422108932048646632}
   - component: {fileID: 2254452890574006704}
   - component: {fileID: 5326330675474855603}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7154,7 +7154,7 @@ GameObject:
   - component: {fileID: 7335900942583074515}
   - component: {fileID: 965647786321888435}
   - component: {fileID: 3417699830309007366}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7319,7 +7319,7 @@ GameObject:
   - component: {fileID: 667839554983858520}
   - component: {fileID: 2873964905249875844}
   - component: {fileID: 6899314421395217228}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7697,7 +7697,7 @@ GameObject:
   - component: {fileID: 5977438124843548452}
   - component: {fileID: 3565872100149335171}
   - component: {fileID: 8611553509853705821}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7928,7 +7928,7 @@ GameObject:
   - component: {fileID: 5626378470212959627}
   - component: {fileID: 3060279220556296154}
   - component: {fileID: 4954756646903633558}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8126,7 +8126,7 @@ GameObject:
   - component: {fileID: 1753872542184261986}
   - component: {fileID: 1525097254767155792}
   - component: {fileID: 6893021426208591395}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8570,7 +8570,7 @@ GameObject:
   - component: {fileID: 5852208365035260027}
   - component: {fileID: 5572086352369678559}
   - component: {fileID: 5554878585980393644}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8735,7 +8735,7 @@ GameObject:
   - component: {fileID: 3673716437041716729}
   - component: {fileID: 4687170129422500932}
   - component: {fileID: 4403721401250656796}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8900,7 +8900,7 @@ GameObject:
   - component: {fileID: 4621340949277950589}
   - component: {fileID: 6739687256326442002}
   - component: {fileID: 5333028836947821832}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9287,7 +9287,7 @@ GameObject:
   - component: {fileID: 4995504725096843704}
   - component: {fileID: 4052673694986817455}
   - component: {fileID: 3847588054940498707}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9452,7 +9452,7 @@ GameObject:
   - component: {fileID: 7977516029465825389}
   - component: {fileID: 8101814465125949558}
   - component: {fileID: 3718405768816506008}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9617,7 +9617,7 @@ GameObject:
   - component: {fileID: 3012975038267379008}
   - component: {fileID: 4627814167036933764}
   - component: {fileID: 1988016739532748835}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9782,7 +9782,7 @@ GameObject:
   - component: {fileID: 6515240191819692792}
   - component: {fileID: 130037593115315646}
   - component: {fileID: 8600544618046303592}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9980,7 +9980,7 @@ GameObject:
   - component: {fileID: 712272107014398575}
   - component: {fileID: 2942097479666847200}
   - component: {fileID: 5419711313023567833}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10145,7 +10145,7 @@ GameObject:
   - component: {fileID: 6218046136708616187}
   - component: {fileID: 3248125942063038733}
   - component: {fileID: 4810003911046711774}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11656,7 +11656,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d106d3c41166040b1e3e986e77c988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
+  ShowTopMostFoldoutHeaderGroup: 1
   _buildingSpriteRenderer: {fileID: 6007935445769019}
+  _buildingSpriteColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6134954440047430945
 GameObject:
   m_ObjectHideFlags: 0
@@ -12129,7 +12131,7 @@ GameObject:
   - component: {fileID: 5811238974573521861}
   - component: {fileID: 5288959386461774949}
   - component: {fileID: 2453689953946736324}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12294,7 +12296,7 @@ GameObject:
   - component: {fileID: 4307753758687786373}
   - component: {fileID: 7988337637490078688}
   - component: {fileID: 4299097918809064496}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12888,7 +12890,7 @@ GameObject:
   - component: {fileID: 8061597792708960631}
   - component: {fileID: 8093938052189726745}
   - component: {fileID: 5450702477784263893}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13053,7 +13055,7 @@ GameObject:
   - component: {fileID: 2350130373207168686}
   - component: {fileID: 6053661760224958830}
   - component: {fileID: 3285800138411102135}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13251,7 +13253,7 @@ GameObject:
   - component: {fileID: 5964024331277101450}
   - component: {fileID: 2023438402511755237}
   - component: {fileID: 319092682104468626}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13514,7 +13516,7 @@ GameObject:
   - component: {fileID: 5168778153628563994}
   - component: {fileID: 1847200423536541286}
   - component: {fileID: 1314288146153592522}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13892,7 +13894,7 @@ GameObject:
   - component: {fileID: 1213245113921331010}
   - component: {fileID: 506906585268219942}
   - component: {fileID: 8862493881187892337}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14180,7 +14182,7 @@ GameObject:
   - component: {fileID: 6927994830123297162}
   - component: {fileID: 8499036832782393242}
   - component: {fileID: 6241627425333939020}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14378,7 +14380,7 @@ GameObject:
   - component: {fileID: 2270576557415315501}
   - component: {fileID: 106995540139463190}
   - component: {fileID: 8873713745993400946}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14666,7 +14668,7 @@ GameObject:
   - component: {fileID: 8867461144763158727}
   - component: {fileID: 3657202926832602973}
   - component: {fileID: 1787876998676644349}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14897,7 +14899,7 @@ GameObject:
   - component: {fileID: 1794977271204700668}
   - component: {fileID: 4590117815520402984}
   - component: {fileID: 1584676765358567626}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15152,7 +15154,7 @@ GameObject:
   - component: {fileID: 6506262629766140941}
   - component: {fileID: 535980895976027692}
   - component: {fileID: 898371346637738113}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15317,7 +15319,7 @@ GameObject:
   - component: {fileID: 4636276041327790011}
   - component: {fileID: 7262014099058106406}
   - component: {fileID: 2525250952754702417}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15671,7 +15673,7 @@ GameObject:
   - component: {fileID: 6495636998647543193}
   - component: {fileID: 5781844334450391825}
   - component: {fileID: 7752048200697489250}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15926,7 +15928,7 @@ GameObject:
   - component: {fileID: 1389636385169285450}
   - component: {fileID: 8701483526960416715}
   - component: {fileID: 4059240705107302577}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16247,7 +16249,7 @@ GameObject:
   - component: {fileID: 228675157845049360}
   - component: {fileID: 3873703742607751888}
   - component: {fileID: 6948988853592204500}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16502,7 +16504,7 @@ GameObject:
   - component: {fileID: 8993292051366935654}
   - component: {fileID: 2322082892393853367}
   - component: {fileID: 2780507917416717241}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16667,7 +16669,7 @@ GameObject:
   - component: {fileID: 872011258731750832}
   - component: {fileID: 6096024323639297374}
   - component: {fileID: 2137549969240954841}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16898,7 +16900,7 @@ GameObject:
   - component: {fileID: 1193853836124273522}
   - component: {fileID: 395817300829193501}
   - component: {fileID: 2623146448945975437}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17063,7 +17065,7 @@ GameObject:
   - component: {fileID: 5715875488742198584}
   - component: {fileID: 8299060039063815287}
   - component: {fileID: 8025401453244110215}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17351,7 +17353,7 @@ GameObject:
   - component: {fileID: 6052232887302167294}
   - component: {fileID: 3289678879856265652}
   - component: {fileID: 2504299499828445565}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}

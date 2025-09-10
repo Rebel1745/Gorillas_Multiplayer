@@ -21,7 +21,6 @@ public class UIManager : NetworkBehaviour
             Debug.Log("Error: Could not retrieve NetworkObject");
             return;
         }
-        Debug.Log($"{networkObject.gameObject.name} - {show}");
         networkObject.gameObject.SetActive(show);
     }
 

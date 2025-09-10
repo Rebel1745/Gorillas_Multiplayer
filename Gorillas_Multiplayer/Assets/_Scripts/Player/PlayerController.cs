@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private int _playerId;
+    [SerializeField] private int _playerId;
+    public int PlayerId { get { return _playerId; } }
 
     // Projectile stuff
     [SerializeField] private GameObject _projectilePrefab;
@@ -25,7 +26,6 @@ public class PlayerController : MonoBehaviour
 
     public void StartLaunchProjectile(float power, float angle)
     {
-        Debug.Log($"Power: {power} - Angle: {angle}");
         LaunchProjectileRpc(power, angle);
     }
 
@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
         IProjectile iProjectile = projectile.GetComponent<IProjectile>();
         iProjectile.SetProjectileExplosionMaskParent(_explosionMaskParent);
 
-        CameraManager.Instance.UpdateCameraForProjectile();
+        CameraManager.Instance.UpdateCameraForProjectileRpc();
+
+        GameManager.Instance.UpdateGameState(GameState.WaitingForDetonation);
     }
 }

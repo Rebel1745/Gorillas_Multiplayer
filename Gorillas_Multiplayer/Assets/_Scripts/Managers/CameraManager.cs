@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
@@ -38,7 +37,7 @@ public class CameraManager : NetworkBehaviour
     public void ResetCamera()
     {
         _camera = Camera.main;
-        _screenHeightWidthRatio = (float)Screen.width / Screen.height;
+        CalculateScreenHeightWidthRatio();
 
         _cameraTargets.Clear();
 
@@ -139,6 +138,8 @@ public class CameraManager : NetworkBehaviour
 
     private void SetBounds()
     {
+        CalculateScreenHeightWidthRatio();
+
         _cameraBounds = new Bounds(_cameraTargets.First(), Vector3.zero);
         for (int i = 0; i < _cameraTargets.Count; i++)
         {
@@ -161,7 +162,8 @@ public class CameraManager : NetworkBehaviour
         }
     }
 
-    public void RemovePlayer(int playerId)
+    [Rpc(SendTo.ClientsAndHost)]
+    public void RemovePlayerRpc(int playerId)
     {
         if (_cameraTargets.Count < 2) Debug.LogError("Both players aren't here, why are we trying to remove one?");
         _cameraTargets.RemoveAt(playerId);
@@ -170,7 +172,8 @@ public class CameraManager : NetworkBehaviour
         _moveCamera = true;
     }
 
-    public void SetProjectileZenith(Vector3 target)
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetProjectileZenithRpc(Vector3 target)
     {
         if (_cameraTargets.Count == 2)
             _cameraTargets.Add(target);
@@ -179,14 +182,16 @@ public class CameraManager : NetworkBehaviour
         else Debug.LogError("SetProjectileZenith() Why are we here?");
     }
 
-    public void UpdateCameraForProjectile()
+    [Rpc(SendTo.ClientsAndHost)]
+    public void UpdateCameraForProjectileRpc()
     {
         // we now need to update the bounds with the zenith of the projectiles trajectory
         SetBounds();
         _moveCamera = true;
     }
 
-    public void RemoveProjectile()
+    [Rpc(SendTo.ClientsAndHost)]
+    public void RemoveProjectileRpc()
     {
         // the projectile is always the last element, remove it
         _cameraTargets.RemoveAt(_cameraTargets.Count - 1);
@@ -195,11 +200,17 @@ public class CameraManager : NetworkBehaviour
         _moveCamera = true;
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
     // used for when the player movement powerup is initiated and the camera needs to view possible movement positions
-    public void UpdatePlayerPosition(int playerId, Vector3 position)
+    public void UpdatePlayerPositionRpc(int playerId, Vector3 position)
     {
         _cameraTargets[playerId] = position;
         SetBounds();
         _moveCamera = true;
+    }
+
+    private void CalculateScreenHeightWidthRatio()
+    {
+        _screenHeightWidthRatio = (float)Screen.width / Screen.height;
     }
 }

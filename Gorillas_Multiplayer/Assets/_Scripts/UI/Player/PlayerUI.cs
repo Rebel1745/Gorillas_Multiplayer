@@ -25,16 +25,29 @@ public class PlayerUI : NetworkBehaviour
     private void Start()
     {
         GameManager.Instance.OnNewGame += GameManager_OnOnNewGame;
+        GameManager.Instance.OnCurrentPlayerIdChanged += GameManager_OnPlayerIdChanged;
     }
 
     private void GameManager_OnOnNewGame(object sender, EventArgs e)
     {
-        Show();
+        Hide();
         SetViewMode();
         _powerValue = 50f;
         _angleValue = 45f;
         UpdatePowerDetails();
         UpdateAngleDetails();
+    }
+
+    private void GameManager_OnPlayerIdChanged(object sender, EventArgs e)
+    {
+        if (GameManager.Instance.CurrentPlayerId.Value == _playerId)
+        {
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
     }
 
     private void SetupListeners()

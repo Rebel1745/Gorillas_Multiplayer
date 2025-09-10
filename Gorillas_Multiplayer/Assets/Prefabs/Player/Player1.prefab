@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2608455679250897100}
   - component: {fileID: 1125571499783970687}
   - component: {fileID: 6290219275508640477}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Gorilla
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2956336440325707476}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: -8801885457013114736}
   - component: {fileID: -6292245715024228091}
   - component: {fileID: 4026744960180711005}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Player1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ca1e6141b265748a94f188ec9e9df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerId: 0
   _projectilePrefab: {fileID: 1212813369883001507, guid: 4290ee9ad9645344e8cff1fdd120870a, type: 3}
   _projectileLaunchPoint: {fileID: 5952276823503589534}
   _defaultForceMultiplier: 0.25
@@ -439,7 +440,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5952276823503589534}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WeaponLaunchPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
