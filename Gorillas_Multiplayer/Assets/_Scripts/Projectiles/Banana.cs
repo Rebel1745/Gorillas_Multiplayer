@@ -26,7 +26,7 @@ public class Banana : NetworkBehaviour, IProjectile
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _brokenWindowHolder = transform.Find("BrokenWindows");
+        _brokenWindowHolder = GameObject.Find("BrokenWindows").transform;
         _explosionRadius = _explosionSpriteMask.transform.localScale.x / 2;
     }
 
@@ -63,6 +63,7 @@ public class Banana : NetworkBehaviour, IProjectile
 
         if (hit)
         {
+            Debug.Log("Direct hit");
             // if we hit the shield, bail
             if (hit.collider.gameObject.name == "Shield")
             {
@@ -109,6 +110,7 @@ public class Banana : NetworkBehaviour, IProjectile
                             return;
                         }
                     }
+                    Debug.Log("Indirect hit");
 
                     playerHitId = hits[0].transform.GetComponent<PlayerController>().PlayerId;
                     otherPlayerId = PlayerManager.Instance.GetOtherPlayerId(playerHitId);
@@ -118,7 +120,7 @@ public class Banana : NetworkBehaviour, IProjectile
                     CreateExplosionAndDestroyRpc();
                     CameraManager.Instance.RemovePlayerRpc(playerHitId);
                     //GameManager.Instance.UpdateScore(otherPlayerId);
-                    PlayerManager.Instance.DestroyPlayer();
+                    PlayerManager.Instance.DestroyPlayerRpc(playerHitId);
 
                     GameManager.Instance.UpdateGameState(GameState.RoundComplete);
                 }
@@ -133,6 +135,7 @@ public class Banana : NetworkBehaviour, IProjectile
 
                     if (_createExplosionMask)
                     {
+                        Debug.Log("Missed");
                         CreateExplosionAndDestroyRpc();
 
                         // Next Players turn

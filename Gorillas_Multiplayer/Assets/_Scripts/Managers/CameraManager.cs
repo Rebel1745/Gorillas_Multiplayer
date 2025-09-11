@@ -7,7 +7,7 @@ public class CameraManager : NetworkBehaviour
 {
     public static CameraManager Instance { get; private set; }
 
-    private List<Vector3> _cameraTargets = new();
+    public List<Vector3> _cameraTargets = new();
     private Camera _camera;
     [SerializeField] private Vector3 _cameraOffset;
     private const float ADDITIONAL_Y_OFFSET = 0.5f; // just to add a little space above the banana trajectory
@@ -36,6 +36,7 @@ public class CameraManager : NetworkBehaviour
 
     public void ResetCamera()
     {
+        Debug.Log("ResetCamera");
         _camera = Camera.main;
         CalculateScreenHeightWidthRatio();
 

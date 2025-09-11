@@ -967,6 +967,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _levelElementHolder: {fileID: 1905884515}
   _explosionMaskHolder: {fileID: 2097185626}
+  _brokenWindowHolder: {fileID: 1474247731}
   _levelElements:
   - {fileID: 6087501927232720569, guid: 7f09906983b7d874f8ad6c267c770686, type: 3}
   - {fileID: 7051889797630888576, guid: 6a191755fd7da39418f3576bec65d9ff, type: 3}
@@ -1391,6 +1392,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   CurrentPlayerId:
     m_InternalValue: 0
+  _timeBetweenRounds: 3
 --- !u!114 &1429082050
 MonoBehaviour:
   m_ObjectHideFlags: 0

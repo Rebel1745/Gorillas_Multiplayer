@@ -15,8 +15,8 @@ public class PlayerManager : NetworkBehaviour
 
     public void SetupPlayers()
     {
-        //if (GameManager.Instance.CurrentRound == 0)
-        RemovePlayers();
+        if (GameManager.Instance.CurrentRound == 0)
+            RemovePlayers();
 
         PlacePlayers();
 
@@ -34,7 +34,7 @@ public class PlayerManager : NetworkBehaviour
     private void PlacePlayers()
     {
         LevelManager.Instance.GetFirstAndLastSpawnPoints(out Vector3 firstSpawnPoint, out Vector3 lastSpawnPoint, out int firstSpawnPointIndex, out int lastSpawnPointIndex);
-
+        Debug.Log($"1st - {firstSpawnPointIndex}: {firstSpawnPoint} ... 2nd - {lastSpawnPointIndex}: {lastSpawnPoint}");
         NetworkObject newPlayerNO;
 
         if (GameManager.Instance.CurrentRound == 0)
@@ -62,6 +62,9 @@ public class PlayerManager : NetworkBehaviour
 
             PlacePlayerAndEnableRpc(1, lastSpawnPoint, lastSpawnPointIndex);
         }
+
+        CameraManager.Instance.AddPlayerRpc(Players[0].PlayerGameObject.transform.position);
+        CameraManager.Instance.AddPlayerRpc(Players[1].PlayerGameObject.transform.position);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -110,13 +113,9 @@ public class PlayerManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void PlacePlayerAndEnableRpc(int playerId, Vector3 position, int spawnPointIndex)
     {
-        transform.position = position;
+        //transform.position = position;
+        Players[playerId].PlayerGameObject.transform.position = position;
         Players[playerId].SpawnPointIndex = spawnPointIndex;
-        gameObject.SetActive(true);
-    }
-
-    public void DestroyPlayer()
-    {
-        gameObject.SetActive(false);
+        Players[playerId].PlayerGameObject.SetActive(true);
     }
 }

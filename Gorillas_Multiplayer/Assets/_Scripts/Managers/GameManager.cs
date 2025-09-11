@@ -10,13 +10,20 @@ public class GameManager : NetworkBehaviour
     public GameState State { get; private set; }
     public GameState PreviousState { get; private set; }
 
+    public NetworkVariable<int> CurrentPlayerId = new();
+    private int _numberOfRounds = 5;
     private int _currentRound = 0;
     public int CurrentRound { get { return _currentRound; } }
-    public NetworkVariable<int> CurrentPlayerId = new();
+    [SerializeField] private float _timeBetweenRounds = 3f;
 
     #region Events
     public event EventHandler OnNewGame;
     public event EventHandler OnCurrentPlayerIdChanged;
+    public event EventHandler<OnRoundCompleteArgs> OnRoundComplete;
+    public class OnRoundCompleteArgs : EventArgs
+    {
+        public int WinningPlayerId;
+    }
     #endregion
 
     private void Awake()
@@ -57,7 +64,7 @@ public class GameManager : NetworkBehaviour
                 StartCoroutine(nameof(NextTurn), delay);
                 break;
             case GameState.RoundComplete:
-                //StartCoroutine(RoundComplete(_timeBetweenRounds));
+                StartCoroutine(RoundComplete(_timeBetweenRounds));
                 break;
             case GameState.GameOver:
                 //StartCoroutine(nameof(GameOver), delay);
@@ -144,6 +151,31 @@ public class GameManager : NetworkBehaviour
         CurrentPlayerId.Value = PlayerManager.Instance.GetOtherPlayerId(CurrentPlayerId.Value);
 
         UpdateGameState(GameState.WaitingForLaunch);
+    }
+
+    private IEnumerator RoundComplete(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        CameraManager.Instance.ResetCamera();
+
+        OnRoundComplete?.Invoke(this, new OnRoundCompleteArgs
+        {
+            WinningPlayerId = CurrentPlayerId.Value
+        });
+
+        RoundCompleteRpc();
+    }
+
+    [Rpc(SendTo.Server)]
+    private void RoundCompleteRpc()
+    {
+        _currentRound++;
+
+        if (_currentRound == _numberOfRounds)
+            UpdateGameState(GameState.GameOver);
+        else
+            UpdateGameState(GameState.BuildLevel);
     }
 }
 

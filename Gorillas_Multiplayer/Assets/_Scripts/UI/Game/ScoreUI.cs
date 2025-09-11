@@ -12,6 +12,12 @@ public class ScoreUI : NetworkBehaviour
     private void Start()
     {
         GameManager.Instance.OnNewGame += GameManager_OnOnNewGame;
+        GameManager.Instance.OnRoundComplete += GameManager_OnRoundComplete;
+    }
+
+    private void GameManager_OnRoundComplete(object sender, GameManager.OnRoundCompleteArgs e)
+    {
+        AddScore(e.WinningPlayerId);
     }
 
     private void GameManager_OnOnNewGame(object sender, EventArgs e)

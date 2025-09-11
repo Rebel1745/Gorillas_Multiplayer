@@ -8,6 +8,7 @@ public class LevelManager : NetworkBehaviour
 
     [SerializeField] private Transform _levelElementHolder;
     [SerializeField] private Transform _explosionMaskHolder;
+    [SerializeField] private Transform _brokenWindowHolder;
     [SerializeField] private GameObject[] _levelElements;
     [SerializeField] private int _minimumDistanceBetweenPlayers = 7;
     public int MinimumDistanceBetweenPlayers { get { return _minimumDistanceBetweenPlayers; } }
@@ -150,6 +151,12 @@ public class LevelManager : NetworkBehaviour
         for (int i = 0; i < _explosionMaskHolder.childCount; i++)
         {
             Destroy(_explosionMaskHolder.GetChild(i).gameObject);
+        }
+
+        // destroy the broken windows
+        for (int i = 0; i < _brokenWindowHolder.childCount; i++)
+        {
+            Destroy(_brokenWindowHolder.GetChild(i).gameObject);
         }
     }
 
