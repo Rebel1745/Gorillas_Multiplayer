@@ -31,12 +31,12 @@ public class CameraManager : NetworkBehaviour
 
     private void Start()
     {
-        ResetCamera();
+        ResetCameraRpc();
     }
 
-    public void ResetCamera()
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ResetCameraRpc()
     {
-        Debug.Log("ResetCamera");
         _camera = Camera.main;
         CalculateScreenHeightWidthRatio();
 
@@ -50,6 +50,8 @@ public class CameraManager : NetworkBehaviour
 
     private void LateUpdate()
     {
+        if (_camera == null) _camera = Camera.main;
+
         // if there are no targets, bail
         if (_cameraTargets.Count == 0) return;
 

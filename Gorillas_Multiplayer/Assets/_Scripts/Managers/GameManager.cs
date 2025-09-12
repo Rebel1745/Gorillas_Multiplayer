@@ -133,8 +133,12 @@ public class GameManager : NetworkBehaviour
     {
         UIManager.Instance.UpdateStatusScreenText("Setting up game...");
         UIManager.Instance.ShowHideUIElementRpc(UIManager.Instance.StatusScreenUI, false);
-        CurrentPlayerId.Value = 0;
-        UpdateGameState(GameState.WaitingForLaunch);
+        if (_currentRound == 0)
+        {
+            CurrentPlayerId.Value = 0;
+            UpdateGameState(GameState.WaitingForLaunch);
+        }
+        else UpdateGameState(GameState.NextTurn);
     }
 
     private IEnumerator NextTurn(float delay)
@@ -157,13 +161,7 @@ public class GameManager : NetworkBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        CameraManager.Instance.ResetCamera();
-
-        OnRoundComplete?.Invoke(this, new OnRoundCompleteArgs
-        {
-            WinningPlayerId = CurrentPlayerId.Value
-        });
-
+        RoundCompleteClientsAndHostRpc();
         RoundCompleteRpc();
     }
 
@@ -176,6 +174,17 @@ public class GameManager : NetworkBehaviour
             UpdateGameState(GameState.GameOver);
         else
             UpdateGameState(GameState.BuildLevel);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void RoundCompleteClientsAndHostRpc()
+    {
+        OnRoundComplete?.Invoke(this, new OnRoundCompleteArgs
+        {
+            WinningPlayerId = CurrentPlayerId.Value
+        });
+
+        CameraManager.Instance.ResetCameraRpc();
     }
 }
 

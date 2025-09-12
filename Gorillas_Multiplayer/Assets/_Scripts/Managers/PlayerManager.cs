@@ -34,7 +34,7 @@ public class PlayerManager : NetworkBehaviour
     private void PlacePlayers()
     {
         LevelManager.Instance.GetFirstAndLastSpawnPoints(out Vector3 firstSpawnPoint, out Vector3 lastSpawnPoint, out int firstSpawnPointIndex, out int lastSpawnPointIndex);
-        Debug.Log($"1st - {firstSpawnPointIndex}: {firstSpawnPoint} ... 2nd - {lastSpawnPointIndex}: {lastSpawnPoint}");
+
         NetworkObject newPlayerNO;
 
         if (GameManager.Instance.CurrentRound == 0)
