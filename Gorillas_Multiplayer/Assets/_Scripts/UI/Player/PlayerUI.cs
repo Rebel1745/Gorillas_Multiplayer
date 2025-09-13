@@ -17,15 +17,9 @@ public class PlayerUI : NetworkBehaviour
     private float _powerValue;
     private float _angleValue;
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
         SetupListeners();
-    }
-
-    private void Start()
-    {
-        GameManager.Instance.OnNewGame += GameManager_OnOnNewGame;
-        GameManager.Instance.OnCurrentPlayerIdChanged += GameManager_OnPlayerIdChanged;
     }
 
     private void GameManager_OnOnNewGame(object sender, EventArgs e)
@@ -50,8 +44,17 @@ public class PlayerUI : NetworkBehaviour
         }
     }
 
+    private void GameManager_OnGameOver(object sender, EventArgs e)
+    {
+        Hide();
+    }
+
     private void SetupListeners()
     {
+        GameManager.Instance.OnNewGame += GameManager_OnOnNewGame;
+        GameManager.Instance.OnCurrentPlayerIdChanged += GameManager_OnPlayerIdChanged;
+        GameManager.Instance.OnGameOver += GameManager_OnGameOver;
+
         _powerSlider.onValueChanged.AddListener(OnPowerSliderValueChanged);
         _angleSlider.onValueChanged.AddListener(OnAngleSliderValueChanged);
 

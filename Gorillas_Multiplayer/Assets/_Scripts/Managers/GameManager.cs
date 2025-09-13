@@ -11,7 +11,7 @@ public class GameManager : NetworkBehaviour
     public GameState PreviousState { get; private set; }
 
     public NetworkVariable<int> CurrentPlayerId = new();
-    private int _numberOfRounds = 5;
+    [SerializeField] private int _numberOfRounds = 5;
     private int _currentRound = 0;
     public int CurrentRound { get { return _currentRound; } }
     [SerializeField] private float _timeBetweenRounds = 3f;
@@ -24,6 +24,7 @@ public class GameManager : NetworkBehaviour
     {
         public int WinningPlayerId;
     }
+    public event EventHandler OnGameOver;
     #endregion
 
     private void Awake()
@@ -67,7 +68,7 @@ public class GameManager : NetworkBehaviour
                 StartCoroutine(RoundComplete(_timeBetweenRounds));
                 break;
             case GameState.GameOver:
-                //StartCoroutine(nameof(GameOver), delay);
+                StartCoroutine(nameof(GameOver), delay);
                 break;
         }
     }
@@ -108,6 +109,7 @@ public class GameManager : NetworkBehaviour
         // reset the current round number and current player id
         OnNewGameEventRpc();
         _currentRound = 0;
+        CurrentPlayerId.Value = 99;
         UpdateGameState(GameState.BuildLevel);
     }
 
@@ -185,6 +187,25 @@ public class GameManager : NetworkBehaviour
         });
 
         CameraManager.Instance.ResetCameraRpc();
+    }
+
+    private IEnumerator GameOver(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        GameOverClientsAndHostRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void GameOverClientsAndHostRpc()
+    {
+        OnGameOver?.Invoke(this, EventArgs.Empty);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void StartNewGameRpc()
+    {
+        UpdateGameState(GameState.InitialiseGame);
     }
 }
 

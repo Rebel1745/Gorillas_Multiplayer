@@ -37,6 +37,7 @@ public class Banana : NetworkBehaviour, IProjectile
         // if the banana goes too far offscreen, destroy it
         if (transform.position.y < _destroyWhenDistanceOffscreen)
         {
+            Debug.Log("Banana: AutoDestroy");
             CreateExplosionAndDestroyRpc();
             if (_isLastProjectile)
                 GameManager.Instance.UpdateGameState(GameState.NextTurn);
@@ -67,6 +68,7 @@ public class Banana : NetworkBehaviour, IProjectile
             // if we hit the shield, bail
             if (hit.collider.gameObject.name == "Shield")
             {
+                Debug.Log("HitShield");
                 // don't destroy the shield unless it is the end of the round otherwise a triple shot would win despite the shield
                 //hit.transform.GetComponentInParent<PlayerController>().HideShield();
                 CreateExplosionAndDestroyRpc(false);
@@ -103,6 +105,7 @@ public class Banana : NetworkBehaviour, IProjectile
                         // if we hit the shield, bail
                         if (h.gameObject.name == "Shield")
                         {
+                            Debug.Log("HitShield2");
                             //h.transform.GetComponentInParent<PlayerController>().HideShield();
                             CreateExplosionAndDestroyRpc(false);
                             if (_isLastProjectile)

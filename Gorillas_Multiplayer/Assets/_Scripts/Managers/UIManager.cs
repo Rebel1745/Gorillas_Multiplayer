@@ -7,6 +7,8 @@ public class UIManager : NetworkBehaviour
 
     public GameObject NetworkManagerUI;
     public GameObject StatusScreenUI;
+    public GameObject GameUI;
+    public GameObject GameOverUI;
 
     private void Awake()
     {

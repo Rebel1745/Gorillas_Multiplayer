@@ -9,15 +9,11 @@ public class ScoreUI : NetworkBehaviour
     private int[] _gamesLostInARow;
     [SerializeField] private TMP_Text _scoreText;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
         GameManager.Instance.OnNewGame += GameManager_OnOnNewGame;
         GameManager.Instance.OnRoundComplete += GameManager_OnRoundComplete;
-    }
-
-    private void GameManager_OnRoundComplete(object sender, GameManager.OnRoundCompleteArgs e)
-    {
-        AddScore(e.WinningPlayerId);
+        GameManager.Instance.OnGameOver += GameManager_OnGameOver;
     }
 
     private void GameManager_OnOnNewGame(object sender, EventArgs e)
@@ -25,7 +21,20 @@ public class ScoreUI : NetworkBehaviour
         _playerScores = new int[2];
         _gamesLostInARow = new int[2];
 
+        Show();
+
         UpdateScoreText();
+    }
+
+    private void GameManager_OnRoundComplete(object sender, GameManager.OnRoundCompleteArgs e)
+    {
+        AddScore(e.WinningPlayerId);
+    }
+
+    private void GameManager_OnGameOver(object sender, EventArgs e)
+    {
+        UIManager.Instance.GameOverUI.GetComponent<GameOverUI>().SetGameOverDetails(_playerScores);
+        Hide();
     }
 
     private void UpdateScoreText()
@@ -40,5 +49,15 @@ public class ScoreUI : NetworkBehaviour
         _gamesLostInARow[PlayerManager.Instance.GetOtherPlayerId(winningPlayerId)]++;
 
         UpdateScoreText();
+    }
+
+    private void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }
