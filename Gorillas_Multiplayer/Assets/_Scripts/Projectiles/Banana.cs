@@ -82,7 +82,7 @@ public class Banana : NetworkBehaviour, IProjectile
             CreateExplosionAndDestroyRpc();
             CameraManager.Instance.RemovePlayerRpc(playerHitId);
             //GameManager.Instance.UpdateScore(otherPlayerId);
-            //PlayerManager.Instance.SetPlayerAnimation(otherPlayerId, "Celebrate");
+            PlayerManager.Instance.SetPlayerAnimation(otherPlayerId, "Celebrate");
 
             // we directly hit a player!!
             PlayerManager.Instance.DestroyPlayerRpc(playerHitId);
@@ -117,12 +117,11 @@ public class Banana : NetworkBehaviour, IProjectile
 
                     playerHitId = hits[0].transform.GetComponent<PlayerController>().PlayerId;
                     otherPlayerId = PlayerManager.Instance.GetOtherPlayerId(playerHitId);
-                    //PlayerManager.Instance.SetPlayerAnimation(otherPlayerId, "Celebrate");
+                    PlayerManager.Instance.SetPlayerAnimation(otherPlayerId, "Celebrate");
 
                     // the explosion hit a player!
                     CreateExplosionAndDestroyRpc();
                     CameraManager.Instance.RemovePlayerRpc(playerHitId);
-                    //GameManager.Instance.UpdateScore(otherPlayerId);
                     PlayerManager.Instance.DestroyPlayerRpc(playerHitId);
 
                     GameManager.Instance.UpdateGameState(GameState.RoundComplete);
@@ -172,8 +171,8 @@ public class Banana : NetworkBehaviour, IProjectile
             windowGO.GetComponent<NetworkObject>().TrySetParent(_brokenWindowHolder);
         }
 
-        //if (_isLastProjectile)
-        //    CameraManager.Instance.RemoveProjectileRpc();
+        if (_isLastProjectile)
+            CameraManager.Instance.RemoveProjectileRpc();
 
         GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         explosion.GetComponent<NetworkObject>().Spawn(true);

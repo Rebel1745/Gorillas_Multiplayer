@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private Transform _projectileLaunchPoint;
     [SerializeField] private float _defaultForceMultiplier = 0.25f;
+    public float DefaultForceMultiplier { get { return _defaultForceMultiplier; } }
+    [SerializeField] private float _delayBeforeAttackAnimationReset = 0.5f;
     private int _throwDirection;
     private Transform _explosionMaskParent;
 
@@ -26,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     public void StartLaunchProjectile(float power, float angle)
     {
+        PlayerManager.Instance.SetPlayerAnimation(_playerId, "Throw");
+        StartCoroutine(PlayerManager.Instance.ResetAnimation(_playerId, _delayBeforeAttackAnimationReset));
         LaunchProjectileRpc(power, angle);
     }
 

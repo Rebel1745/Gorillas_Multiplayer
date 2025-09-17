@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2726593325541663037}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -154,8 +154,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3176591028665275895}
-  - component: {fileID: 4113509715146576754}
   - component: {fileID: 4088403232203255021}
+  - component: {fileID: 4113509715146576754}
+  - component: {fileID: -7023289965126103624}
   - component: {fileID: 838280491203144005}
   - component: {fileID: -8801885457013114736}
   - component: {fileID: -6292245715024228091}
@@ -184,22 +185,6 @@ Transform:
   - {fileID: 5952276823503589534}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4113509715146576754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4972102006553089897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ca1e6141b265748a94f188ec9e9df0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerId: 0
-  _projectilePrefab: {fileID: 1212813369883001507, guid: 4290ee9ad9645344e8cff1fdd120870a, type: 3}
-  _projectileLaunchPoint: {fileID: 5952276823503589534}
-  _defaultForceMultiplier: 0.25
 --- !u!70 &4088403232203255021
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -237,6 +222,39 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.4}
   m_Size: {x: 0.80852556, y: 0.92764974}
   m_Direction: 0
+--- !u!114 &4113509715146576754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972102006553089897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ca1e6141b265748a94f188ec9e9df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerId: 0
+  _projectilePrefab: {fileID: 1212813369883001507, guid: 4290ee9ad9645344e8cff1fdd120870a, type: 3}
+  _projectileLaunchPoint: {fileID: 5952276823503589534}
+  _defaultForceMultiplier: 0.25
+  _delayBeforeAttackAnimationReset: 0.5
+--- !u!114 &-7023289965126103624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972102006553089897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14daed470e142814f9eda93c2e43c683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrajectoryLine
+  _lineRenderer: {fileID: 838280491203144005}
+  _lineSpawnPoint: {fileID: 5952276823503589534}
+  _maxNumPoints: 500
+  _timeStep: 0.05
 --- !u!120 &838280491203144005
 LineRenderer:
   serializedVersion: 2

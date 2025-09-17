@@ -2169,7 +2169,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   CurrentPlayerId:
     m_InternalValue: 0
-  _numberOfRounds: 1
+  _numberOfRounds: 3
   _timeBetweenRounds: 3
 --- !u!114 &1429082050
 MonoBehaviour:
@@ -2923,6 +2923,7 @@ MonoBehaviour:
     PlayerAnimator: {fileID: 0}
     PlayerGameObject: {fileID: 0}
     PlayerLineRenderer: {fileID: 0}
+    PlayerTrajectoryLine: {fileID: 0}
     PlayerUI: {fileID: 0}
     ThrowDirection: 1
     AlwaysShowTrajectoryLine: 0
@@ -2937,6 +2938,7 @@ MonoBehaviour:
     PlayerAnimator: {fileID: 0}
     PlayerGameObject: {fileID: 0}
     PlayerLineRenderer: {fileID: 0}
+    PlayerTrajectoryLine: {fileID: 0}
     PlayerUI: {fileID: 0}
     ThrowDirection: -1
     AlwaysShowTrajectoryLine: 0

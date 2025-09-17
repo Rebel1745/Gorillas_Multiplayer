@@ -11,6 +11,7 @@ public struct PlayerDetails
     public Animator PlayerAnimator;
     public GameObject PlayerGameObject;
     public LineRenderer PlayerLineRenderer;
+    public TrajectoryLine PlayerTrajectoryLine;
     public PlayerUI PlayerUI;
     public int ThrowDirection; // 1 for left - right, -1 for right to left
     public bool AlwaysShowTrajectoryLine;

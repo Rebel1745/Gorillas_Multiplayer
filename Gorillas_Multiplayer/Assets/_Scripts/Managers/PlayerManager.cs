@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -80,6 +81,7 @@ public class PlayerManager : NetworkBehaviour
         Players[playerId].PlayerController = networkObject.gameObject.GetComponent<PlayerController>();
         Players[playerId].PlayerAnimator = networkObject.gameObject.GetComponentInChildren<Animator>();
         Players[playerId].PlayerLineRenderer = networkObject.gameObject.GetComponent<LineRenderer>();
+        Players[playerId].PlayerTrajectoryLine = networkObject.gameObject.GetComponent<TrajectoryLine>();
         Players[playerId].PlayerUI = Players[playerId].PlayerUIGO.GetComponent<PlayerUI>();
         Players[playerId].SpawnPointIndex = spawnPointIndex;
         Players[playerId].PlayerController.SetPlayerDetails(playerId, Players[playerId]);
@@ -113,9 +115,29 @@ public class PlayerManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void PlacePlayerAndEnableRpc(int playerId, Vector3 position, int spawnPointIndex)
     {
-        //transform.position = position;
         Players[playerId].PlayerGameObject.transform.position = position;
         Players[playerId].SpawnPointIndex = spawnPointIndex;
         Players[playerId].PlayerGameObject.SetActive(true);
+        StartCoroutine(ResetAnimation(playerId, 0));
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ShowPlayerTrajectoryLineRpc(int playerId, float power, float angle, bool drawTrajectoryLine)
+    {
+        Players[playerId].PlayerTrajectoryLine.CalculateTrajectoryLine(power, angle, Players[playerId].ThrowDirection, Players[playerId].PlayerController.DefaultForceMultiplier);
+        if (drawTrajectoryLine) Players[playerId].PlayerTrajectoryLine.DrawTrajectoryLine();
+    }
+
+
+    public void SetPlayerAnimation(int playerId, string animation)
+    {
+        Players[playerId].PlayerAnimator.Play(animation);
+    }
+
+    public IEnumerator ResetAnimation(int playerId, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        SetPlayerAnimation(playerId, "Idle");
     }
 }

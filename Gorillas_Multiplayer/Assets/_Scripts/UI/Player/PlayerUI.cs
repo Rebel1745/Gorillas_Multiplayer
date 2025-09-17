@@ -137,6 +137,7 @@ public class PlayerUI : NetworkBehaviour
 
     private void OnLaunchButtonClicked()
     {
+        PlayerManager.Instance.ShowPlayerTrajectoryLineRpc(_playerId, _powerValue, _angleValue, false);
         PlayerManager.Instance.StartLaunchProjectileForPlayerRpc(_playerId, _powerValue, _angleValue);
     }
     #endregion
