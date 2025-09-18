@@ -16,6 +16,10 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] private TMP_InputField _angleInput;
     private float _powerValue;
     private float _angleValue;
+    [SerializeField] private GameObject _powerUpGO;
+    [SerializeField] private GameObject _tooltipGO;
+    [SerializeField] private TMP_Text _tooltipTitle;
+    [SerializeField] private TMP_Text _tooltipText;
 
     public override void OnNetworkSpawn()
     {
@@ -42,6 +46,11 @@ public class PlayerUI : NetworkBehaviour
         {
             Hide();
         }
+
+        if (_playerId == (int)NetworkManager.Singleton.LocalClientId)
+            _launchButton.enabled = true;
+        else
+            _launchButton.enabled = false;
     }
 
     private void GameManager_OnGameOver(object sender, EventArgs e)
@@ -137,6 +146,7 @@ public class PlayerUI : NetworkBehaviour
 
     private void OnLaunchButtonClicked()
     {
+        _launchButton.enabled = false;
         PlayerManager.Instance.ShowPlayerTrajectoryLineRpc(_playerId, _powerValue, _angleValue, false);
         PlayerManager.Instance.StartLaunchProjectileForPlayerRpc(_playerId, _powerValue, _angleValue);
     }
@@ -197,5 +207,23 @@ public class PlayerUI : NetworkBehaviour
     {
         gameObject.SetActive(true);
     }
+    #endregion
+
+    #region Tooltip
+    public void ShowTooltip(string title, string tooltip)
+    {
+        _tooltipGO.SetActive(true);
+        _tooltipTitle.text = title;
+        _tooltipText.text = tooltip;
+    }
+
+    public void HideTooltip()
+    {
+        _tooltipGO.SetActive(false);
+    }
+    #endregion
+
+    #region Powerups
+
     #endregion
 }

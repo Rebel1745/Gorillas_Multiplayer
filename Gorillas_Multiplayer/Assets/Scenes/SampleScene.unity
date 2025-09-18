@@ -2945,6 +2945,13 @@ MonoBehaviour:
     SpawnPointIndex: 0
     PlayerMovementSpritePrefab: {fileID: 4992264888891436138, guid: cd71452f10104184eb3ad481b30e72c4, type: 3}
     PlayerMovementSpriteGO: {fileID: 0}
+  _availablePowerups:
+  - {fileID: 7830120543136791809, guid: 207ab88f321e7c448b0c7a20ab6df122, type: 3}
+  - {fileID: 7830120543136791809, guid: aaea9205ec760f942923337eb1b6a0db, type: 3}
+  - {fileID: 7830120543136791809, guid: 2e27b7773e890994e8d61ccffd288e87, type: 3}
+  - {fileID: 7830120543136791809, guid: c0f3516d05fd4004e9d360ccbb314c71, type: 3}
+  - {fileID: 7830120543136791809, guid: 7d9394bcf88a7a449bbe328aece2d1a2, type: 3}
+  - {fileID: 7830120543136791809, guid: 6efe37631be0f9740b11ae44acdcc2e0, type: 3}
 --- !u!1 &1757554732
 GameObject:
   m_ObjectHideFlags: 0
@@ -5569,6 +5576,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6036357133230184684}
   - component: {fileID: 8259173788875536968}
+  - component: {fileID: 8259173788875536969}
   m_Layer: 5
   m_Name: Player1Powerups
   m_TagString: Untagged
@@ -8924,6 +8932,10 @@ MonoBehaviour:
   _launchButton: {fileID: 3836140500319847057}
   _powerInput: {fileID: 706832865201456772}
   _angleInput: {fileID: 1863876572505659216}
+  _powerUpGO: {fileID: 2257827140515730012}
+  _tooltipGO: {fileID: 7424783007241274837}
+  _tooltipTitle: {fileID: 2627093603465179991}
+  _tooltipText: {fileID: 3457489856174261309}
 --- !u!114 &6865573088150978785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9693,6 +9705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5095249482074085416}
   - component: {fileID: 6786781658350180528}
+  - component: {fileID: 8004877606523157890}
   m_Layer: 5
   m_Name: Player2Powerups
   m_TagString: Untagged
@@ -9700,6 +9713,31 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8004877606523157890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004877606523157889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 712807082
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!222 &8025465139775752936
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9729,6 +9767,10 @@ MonoBehaviour:
   _launchButton: {fileID: 3318608438233712155}
   _powerInput: {fileID: 2548666502440905844}
   _angleInput: {fileID: 4380592521960831076}
+  _powerUpGO: {fileID: 8004877606523157889}
+  _tooltipGO: {fileID: 6533554855271785327}
+  _tooltipTitle: {fileID: 1861313750192608749}
+  _tooltipText: {fileID: 1322512362035569287}
 --- !u!224 &8196323337960408473
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9831,6 +9873,31 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &8259173788875536969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2257827140515730012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3389027668
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &8263915343446720334
 GameObject:
   m_ObjectHideFlags: 0

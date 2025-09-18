@@ -177,7 +177,7 @@ public class Banana : NetworkBehaviour, IProjectile
         GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         explosion.GetComponent<NetworkObject>().Spawn(true);
         //AudioManager.Instance.PlayAudioClip(_explosionSFX, 0.95f, 1.05f);
-
+        Debug.Log("CreateExplosionAndDestroyRpc");
         Destroy(gameObject);
     }
 

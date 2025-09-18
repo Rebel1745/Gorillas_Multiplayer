@@ -1,9 +1,12 @@
+using TMPro;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private int _playerId;
+    private PlayerDetails _playerDetails;
     public int PlayerId { get { return _playerId; } }
 
     // Projectile stuff
@@ -23,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public void SetPlayerDetails(int playerId, PlayerDetails pd)
     {
         _playerId = playerId;
+        _playerDetails = pd;
         _throwDirection = pd.ThrowDirection;
     }
 
@@ -53,4 +57,16 @@ public class PlayerController : MonoBehaviour
 
         GameManager.Instance.UpdateGameState(GameState.WaitingForDetonation);
     }
+
+    #region Powerup Functions
+    public void ShowTooltip(string title, string tooltip)
+    {
+        _playerDetails.PlayerUI.ShowTooltip(title, tooltip);
+    }
+
+    public void HideTooltip()
+    {
+        _playerDetails.PlayerUI.HideTooltip();
+    }
+    #endregion
 }

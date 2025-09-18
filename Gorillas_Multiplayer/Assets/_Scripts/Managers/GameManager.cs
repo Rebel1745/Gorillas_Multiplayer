@@ -15,6 +15,8 @@ public class GameManager : NetworkBehaviour
     private int _currentRound = 0;
     public int CurrentRound { get { return _currentRound; } }
     [SerializeField] private float _timeBetweenRounds = 3f;
+    private bool _usePowerups = true;
+    public bool UsePowerups { get { return _usePowerups; } }
 
     #region Events
     public event EventHandler OnNewGame;

@@ -71,9 +71,6 @@ public class LevelManager : NetworkBehaviour
                 _playerSpawnPointArrows.Add(newElement.transform.GetChild(1).GetChild(i).GetChild(0).gameObject);
                 _playerSpawnPointArrows[_playerSpawnPointArrows.Count - 1].GetComponentInChildren<MovePlayerArrow>().SetArrowIndex(_playerSpawnPointArrows.Count - 1);
             }
-
-            // building movement collider is the third child of the building
-            newElement.transform.GetChild(2).GetChild(0).GetComponent<MoveBuildingArrow>().SetArrowIndex(ledIndex);
             _levelElementGOs.Add(newElement);
 
             ledIndex++;
