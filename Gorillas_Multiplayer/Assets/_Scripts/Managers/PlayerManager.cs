@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -98,7 +99,7 @@ public class PlayerManager : NetworkBehaviour
         Players[playerId].SpawnPointIndex = spawnPointIndex;
         Players[playerId].PlayerController.SetPlayerDetails(playerId, Players[playerId]);
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 49; i++)
         {
             AddRandomPlayerPowerupRpc(playerId);
         }
@@ -171,7 +172,7 @@ public class PlayerManager : NetworkBehaviour
 
         if (ppuNameList.Contains(puName))
         {
-            ppuList[ppuNameList.IndexOf(puName)].GetComponent<Powerup>().AddPowerupUse();
+            ppuList[ppuNameList.IndexOf(puName)].GetComponent<Powerup>().AddPowerupUseRpc();
         }
         else
         {
@@ -179,6 +180,7 @@ public class PlayerManager : NetworkBehaviour
             NetworkObject puNO = pu.GetComponent<NetworkObject>();
             puNO.Spawn(true);
             puNO.TrySetParent(Players[playerId].PlayerUIPowerupHolder);
+            pu.GetComponent<Powerup>().SetPlayerIdRpc(playerId);
             ppuList.Add(pu);
             _playerPowerups[playerId] = ppuList;
             ppuNameList.Add(pu.name);
@@ -186,17 +188,32 @@ public class PlayerManager : NetworkBehaviour
         }
     }
 
-    public GameObject GetPlayerPowerup(int playerId, string powerupName)
+    [Rpc(SendTo.Server)]
+    public void EnableDisablePowerupButtonRpc(int playerId, FixedString64Bytes powerupName, bool enable)
     {
         List<GameObject> ppuList = _playerPowerups[playerId];
         List<string> ppuNameList = _playerPowerupNames[playerId];
         string puName = powerupName + "(Clone)";
+        GameObject pu;
 
         if (ppuNameList.Contains(puName))
         {
-            return ppuList[ppuNameList.IndexOf(puName)];
+            pu = ppuList[ppuNameList.IndexOf(puName)];
+
+            EnableDisablePowerupButtonRpc(pu, enable);
         }
-        else return null;
+        else Debug.LogError("EnableDisablePowerupButtonRpc: Can't find powerup");
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void EnableDisablePowerupButtonRpc(NetworkObjectReference powerup, bool enable)
+    {
+        if (!powerup.TryGet(out NetworkObject powerupNO))
+        {
+            Debug.Log("Error: Could not retrieve NetworkObject");
+            return;
+        }
+        powerupNO.gameObject.GetComponent<Powerup>().EnableDisableButtonRpc(enable);
     }
 
     public void RemovePlayerPowerup(GameObject powerup)

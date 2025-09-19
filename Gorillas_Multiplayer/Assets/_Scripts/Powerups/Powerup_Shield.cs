@@ -13,8 +13,8 @@ public class Powerup_Shield : Powerup
         // if the player is the active, don't change the colour so the player is surprised by the shield being activated when they launch their banana
         /*if (!PlayerManager.Instance.Players[playerId].IsCPU)
         {
-            if (_powerupEnabled) _powerupButton.image.color = _inUseColour;
-            else _powerupButton.image.color = _defaultColour;
+            if (_powerupEnabled) SetButtonColourRpc(_inUseColour);
+            else SetButtonColourRpc(_defaultColour);
         }*/
     }
 }

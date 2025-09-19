@@ -9,14 +9,14 @@ public class Powerup_MovePlayer : Powerup
 
         if (_powerupEnabled)
         {
-            _powerupButton.image.color = _inUseColour;
+            SetButtonColourRpc(_inUseColour);
             GameManager.Instance.UpdateGameState(GameState.WaitingForMovement);
         }
         else
         {
             //PlayerManager.Instance.Players[GameManager.Instance.CurrentPlayerId.Value].PlayerController.CancelMovementPowerupPosition();
             //InputManager.Instance.EnableDisableGameplayControls(true);
-            _powerupButton.image.color = _defaultColour;
+            SetButtonColourRpc(_defaultColour);
         }
     }
 }

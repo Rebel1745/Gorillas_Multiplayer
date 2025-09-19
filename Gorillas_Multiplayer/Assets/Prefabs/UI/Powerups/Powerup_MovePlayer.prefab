@@ -395,19 +395,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 545960842794217056}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -5492261371333024374}
-        m_TargetAssemblyTypeName: Powerup_MovePlayer, Assembly-CSharp
-        m_MethodName: UsePowerup
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &6664079301039457810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 808536612
+  GlobalObjectIdHash: 3819204257
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -446,6 +434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  _playerId: 0
   _remainingUses: 1
   _powerupButton: {fileID: 5489453820611601028}
   _powerupNumberText: {fileID: 6724775890699776177}

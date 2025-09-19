@@ -3,10 +3,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
+using System;
 
 public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private int _playerId;
+    public int _playerId;
     public int _remainingUses = 1;
     [SerializeField] protected Button _powerupButton;
     [SerializeField] protected TMP_Text _powerupNumberText;
@@ -17,25 +19,33 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] protected Color _usedColour = new(200, 100, 100);
     protected bool _powerupEnabled = false;
 
-    public void SetPlayerId(int playerId)
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetPlayerIdRpc(int playerId)
     {
         _playerId = playerId;
+        UpdatePowerupNumberTextRpc();
+
+        if ((int)NetworkManager.Singleton.LocalClientId == _playerId)
+        {
+            _powerupButton.onClick.AddListener(UsePowerup);
+            GameManager.Instance.OnCurrentPlayerIdChanged += GameManager_OnCurrentPlayerIdChanged;
+        }
+    }
+
+    private void GameManager_OnCurrentPlayerIdChanged(object sender, EventArgs e)
+    {
+        // when we change player, disable or enable powerup buttons
+        if ((int)NetworkManager.Singleton.LocalClientId == _playerId)
+            EnableDisableButtonRpc(true);
+        else
+            EnableDisableButtonRpc(false);
     }
 
     public virtual void UsePowerup()
     {
-        if (GameManager.Instance.CurrentPlayerId.Value != _playerId) return;
-
         _powerupEnabled = !_powerupEnabled;
 
-        // if we are on mobile, show the powerups tooltip if it is selected
-        // if (GameManager.Instance.IsMobile)
-        // {
-        //     if (_powerupEnabled)
-        //         PlayerManager.Instance.Players[GameManager.Instance.CurrentPlayerId.Value].PlayerController.ShowTooltip(_powerupTitle, _powerupText);
-        //     else
         HideTooltip();
-        // }
 
         //InputManager.Instance.SetCurrentPowerupButton(_powerupButton);
 
@@ -44,47 +54,59 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
         else
             _remainingUses++;
 
-        UpdatePowerupNumberText();
+        UpdatePowerupNumberTextRpc();
     }
 
-    public void EnableDisableButton()
+    [Rpc(SendTo.ClientsAndHost)]
+    public void EnableDisableButtonRpc()
     {
-        EnableDisableButton(!_powerupButton.enabled);
+        EnableDisableButtonRpc(!_powerupButton.enabled);
     }
 
-    public void EnableDisableButton(bool enabled)
+    [Rpc(SendTo.ClientsAndHost)]
+    public void EnableDisableButtonRpc(bool enabled)
     {
         _powerupButton.enabled = enabled;
         _powerupEnabled = !enabled;
-        UpdatePowerupNumberText();
+        UpdatePowerupNumberTextRpc();
 
         if (enabled)
         {
-            _powerupButton.image.color = _defaultColour;
+            SetButtonColourRpc(_defaultColour);
         }
         else
         {
-            _powerupButton.image.color = _usedColour;
+            SetButtonColourRpc(_usedColour);
         }
 
         if (_remainingUses == 0 && !_powerupEnabled)
-            RemoveButton();
+            RemoveButtonRpc();
     }
 
-    protected void RemoveButton()
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetButtonColourRpc(Color colour)
+    {
+        _powerupButton.image.color = colour;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    protected void RemoveButtonRpc()
     {
         PlayerManager.Instance.RemovePlayerPowerup(gameObject);
         HideTooltip();
         Destroy(gameObject);
     }
 
-    public void AddPowerupUse()
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void AddPowerupUseRpc()
     {
         _remainingUses++;
-        UpdatePowerupNumberText();
+        UpdatePowerupNumberTextRpc();
     }
 
-    private void UpdatePowerupNumberText()
+    [Rpc(SendTo.ClientsAndHost)]
+    private void UpdatePowerupNumberTextRpc()
     {
         if (_remainingUses > 1)
         {
@@ -97,8 +119,6 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //if (GameManager.Instance.IsMobile) return;
-
         if (_powerupButton.enabled)
             PlayerManager.Instance.Players[GameManager.Instance.CurrentPlayerId.Value].PlayerController.ShowTooltip(_powerupTitle, _powerupText);
         else
@@ -107,8 +127,6 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //if (GameManager.Instance.IsMobile) return;
-
         HideTooltip();
     }
 
