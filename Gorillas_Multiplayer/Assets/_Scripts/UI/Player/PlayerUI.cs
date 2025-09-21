@@ -32,8 +32,6 @@ public class PlayerUI : NetworkBehaviour
         SetViewMode();
         _powerValue = 50f;
         _angleValue = 45f;
-        UpdatePowerDetails();
-        UpdateAngleDetails();
     }
 
     private void GameManager_OnPlayerIdChanged(object sender, EventArgs e)
@@ -51,6 +49,9 @@ public class PlayerUI : NetworkBehaviour
             _launchButton.enabled = true;
         else
             _launchButton.enabled = false;
+
+        UpdatePowerDetails();
+        UpdateAngleDetails();
     }
 
     private void GameManager_OnGameOver(object sender, EventArgs e)
@@ -104,12 +105,14 @@ public class PlayerUI : NetworkBehaviour
     private void OnPowerValueChangedRpc(float power)
     {
         _powerText.text = power.ToString("F1");
+        PlayerManager.Instance.SetLatestPowerAndAngleValues(_playerId, power, _angleValue);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
     private void OnAngleValueChangedRpc(float angle)
     {
         _angleText.text = angle.ToString("F1");
+        PlayerManager.Instance.SetLatestPowerAndAngleValues(_playerId, _powerValue, angle);
     }
 
     private void OnPowerInputChanged(string power)
@@ -147,8 +150,8 @@ public class PlayerUI : NetworkBehaviour
     private void OnLaunchButtonClicked()
     {
         _launchButton.enabled = false;
-        PlayerManager.Instance.ShowPlayerTrajectoryLineRpc(_playerId, _powerValue, _angleValue, false);
-        PlayerManager.Instance.StartLaunchProjectileForPlayerRpc(_playerId, _powerValue, _angleValue);
+        PlayerManager.Instance.ShowPlayerTrajectoryLineRpc(_playerId, false);
+        PlayerManager.Instance.StartLaunchProjectileForPlayerRpc(_playerId);
     }
     #endregion
 

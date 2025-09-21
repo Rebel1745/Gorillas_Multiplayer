@@ -13,6 +13,8 @@ public class PlayerManager : NetworkBehaviour
     [SerializeField] private GameObject[] _availablePowerups;
     private List<GameObject>[] _playerPowerups;
     private List<string>[] _playerPowerupNames;
+    private float _latestPowerValue;
+    private float _latestAngleValue;
 
     private void Awake()
     {
@@ -118,10 +120,18 @@ public class PlayerManager : NetworkBehaviour
         return (playerId + 1) % 2;
     }
 
-    [Rpc(SendTo.Server)]
-    public void StartLaunchProjectileForPlayerRpc(int playerId, float power, float angle)
+    public void SetLatestPowerAndAngleValues(int playerId, float power, float angle)
     {
-        Players[playerId].PlayerController.StartLaunchProjectile(power, angle);
+        _latestPowerValue = power;
+        _latestAngleValue = angle;
+
+        HidePlayerTrajectoryLineRpc(playerId);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void StartLaunchProjectileForPlayerRpc(int playerId)
+    {
+        Players[playerId].PlayerController.StartLaunchProjectile(_latestPowerValue, _latestAngleValue);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -140,12 +150,18 @@ public class PlayerManager : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    public void ShowPlayerTrajectoryLineRpc(int playerId, float power, float angle, bool drawTrajectoryLine)
+    public void ShowPlayerTrajectoryLineRpc(int playerId, bool drawTrajectoryLine)
     {
-        Players[playerId].PlayerTrajectoryLine.CalculateTrajectoryLine(power, angle, Players[playerId].ThrowDirection, Players[playerId].PlayerController.DefaultForceMultiplier);
+        Players[playerId].PlayerTrajectoryLine.CalculateTrajectoryLine(_latestPowerValue, _latestAngleValue, Players[playerId].ThrowDirection, Players[playerId].PlayerController.DefaultForceMultiplier);
         if (drawTrajectoryLine) Players[playerId].PlayerTrajectoryLine.DrawTrajectoryLine();
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
+    public void HidePlayerTrajectoryLineRpc(int playerId)
+    {
+        if (playerId == GameManager.Instance.CurrentPlayerId.Value)
+            Players[playerId].PlayerTrajectoryLine.HideTrajectoryLine();
+    }
 
     public void SetPlayerAnimation(int playerId, string animation)
     {

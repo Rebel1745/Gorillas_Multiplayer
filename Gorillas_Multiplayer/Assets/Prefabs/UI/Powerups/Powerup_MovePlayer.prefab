@@ -74,8 +74,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4290164479
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -210,8 +210,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4290164479
+  m_fontColor: {r: 1, g: 0.7137255, b: 0.7137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6627451, g: 0.6627451, b: 0.6627451, a: 1}
+  m_Color: {r: 0.14509805, g: 0.14901961, b: 0.16862746, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -434,12 +434,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _playerId: 0
-  _remainingUses: 1
   _powerupButton: {fileID: 5489453820611601028}
   _powerupNumberText: {fileID: 6724775890699776177}
   _powerupTitle: Move Player
   _powerupText: Move the current player up to three positions left or right
-  _defaultColour: {r: 0.6627451, g: 0.6627451, b: 0.6627451, a: 1}
+  _defaultColour: {r: 0.14509805, g: 0.14901961, b: 0.16862746, a: 1}
   _inUseColour: {r: 0.39215687, g: 0.78431374, b: 0.39215687, a: 1}
   _usedColour: {r: 0.78431374, g: 0.39215687, b: 0.39215687, a: 1}

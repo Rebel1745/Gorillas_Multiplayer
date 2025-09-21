@@ -10,6 +10,7 @@ public class TrajectoryLine : MonoBehaviour
     [SerializeField] private float _timeStep = 0.1f;
     private List<Vector3> _segmentsList = new();
     private Vector3[] _segments;
+    private bool _trajectoryLineVisible = false;
 
     private void Start()
     {
@@ -93,12 +94,17 @@ public class TrajectoryLine : MonoBehaviour
 
     public void DrawTrajectoryLine()
     {
+        _trajectoryLineVisible = true;
         _lineRenderer.positionCount = _segments.Length;
         _lineRenderer.SetPositions(_segments);
     }
 
     public void HideTrajectoryLine()
     {
-        _lineRenderer.positionCount = 0;
+        if (_trajectoryLineVisible)
+        {
+            _lineRenderer.positionCount = 0;
+            _trajectoryLineVisible = false;
+        }
     }
 }

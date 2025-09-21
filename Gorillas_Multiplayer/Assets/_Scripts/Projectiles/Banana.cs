@@ -38,7 +38,7 @@ public class Banana : NetworkBehaviour, IProjectile
         if (transform.position.y < _destroyWhenDistanceOffscreen)
         {
             Debug.Log("Banana: AutoDestroy");
-            CreateExplosionAndDestroyRpc();
+            CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier);
             if (_isLastProjectile)
                 GameManager.Instance.UpdateGameState(GameState.NextTurn);
         }
@@ -71,7 +71,7 @@ public class Banana : NetworkBehaviour, IProjectile
                 Debug.Log("HitShield");
                 // don't destroy the shield unless it is the end of the round otherwise a triple shot would win despite the shield
                 //hit.transform.GetComponentInParent<PlayerController>().HideShield();
-                CreateExplosionAndDestroyRpc(false);
+                CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier, false);
                 if (_isLastProjectile)
                     GameManager.Instance.UpdateGameState(GameState.NextTurn, 1f);
                 return;
@@ -79,7 +79,7 @@ public class Banana : NetworkBehaviour, IProjectile
 
             playerHitId = hit.transform.GetComponent<PlayerController>().PlayerId;
             otherPlayerId = PlayerManager.Instance.GetOtherPlayerId(playerHitId);
-            CreateExplosionAndDestroyRpc();
+            CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier);
             CameraManager.Instance.RemovePlayerRpc(playerHitId);
             //GameManager.Instance.UpdateScore(otherPlayerId);
             PlayerManager.Instance.SetPlayerAnimation(otherPlayerId, "Celebrate");
@@ -107,7 +107,7 @@ public class Banana : NetworkBehaviour, IProjectile
                         {
                             Debug.Log("HitShield2");
                             //h.transform.GetComponentInParent<PlayerController>().HideShield();
-                            CreateExplosionAndDestroyRpc(false);
+                            CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier, false);
                             if (_isLastProjectile)
                                 GameManager.Instance.UpdateGameState(GameState.NextTurn, 1f);
                             return;
@@ -120,7 +120,7 @@ public class Banana : NetworkBehaviour, IProjectile
                     PlayerManager.Instance.SetPlayerAnimation(otherPlayerId, "Celebrate");
 
                     // the explosion hit a player!
-                    CreateExplosionAndDestroyRpc();
+                    CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier);
                     CameraManager.Instance.RemovePlayerRpc(playerHitId);
                     PlayerManager.Instance.DestroyPlayerRpc(playerHitId);
 
@@ -138,7 +138,7 @@ public class Banana : NetworkBehaviour, IProjectile
                     if (_createExplosionMask)
                     {
                         Debug.Log("Missed");
-                        CreateExplosionAndDestroyRpc();
+                        CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier);
 
                         // Next Players turn
                         if (_isLastProjectile && GameManager.Instance.State == GameState.WaitingForDetonation)
@@ -150,13 +150,14 @@ public class Banana : NetworkBehaviour, IProjectile
     }
 
     [Rpc(SendTo.Server)]
-    private void CreateExplosionAndDestroyRpc(bool createMask = true)
+    private void CreateExplosionAndDestroyRpc(float explosionRadiusMultiplier, bool createMask = true)
     {
+        Debug.Log($"CreateExplosionAndDestroyRpc {explosionRadiusMultiplier}");
         if (createMask)
         {
             // create the explosion crater with a mask
             GameObject exGO = Instantiate(_explosionSpriteMask, transform.position, Quaternion.identity);
-            exGO.transform.localScale *= _explosionRadiusMultiplier;
+            exGO.transform.localScale *= explosionRadiusMultiplier;
             exGO.GetComponent<NetworkObject>().Spawn(true);
             exGO.GetComponent<NetworkObject>().TrySetParent(_explosionTransform);
         }
@@ -188,16 +189,12 @@ public class Banana : NetworkBehaviour, IProjectile
 
     public void SetExplosionSizeMultiplier(float multiplier)
     {
+        Debug.Log($"SetExplosionSizeMultiplier {multiplier}");
         _explosionRadiusMultiplier = multiplier;
     }
 
     public void SetLastProjectileInBurst()
     {
         _isLastProjectile = true;
-    }
-
-    public void SetProjectileNumber(int number)
-    {
-
     }
 }

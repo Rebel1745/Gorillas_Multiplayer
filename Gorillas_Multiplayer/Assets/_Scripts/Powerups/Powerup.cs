@@ -8,8 +8,8 @@ using System;
 
 public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public int _playerId;
-    public int _remainingUses = 1;
+    private int _playerId;
+    private int _remainingUses = 1;
     [SerializeField] protected Button _powerupButton;
     [SerializeField] protected TMP_Text _powerupNumberText;
     [SerializeField] protected string _powerupTitle;
@@ -86,6 +86,13 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     [Rpc(SendTo.ClientsAndHost)]
     public void SetButtonColourRpc(Color colour)
     {
+        _powerupButton.image.color = colour;
+    }
+
+    protected void SetButtonColour(Color colour)
+    {
+        // same as the above function but it is only set locally
+        // this stops the other player knowing when the shield is used
         _powerupButton.image.color = colour;
     }
 

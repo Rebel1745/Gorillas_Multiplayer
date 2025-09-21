@@ -18,6 +18,23 @@ public class PlayerController : MonoBehaviour
     private int _throwDirection;
     private Transform _explosionMaskParent;
 
+    // powerup stuff
+    private bool _isBigBomb = false;
+    private int _burstCount = 1;
+    private int _currentBurstNumber;
+    private float _lastLaunchTime;
+    [SerializeField] float _timeBetweenBurstFire = 0.25f;
+    bool _isBurstFiring = false;
+    bool _isVariablePower = false;
+    [SerializeField] float _variablePowerAmount = 0.5f;
+    private float _variablePowerAmountPerShotOfBurst;
+    private float _currentVariablePowerAmount;
+    [SerializeField] private Collider2D _gorillaCollider;
+    [SerializeField] private Transform _shieldTransform;
+    private bool _showShieldNextTurn = false;
+    private bool _isShieldActive = false;
+    public bool IsShieldActive { get { return _isShieldActive; } }
+
     private void Start()
     {
         _explosionMaskParent = GameObject.Find("ExplosionMasks").transform;
@@ -55,6 +72,13 @@ public class PlayerController : MonoBehaviour
 
         CameraManager.Instance.UpdateCameraForProjectileRpc();
 
+        if (_isBigBomb)
+        {
+            Debug.Log("_isBigBomb");
+            iProjectile.SetExplosionSizeMultiplier(2f);
+            _isBigBomb = false;
+        }
+
         GameManager.Instance.UpdateGameState(GameState.WaitingForDetonation);
     }
 
@@ -67,6 +91,13 @@ public class PlayerController : MonoBehaviour
     public void HideTooltip()
     {
         _playerDetails.PlayerUI.HideTooltip();
+    }
+
+    [Rpc(SendTo.Server)]
+    public void SetBigBombRpc(bool isBigBomb)
+    {
+        Debug.Log($"SetBigBomb {isBigBomb}");
+        _isBigBomb = isBigBomb;
     }
     #endregion
 }
