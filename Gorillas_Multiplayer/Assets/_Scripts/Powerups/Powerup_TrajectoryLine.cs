@@ -6,7 +6,7 @@ public class Powerup_TrajectoryLine : Powerup
     {
         base.UsePowerup();
 
-        PlayerManager.Instance.ShowPlayerTrajectoryLineRpc(GameManager.Instance.CurrentPlayerId.Value, true);
+        ProjectileManager.Instance.ShowPlayerTrajectoryLineRpc(GameManager.Instance.CurrentPlayerId.Value, true);
 
         SetButtonColourRpc(_usedColour);
 

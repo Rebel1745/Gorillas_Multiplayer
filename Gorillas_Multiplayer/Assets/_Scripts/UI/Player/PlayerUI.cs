@@ -14,8 +14,8 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] private Button _launchButton;
     [SerializeField] private TMP_InputField _powerInput;
     [SerializeField] private TMP_InputField _angleInput;
-    private float _powerValue;
-    private float _angleValue;
+    public float _powerValue = 50f;
+    public float _angleValue = 45f;
     [SerializeField] private GameObject _powerUpGO;
     [SerializeField] private GameObject _tooltipGO;
     [SerializeField] private TMP_Text _tooltipTitle;
@@ -28,10 +28,13 @@ public class PlayerUI : NetworkBehaviour
 
     private void GameManager_OnOnNewGame(object sender, EventArgs e)
     {
+        //Debug.Log($"PlayerUI:OnNewGame {_powerValue} {_angleValue}");
         Hide();
         SetViewMode();
         _powerValue = 50f;
         _angleValue = 45f;
+        UpdatePowerDetails(true);
+        UpdateAngleDetails(true);
     }
 
     private void GameManager_OnPlayerIdChanged(object sender, EventArgs e)
@@ -39,6 +42,13 @@ public class PlayerUI : NetworkBehaviour
         if (GameManager.Instance.CurrentPlayerId.Value == _playerId)
         {
             Show();
+
+            if ((int)NetworkManager.Singleton.LocalClientId == _playerId)
+            {
+                //Debug.Log($"PlayerUI:OnPlayerIdChanged {GameManager.Instance.CurrentPlayerId.Value} {_powerValue} {_angleValue}");
+                UpdatePowerDetails(true);
+                UpdateAngleDetails(true);
+            }
         }
         else
         {
@@ -49,9 +59,6 @@ public class PlayerUI : NetworkBehaviour
             _launchButton.enabled = true;
         else
             _launchButton.enabled = false;
-
-        UpdatePowerDetails();
-        UpdateAngleDetails();
     }
 
     private void GameManager_OnGameOver(object sender, EventArgs e)
@@ -78,12 +85,12 @@ public class PlayerUI : NetworkBehaviour
     private void OnPowerSliderValueChanged(float power)
     {
         _powerValue = power;
-        UpdatePowerDetails();
+        UpdatePowerDetails(false);
     }
 
-    private void UpdatePowerDetails()
+    private void UpdatePowerDetails(bool setSliderValue)
     {
-        _powerSlider.value = _powerValue;
+        if (setSliderValue) _powerSlider.value = _powerValue;
         _powerInput.text = _powerValue.ToString();
         OnPowerValueChangedRpc(_powerValue);
     }
@@ -91,12 +98,12 @@ public class PlayerUI : NetworkBehaviour
     private void OnAngleSliderValueChanged(float angle)
     {
         _angleValue = angle;
-        UpdateAngleDetails();
+        UpdateAngleDetails(false);
     }
 
-    private void UpdateAngleDetails()
+    private void UpdateAngleDetails(bool setSliderValue)
     {
-        _angleSlider.value = _angleValue;
+        if (setSliderValue) _angleSlider.value = _angleValue;
         _angleInput.text = _angleValue.ToString();
         OnAngleValueChangedRpc(_angleValue);
     }
@@ -105,14 +112,14 @@ public class PlayerUI : NetworkBehaviour
     private void OnPowerValueChangedRpc(float power)
     {
         _powerText.text = power.ToString("F1");
-        PlayerManager.Instance.SetLatestPowerAndAngleValues(_playerId, power, _angleValue);
+        ProjectileManager.Instance.SetLatestPowerAndAngleValuesRpc(_playerId, power, _angleValue);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
     private void OnAngleValueChangedRpc(float angle)
     {
         _angleText.text = angle.ToString("F1");
-        PlayerManager.Instance.SetLatestPowerAndAngleValues(_playerId, _powerValue, angle);
+        ProjectileManager.Instance.SetLatestPowerAndAngleValuesRpc(_playerId, _powerValue, angle);
     }
 
     private void OnPowerInputChanged(string power)
@@ -128,7 +135,7 @@ public class PlayerUI : NetworkBehaviour
             _powerInput.text = power[..^1];
 
         _powerValue = powerInput;
-        UpdatePowerDetails();
+        UpdatePowerDetails(true);
     }
 
     private void OnAngleInputChanged(string angle)
@@ -144,14 +151,14 @@ public class PlayerUI : NetworkBehaviour
             _angleInput.text = angle[..^1];
 
         _angleValue = angleInput;
-        UpdateAngleDetails();
+        UpdateAngleDetails(true);
     }
 
     private void OnLaunchButtonClicked()
     {
         _launchButton.enabled = false;
-        PlayerManager.Instance.ShowPlayerTrajectoryLineRpc(_playerId, false);
-        PlayerManager.Instance.StartLaunchProjectileForPlayerRpc(_playerId);
+        ProjectileManager.Instance.ShowPlayerTrajectoryLineRpc(_playerId, _powerValue, _angleValue, false);
+        ProjectileManager.Instance.StartLaunchProjectileRpc(_powerValue, _angleValue);
     }
     #endregion
 
@@ -224,9 +231,5 @@ public class PlayerUI : NetworkBehaviour
     {
         _tooltipGO.SetActive(false);
     }
-    #endregion
-
-    #region Powerups
-
     #endregion
 }

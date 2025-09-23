@@ -119,6 +119,76 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &34193353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 34193354}
+  - component: {fileID: 34193355}
+  - component: {fileID: 34193356}
+  m_Layer: 0
+  m_Name: ShieldManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &34193354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34193353}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492897883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &34193355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34193353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 1608943156
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &34193356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34193353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a1dfe001195b474a80e45de52cc2fab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShieldManager
 --- !u!1 &143719445
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,6 +700,91 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298679031}
   m_CullTransparentMesh: 1
+--- !u!1 &440236657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440236658}
+  - component: {fileID: 440236659}
+  - component: {fileID: 440236660}
+  m_Layer: 0
+  m_Name: ProjectileManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &440236658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440236657}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492897883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &440236659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440236657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 1913188376
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &440236660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440236657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abfdbeb34ecd1824da184703aad5f9fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  _projectilePrefab: {fileID: 1212813369883001507, guid: 4290ee9ad9645344e8cff1fdd120870a, type: 3}
+  _defaultForceMultiplier: 0.25
+  _delayBeforeAttackAnimationReset: 0.5
+  _explosionPrefab: {fileID: 9058155389148681563, guid: 7837ba945772ca9468fe9a35595f551a, type: 3}
+  _explosionSpriteMask: {fileID: 2097185625}
+  _explosionSFX: {fileID: 0}
+  _explosionRadiusDamageMultiplier: 2
+  _whatIsWindow:
+    serializedVersion: 2
+    m_Bits: 256
+  _brokenWindowSprites:
+  - {fileID: 8410285761981747652, guid: c0b35b8c43fb4454aa8f144f3b3d921e, type: 3}
+  - {fileID: 5305344747958160552, guid: 65ba6c7598496624c92a9dff5cdd3775, type: 3}
+  - {fileID: 5903915594433524572, guid: f5ed2dad55c76904f90a82f0e544d053, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2494,6 +2649,39 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!1 &1492897882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1492897883}
+  m_Layer: 0
+  m_Name: GameplayManagers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1492897883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492897882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 440236658}
+  - {fileID: 34193354}
+  m_Father: {fileID: 1955909302}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1541771500
 GameObject:
   m_ObjectHideFlags: 0
@@ -2952,6 +3140,8 @@ MonoBehaviour:
   - {fileID: 7830120543136791809, guid: c0f3516d05fd4004e9d360ccbb314c71, type: 3}
   - {fileID: 7830120543136791809, guid: 7d9394bcf88a7a449bbe328aece2d1a2, type: 3}
   - {fileID: 7830120543136791809, guid: 6efe37631be0f9740b11ae44acdcc2e0, type: 3}
+  _latestPowerValue: 0
+  _latestAngleValue: 0
 --- !u!1 &1757554732
 GameObject:
   m_ObjectHideFlags: 0
@@ -3601,6 +3791,7 @@ Transform:
   - {fileID: 880960078}
   - {fileID: 1620002582}
   - {fileID: 1193391741}
+  - {fileID: 1492897883}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2097185625
@@ -8932,6 +9123,8 @@ MonoBehaviour:
   _launchButton: {fileID: 3836140500319847057}
   _powerInput: {fileID: 706832865201456772}
   _angleInput: {fileID: 1863876572505659216}
+  _powerValue: 50
+  _angleValue: 45
   _powerUpGO: {fileID: 2257827140515730012}
   _tooltipGO: {fileID: 7424783007241274837}
   _tooltipTitle: {fileID: 2627093603465179991}
@@ -9767,6 +9960,8 @@ MonoBehaviour:
   _launchButton: {fileID: 3318608438233712155}
   _powerInput: {fileID: 2548666502440905844}
   _angleInput: {fileID: 4380592521960831076}
+  _powerValue: 50
+  _angleValue: 45
   _powerUpGO: {fileID: 8004877606523157889}
   _tooltipGO: {fileID: 6533554855271785327}
   _tooltipTitle: {fileID: 1861313750192608749}

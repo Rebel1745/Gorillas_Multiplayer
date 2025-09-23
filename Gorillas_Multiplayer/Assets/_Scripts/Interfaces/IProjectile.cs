@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IProjectile
 {
-    public void SetProjectileExplosionMaskParent(Transform explosionMaskParent);
+    public void SetProjectileParents(Transform explosionMaskParent, Transform brokenWindowParent);
     public void SetExplosionSizeMultiplier(float multiplier);
     public void SetLastProjectileInBurst();
 }

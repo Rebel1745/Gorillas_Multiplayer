@@ -9,6 +9,7 @@ using System;
 public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private int _playerId;
+    private PlayerUI _playerUI;
     private int _remainingUses = 1;
     [SerializeField] protected Button _powerupButton;
     [SerializeField] protected TMP_Text _powerupNumberText;
@@ -23,6 +24,8 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void SetPlayerIdRpc(int playerId)
     {
         _playerId = playerId;
+        _playerUI = PlayerManager.Instance.Players[playerId].PlayerUI.GetComponent<PlayerUI>();
+
         UpdatePowerupNumberTextRpc();
 
         if ((int)NetworkManager.Singleton.LocalClientId == _playerId)
@@ -127,7 +130,7 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_powerupButton.enabled)
-            PlayerManager.Instance.Players[GameManager.Instance.CurrentPlayerId.Value].PlayerController.ShowTooltip(_powerupTitle, _powerupText);
+            _playerUI.ShowTooltip(_powerupTitle, _powerupText);
         else
             HideTooltip();
     }
@@ -139,6 +142,6 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void HideTooltip()
     {
-        PlayerManager.Instance.Players[GameManager.Instance.CurrentPlayerId.Value].PlayerController.HideTooltip();
+        _playerUI.HideTooltip();
     }
 }

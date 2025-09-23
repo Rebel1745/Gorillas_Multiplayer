@@ -6,27 +6,28 @@ public class Banana : NetworkBehaviour, IProjectile
 {
     [SerializeField] private LayerMask _whatIsGround;
     [SerializeField] private LayerMask _whatIsPlayer;
-    [SerializeField] private LayerMask _whatIsWindow;
-    [SerializeField] private GameObject _explosionSpriteMask;
-    [SerializeField] private GameObject _explosionPrefab;
-    [SerializeField] private GameObject[] _brokenWindowSprites;
-    private Transform _brokenWindowHolder;
-    [SerializeField] private float _explosionRadiusDamageMultiplier = 2;
     [SerializeField] private float _destroyWhenDistanceOffscreen = -20f;
     [SerializeField] private float _rotationRate = 1f;
-    [SerializeField] private AudioClip _explosionSFX;
-    private float _explosionRadius;
-    private Transform _explosionTransform;
     private Rigidbody2D _rb;
-    private bool _createExplosionMask;
-    private float _explosionRadiusMultiplier = 1f;
     private bool _isLastProjectile = true;
     private int _projectileNumber;
+
+    // explosion stuff
+    [SerializeField] private GameObject _explosionSpriteMask;
+    private bool _createExplosionMask;
+    private float _explosionRadius;
+    private Transform _explosionTransform;
+    [SerializeField] private AudioClip _explosionSFX;
+    private float _explosionRadiusMultiplier = 1f;
+    [SerializeField] private float _explosionRadiusDamageMultiplier = 2;
+    [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private LayerMask _whatIsWindow;
+    [SerializeField] private GameObject[] _brokenWindowSprites;
+    private Transform _brokenWindowParent;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _brokenWindowHolder = GameObject.Find("BrokenWindows").transform;
         _explosionRadius = _explosionSpriteMask.transform.localScale.x / 2;
     }
 
@@ -38,7 +39,7 @@ public class Banana : NetworkBehaviour, IProjectile
         if (transform.position.y < _destroyWhenDistanceOffscreen)
         {
             Debug.Log("Banana: AutoDestroy");
-            CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier);
+            CreateExplosionAndDestroyRpc();
             if (_isLastProjectile)
                 GameManager.Instance.UpdateGameState(GameState.NextTurn);
         }
@@ -71,7 +72,7 @@ public class Banana : NetworkBehaviour, IProjectile
                 Debug.Log("HitShield");
                 // don't destroy the shield unless it is the end of the round otherwise a triple shot would win despite the shield
                 //hit.transform.GetComponentInParent<PlayerController>().HideShield();
-                CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier, false);
+                CreateExplosionAndDestroyRpc(false);
                 if (_isLastProjectile)
                     GameManager.Instance.UpdateGameState(GameState.NextTurn, 1f);
                 return;
@@ -79,7 +80,7 @@ public class Banana : NetworkBehaviour, IProjectile
 
             playerHitId = hit.transform.GetComponent<PlayerController>().PlayerId;
             otherPlayerId = PlayerManager.Instance.GetOtherPlayerId(playerHitId);
-            CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier);
+            CreateExplosionAndDestroyRpc();
             CameraManager.Instance.RemovePlayerRpc(playerHitId);
             //GameManager.Instance.UpdateScore(otherPlayerId);
             PlayerManager.Instance.SetPlayerAnimation(otherPlayerId, "Celebrate");
@@ -107,7 +108,7 @@ public class Banana : NetworkBehaviour, IProjectile
                         {
                             Debug.Log("HitShield2");
                             //h.transform.GetComponentInParent<PlayerController>().HideShield();
-                            CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier, false);
+                            CreateExplosionAndDestroyRpc(false);
                             if (_isLastProjectile)
                                 GameManager.Instance.UpdateGameState(GameState.NextTurn, 1f);
                             return;
@@ -120,7 +121,7 @@ public class Banana : NetworkBehaviour, IProjectile
                     PlayerManager.Instance.SetPlayerAnimation(otherPlayerId, "Celebrate");
 
                     // the explosion hit a player!
-                    CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier);
+                    CreateExplosionAndDestroyRpc();
                     CameraManager.Instance.RemovePlayerRpc(playerHitId);
                     PlayerManager.Instance.DestroyPlayerRpc(playerHitId);
 
@@ -138,7 +139,7 @@ public class Banana : NetworkBehaviour, IProjectile
                     if (_createExplosionMask)
                     {
                         Debug.Log("Missed");
-                        CreateExplosionAndDestroyRpc(_explosionRadiusMultiplier);
+                        CreateExplosionAndDestroyRpc();
 
                         // Next Players turn
                         if (_isLastProjectile && GameManager.Instance.State == GameState.WaitingForDetonation)
@@ -150,16 +151,16 @@ public class Banana : NetworkBehaviour, IProjectile
     }
 
     [Rpc(SendTo.Server)]
-    private void CreateExplosionAndDestroyRpc(float explosionRadiusMultiplier, bool createMask = true)
+    public void CreateExplosionAndDestroyRpc(bool createMask = true)
     {
-        Debug.Log($"CreateExplosionAndDestroyRpc {explosionRadiusMultiplier}");
         if (createMask)
         {
+            //Debug.Log($"Create Mask {explosionRadiusMultiplier}");
             // create the explosion crater with a mask
             GameObject exGO = Instantiate(_explosionSpriteMask, transform.position, Quaternion.identity);
-            exGO.transform.localScale *= explosionRadiusMultiplier;
             exGO.GetComponent<NetworkObject>().Spawn(true);
             exGO.GetComponent<NetworkObject>().TrySetParent(_explosionTransform);
+            exGO.transform.localScale *= _explosionRadiusMultiplier;
         }
 
         // find all of the windows in the blast radius (with multiplier)
@@ -169,7 +170,7 @@ public class Banana : NetworkBehaviour, IProjectile
             Quaternion randomRotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
             GameObject windowGO = Instantiate(randomSprite, h.transform.position, randomRotation);
             windowGO.GetComponent<NetworkObject>().Spawn(true);
-            windowGO.GetComponent<NetworkObject>().TrySetParent(_brokenWindowHolder);
+            windowGO.GetComponent<NetworkObject>().TrySetParent(_brokenWindowParent);
         }
 
         if (_isLastProjectile)
@@ -178,23 +179,29 @@ public class Banana : NetworkBehaviour, IProjectile
         GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         explosion.GetComponent<NetworkObject>().Spawn(true);
         //AudioManager.Instance.PlayAudioClip(_explosionSFX, 0.95f, 1.05f);
-        Debug.Log("CreateExplosionAndDestroyRpc");
+        //Debug.Log("CreateExplosionAndDestroyRpc");
         Destroy(gameObject);
     }
 
-    public void SetProjectileExplosionMaskParent(Transform explosionMaskParent)
+    public void SetLastProjectileInBurst()
+    {
+        _isLastProjectile = true;
+    }
+
+    public void SetExplosionRadius(float radius)
+    {
+        _explosionRadius = radius;
+    }
+
+    public void SetProjectileParents(Transform explosionMaskParent, Transform brokenWindowParent)
     {
         _explosionTransform = explosionMaskParent;
+        _brokenWindowParent = brokenWindowParent;
     }
 
     public void SetExplosionSizeMultiplier(float multiplier)
     {
         Debug.Log($"SetExplosionSizeMultiplier {multiplier}");
         _explosionRadiusMultiplier = multiplier;
-    }
-
-    public void SetLastProjectileInBurst()
-    {
-        _isLastProjectile = true;
     }
 }
