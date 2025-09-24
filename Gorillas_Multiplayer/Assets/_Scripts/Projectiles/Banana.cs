@@ -9,7 +9,7 @@ public class Banana : NetworkBehaviour, IProjectile
     [SerializeField] private float _destroyWhenDistanceOffscreen = -20f;
     [SerializeField] private float _rotationRate = 1f;
     private Rigidbody2D _rb;
-    private bool _isLastProjectile = true;
+    private bool _isLastProjectile;
     private int _projectileNumber;
 
     // explosion stuff
@@ -188,6 +188,11 @@ public class Banana : NetworkBehaviour, IProjectile
         _isLastProjectile = true;
     }
 
+    public void SetProjectileNumber(int number)
+    {
+        _projectileNumber = number;
+    }
+
     public void SetExplosionRadius(float radius)
     {
         _explosionRadius = radius;
@@ -201,7 +206,6 @@ public class Banana : NetworkBehaviour, IProjectile
 
     public void SetExplosionSizeMultiplier(float multiplier)
     {
-        Debug.Log($"SetExplosionSizeMultiplier {multiplier}");
         _explosionRadiusMultiplier = multiplier;
     }
 }

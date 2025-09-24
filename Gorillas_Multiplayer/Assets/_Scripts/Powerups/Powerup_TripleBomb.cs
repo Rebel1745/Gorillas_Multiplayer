@@ -8,13 +8,13 @@ public class Powerup_TripleBomb : Powerup
 
         if (_powerupEnabled)
         {
-            //PlayerManager.Instance.Players[GameManager.Instance.CurrentPlayerId.Value].PlayerController.SetProjectileBurst(3);
+            ProjectileManager.Instance.SetProjectileBurstRpc(3);
             SetButtonColourRpc(_inUseColour);
             PlayerManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBombVariablePower", false);
         }
         else
         {
-            //PlayerManager.Instance.Players[GameManager.Instance.CurrentPlayerId.Value].PlayerController.SetProjectileBurst(1);
+            ProjectileManager.Instance.SetProjectileBurstRpc(1);
             SetButtonColourRpc(_defaultColour);
             PlayerManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBombVariablePower", true);
         }

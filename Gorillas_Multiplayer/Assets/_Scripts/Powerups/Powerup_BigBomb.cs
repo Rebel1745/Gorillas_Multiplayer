@@ -6,7 +6,7 @@ public class Powerup_BigBomb : Powerup
     {
         base.UsePowerup();
 
-        //PlayerManager.Instance.SetBigBombRpc(GameManager.Instance.CurrentPlayerId.Value, _powerupEnabled);
+        ProjectileManager.Instance.SetBigBombRpc(_powerupEnabled);
 
         if (_powerupEnabled)
         {

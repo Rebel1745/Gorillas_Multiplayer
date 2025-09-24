@@ -21,16 +21,16 @@ public class ProjectileManager : NetworkBehaviour
 
 
     // powerup stuff
-    // private bool _isBigBomb = false;
-    // private int _burstCount = 1;
-    // private int _currentBurstNumber;
-    // private float _lastLaunchTime;
-    // [SerializeField] float _timeBetweenBurstFire = 0.25f;
-    // bool _isBurstFiring = false;
-    // bool _isVariablePower = false;
-    // [SerializeField] float _variablePowerAmount = 0.5f;
-    // private float _variablePowerAmountPerShotOfBurst;
-    // private float _currentVariablePowerAmount;
+    private bool _isBigBomb = false;
+    bool _isBurstFiring = false;
+    private int _burstCount = 1;
+    private int _currentBurstNumber;
+    private float _lastLaunchTime;
+    [SerializeField] float _timeBetweenBurstFire = 0.25f;
+    bool _isVariablePower = false;
+    [SerializeField] float _variablePowerAmount = 0.5f;
+    private float _variablePowerAmountPerShotOfBurst;
+    private float _currentVariablePowerAmount;
 
     private void Awake()
     {
@@ -43,20 +43,69 @@ public class ProjectileManager : NetworkBehaviour
         _brokenWindowParent = GameObject.Find("BrokenWindows").transform;
     }
 
+    private void Update()
+    {
+        if (!IsServer) return;
+
+        if (_isBurstFiring)
+        {
+            CheckBurstFire();
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetLatestPowerAndAngleValuesRpc(int playerId, float power, float angle)
+    {
+        _latestPowerValue = power;
+        _latestAngleValue = angle;
+
+        HidePlayerTrajectoryLineRpc(playerId);
+    }
+
     [Rpc(SendTo.Server)]
     public void StartLaunchProjectileRpc(float power, float angle)
     {
         _currentPlayerId = GameManager.Instance.CurrentPlayerId.Value;
         _projectileLaunchPoint = PlayerManager.Instance.Players[_currentPlayerId].PlayerController.ProjectileLaunchPoint;
-        PlayerManager.Instance.SetPlayerAnimation(_currentPlayerId, "Throw");
-        StartCoroutine(PlayerManager.Instance.ResetAnimation(_currentPlayerId, _delayBeforeAttackAnimationReset));
-        LaunchProjectile(power, angle);
+
+        //PlayerManager.Instance.Players[PlayerManager.Instance.OtherPlayerId].PlayerController.CheckIfShieldShouldBeEnabled();
+        //HideTooltip();
+
+        // EnableDisableAllUIButtons(false);
+        // ShowHideMovementPowerupIndicators(false);
+
+        HidePlayerTrajectoryLineRpc(_currentPlayerId);
+
+        if (_burstCount == 1)
+        {
+            LaunchProjectile(power, angle);
+            EndLaunchProjectileRpc();
+            return;
+        }
+
+        _currentBurstNumber = 0;
+        _isBurstFiring = true;
     }
 
     private void LaunchProjectile(float power, float angle)
     {
+        // set animation and return to idle
+        PlayerManager.Instance.SetPlayerAnimation(_currentPlayerId, "Throw");
+        //AudioManager.Instance.PlayAudioClip(_throwSFX, 0.95f, 1.05f);
+
+        if (_isBurstFiring)
+            StartCoroutine(PlayerManager.Instance.ResetAnimation(_currentPlayerId, _timeBetweenBurstFire - 0.05f));
+        else
+            StartCoroutine(PlayerManager.Instance.ResetAnimation(_currentPlayerId, _delayBeforeAttackAnimationReset));
+
         GameObject projectile = Instantiate(_projectilePrefab, _projectileLaunchPoint.position, Quaternion.identity);
         projectile.GetComponent<NetworkObject>().Spawn(true);
+
+        if (_isVariablePower)
+        {
+            power += _currentVariablePowerAmount;
+            _currentVariablePowerAmount -= _variablePowerAmountPerShotOfBurst;
+        }
 
         float angleRad = Mathf.Deg2Rad * angle;
         Vector2 force = new(
@@ -68,11 +117,45 @@ public class ProjectileManager : NetworkBehaviour
         IProjectile iProjectile = projectile.GetComponent<IProjectile>();
         iProjectile.SetProjectileParents(_explosionMaskParent, _brokenWindowParent);
 
-        CameraManager.Instance.UpdateCameraForProjectileRpc();
+        if (_isBigBomb)
+        {
+            iProjectile.SetExplosionSizeMultiplier(2f);
+            _isBigBomb = false;
+        }
+
+        if (_isBurstFiring)
+        {
+            // if this is the first projectile launched we can follow it
+            if (_currentBurstNumber == 1)
+                CameraManager.Instance.UpdateCameraForProjectileRpc();
+
+            iProjectile.SetProjectileNumber(_currentBurstNumber);
+
+            if (_currentBurstNumber == _burstCount)
+                iProjectile.SetLastProjectileInBurst();
+        }
+        else
+        {
+            CameraManager.Instance.UpdateCameraForProjectileRpc();
+            iProjectile.SetLastProjectileInBurst();
+        }
+
+        _lastLaunchTime = Time.time;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void EndLaunchProjectileRpc()
+    {
+        _isBurstFiring = false;
+        _burstCount = 1;
+        _currentBurstNumber = 0;
+        _isVariablePower = false;
+        _currentVariablePowerAmount = 0f;
 
         GameManager.Instance.UpdateGameState(GameState.WaitingForDetonation);
     }
 
+    #region Powerup functions
     [Rpc(SendTo.ClientsAndHost)]
     public void ShowPlayerTrajectoryLineRpc(int playerId, bool drawTrajectoryLine)
     {
@@ -96,11 +179,44 @@ public class ProjectileManager : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    public void SetLatestPowerAndAngleValuesRpc(int playerId, float power, float angle)
+    public void SetBigBombRpc(bool enabled)
     {
-        _latestPowerValue = power;
-        _latestAngleValue = angle;
-
-        HidePlayerTrajectoryLineRpc(playerId);
+        _isBigBomb = enabled;
     }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetProjectileBurstRpc(int number)
+    {
+        _burstCount = number;
+    }
+
+    private void CheckBurstFire()
+    {
+        if (_currentBurstNumber == _burstCount)
+        {
+            EndLaunchProjectileRpc();
+            return;
+        }
+
+        if (Time.time >= _lastLaunchTime + _timeBetweenBurstFire)
+        {
+            _currentBurstNumber++;
+            LaunchProjectile(_latestPowerValue, _latestAngleValue);
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetVariablePowerRpc()
+    {
+        _isVariablePower = true;
+        _variablePowerAmountPerShotOfBurst = (_burstCount - 1) / 2f * _variablePowerAmount;
+        _currentVariablePowerAmount = _variablePowerAmountPerShotOfBurst;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ResetVariablePowerRpc()
+    {
+        _isVariablePower = false;
+    }
+    #endregion
 }

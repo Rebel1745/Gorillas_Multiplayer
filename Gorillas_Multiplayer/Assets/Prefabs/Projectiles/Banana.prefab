@@ -192,19 +192,20 @@ MonoBehaviour:
   _whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
+  _destroyWhenDistanceOffscreen: -20
+  _rotationRate: 500
+  _isLastProjectile: 0
+  _explosionSpriteMask: {fileID: 8651222053518026346, guid: 1dc752fe344f36746921e251fe5d7303, type: 3}
+  _explosionSFX: {fileID: 8300000, guid: 5e19efa2783b2d545a5e0290647e102a, type: 3}
+  _explosionRadiusDamageMultiplier: 2
+  _explosionPrefab: {fileID: 9058155389148681563, guid: 7837ba945772ca9468fe9a35595f551a, type: 3}
   _whatIsWindow:
     serializedVersion: 2
     m_Bits: 256
-  _explosionSpriteMask: {fileID: 8651222053518026346, guid: 1dc752fe344f36746921e251fe5d7303, type: 3}
-  _explosionPrefab: {fileID: 9058155389148681563, guid: 7837ba945772ca9468fe9a35595f551a, type: 3}
   _brokenWindowSprites:
   - {fileID: 8410285761981747652, guid: c0b35b8c43fb4454aa8f144f3b3d921e, type: 3}
   - {fileID: 5305344747958160552, guid: 65ba6c7598496624c92a9dff5cdd3775, type: 3}
   - {fileID: 5903915594433524572, guid: f5ed2dad55c76904f90a82f0e544d053, type: 3}
-  _explosionRadiusDamageMultiplier: 2
-  _destroyWhenDistanceOffscreen: -20
-  _rotationRate: 500
-  _explosionSFX: {fileID: 8300000, guid: 5e19efa2783b2d545a5e0290647e102a, type: 3}
 --- !u!1 &2602004527939944288
 GameObject:
   m_ObjectHideFlags: 0
