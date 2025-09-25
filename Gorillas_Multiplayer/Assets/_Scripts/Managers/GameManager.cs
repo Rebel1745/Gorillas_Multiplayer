@@ -111,7 +111,7 @@ public class GameManager : NetworkBehaviour
         // reset the current round number and current player id
         OnNewGameEventRpc();
         _currentRound = 0;
-        CurrentPlayerId.Value = 99;
+        CurrentPlayerId.Value = 1;
         UpdateGameState(GameState.BuildLevel);
     }
 

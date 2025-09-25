@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -19,7 +20,6 @@ public class ProjectileManager : NetworkBehaviour
     public float _latestPowerValue;
     public float _latestAngleValue;
 
-
     // powerup stuff
     private bool _isBigBomb = false;
     bool _isBurstFiring = false;
@@ -31,6 +31,9 @@ public class ProjectileManager : NetworkBehaviour
     [SerializeField] float _variablePowerAmount = 0.5f;
     private float _variablePowerAmountPerShotOfBurst;
     private float _currentVariablePowerAmount;
+
+    // events
+    public event EventHandler OnProjectileLaunched;
 
     private void Awake()
     {
@@ -75,6 +78,8 @@ public class ProjectileManager : NetworkBehaviour
         // ShowHideMovementPowerupIndicators(false);
 
         HidePlayerTrajectoryLineRpc(_currentPlayerId);
+
+        ProjectileLaunchedClientsAndHostRpc();
 
         if (_burstCount == 1)
         {
@@ -153,6 +158,12 @@ public class ProjectileManager : NetworkBehaviour
         _currentVariablePowerAmount = 0f;
 
         GameManager.Instance.UpdateGameState(GameState.WaitingForDetonation);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ProjectileLaunchedClientsAndHostRpc()
+    {
+        OnProjectileLaunched?.Invoke(this, EventArgs.Empty);
     }
 
     #region Powerup functions

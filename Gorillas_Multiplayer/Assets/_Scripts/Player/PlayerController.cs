@@ -11,10 +11,9 @@ public class PlayerController : MonoBehaviour
 
     // powerup stuff
     [SerializeField] private Collider2D _gorillaCollider;
-    [SerializeField] private Transform _shieldTransform;
-    private bool _showShieldNextTurn = false;
-    private bool _isShieldActive = false;
-    public bool IsShieldActive { get { return _isShieldActive; } }
+    public Collider2D GorillaCollider { get { return _gorillaCollider; } }
+    [SerializeField] private GameObject _shieldGameObject;
+    public GameObject ShieldGameObject { get { return _shieldGameObject; } }
 
     public void SetPlayerDetails(int playerId)
     {

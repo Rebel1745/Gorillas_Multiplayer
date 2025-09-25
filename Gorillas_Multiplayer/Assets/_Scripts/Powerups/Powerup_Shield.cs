@@ -8,7 +8,7 @@ public class Powerup_Shield : Powerup
 
         int playerId = GameManager.Instance.CurrentPlayerId.Value;
 
-        //PlayerManager.Instance.Players[playerId].PlayerController.SetShieldForNextTurn(_powerupEnabled);
+        ShieldManager.Instance.SetShieldForNextTurnRpc(playerId, _powerupEnabled);
 
         if (_powerupEnabled) SetButtonColour(_inUseColour);
         else SetButtonColour(_defaultColour);

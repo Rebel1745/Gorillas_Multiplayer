@@ -113,6 +113,11 @@ public class PlayerManager : NetworkBehaviour
         CameraManager.Instance.AddPlayerRpc(Players[playerId].PlayerGameObject.transform.position);
     }
 
+    public int GetOtherPlayerId()
+    {
+        return (GameManager.Instance.CurrentPlayerId.Value + 1) % 2;
+    }
+
     public int GetOtherPlayerId(int playerId)
     {
         return (playerId + 1) % 2;
