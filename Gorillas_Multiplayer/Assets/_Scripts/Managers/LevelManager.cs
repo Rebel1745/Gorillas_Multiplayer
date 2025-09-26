@@ -19,8 +19,8 @@ public class LevelManager : NetworkBehaviour
     private List<LevelElementDetails> _levelElementDetailsList = new();
     private int _numberOfLevelElements;
     private float _totalElementWidth = 0f;
-    private List<Vector3> _playerSpawnPointList = new();
-    private List<GameObject> _playerSpawnPointArrows = new();
+    public List<Vector3> _playerSpawnPointList = new();
+    public List<GameObject> _playerSpawnPointArrows = new();
     private List<GameObject> _levelElementGOs = new();
 
     private void Awake()
@@ -63,20 +63,32 @@ public class LevelManager : NetworkBehaviour
             newElement.GetComponent<Building>().SetBuildingSpriteColourRpc(randomBuildingColour);
             xOffset += led.ElementWidth;
 
-            // spawn points are the second child of the building (first is GFX)
-            for (int i = 0; i < newElement.transform.GetChild(1).childCount; i++)
-            {
-                _playerSpawnPointList.Add(newElement.transform.GetChild(1).GetChild(i).transform.position);
-                // first child of the spawn point is the arrow
-                _playerSpawnPointArrows.Add(newElement.transform.GetChild(1).GetChild(i).GetChild(0).gameObject);
-                _playerSpawnPointArrows[_playerSpawnPointArrows.Count - 1].GetComponentInChildren<MovePlayerArrow>().SetArrowIndex(_playerSpawnPointArrows.Count - 1);
-            }
+            SetSpawnPointArrowListRpc(newElement.GetComponent<NetworkObject>());
             _levelElementGOs.Add(newElement);
 
             ledIndex++;
         }
 
         UpdateBuildingSpriteColours();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SetSpawnPointArrowListRpc(NetworkObjectReference networkObject)
+    {
+        if (!networkObject.TryGet(out NetworkObject building))
+        {
+            Debug.Log("Error: Could not retrieve NetworkObject");
+            return;
+        }
+
+        // spawn points are the second child of the building (first is GFX)
+        for (int i = 0; i < building.transform.GetChild(1).childCount; i++)
+        {
+            _playerSpawnPointList.Add(building.transform.GetChild(1).GetChild(i).transform.position);
+            // first child of the spawn point is the arrow
+            _playerSpawnPointArrows.Add(building.transform.GetChild(1).GetChild(i).GetChild(0).gameObject);
+            _playerSpawnPointArrows[_playerSpawnPointArrows.Count - 1].GetComponentInChildren<MovePlayerArrow>().SetArrowIndex(_playerSpawnPointArrows.Count - 1);
+        }
     }
 
     private void ChooseElements()
@@ -176,6 +188,17 @@ public class LevelManager : NetworkBehaviour
         foreach (GameObject go in _levelElementGOs)
         {
             go.GetComponent<Building>().UpdateBuildingSpriteColourRpc();
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ShowHideSpawnPointArrowsBetweenIndexesRpc(int firstIndex, int currentIndex, int lastIndex, bool show)
+    {
+        for (int i = firstIndex; i <= lastIndex; i++)
+        {
+            if (i == currentIndex) continue;
+
+            _playerSpawnPointArrows[i].SetActive(show);
         }
     }
 }

@@ -61,7 +61,7 @@ public class GameManager : NetworkBehaviour
             case GameState.WaitingForDetonation:
                 break;
             case GameState.WaitingForMovement:
-                //WaitingForMovement();
+                WaitingForMovement();
                 break;
             case GameState.NextTurn:
                 StartCoroutine(nameof(NextTurn), delay);
@@ -209,6 +209,11 @@ public class GameManager : NetworkBehaviour
     {
         UpdateGameState(GameState.InitialiseGame);
     }
+
+    private void WaitingForMovement()
+    {
+        PlayerMovementManager.Instance.ShowHideMovementPowerupIndicatorsRpc(CurrentPlayerId.Value, true);
+    }
 }
 
 public enum GameState
@@ -225,7 +230,6 @@ public enum GameState
     WaitingForLaunch,
     WaitingForDetonation,
     WaitingForMovement,
-    WaitingForBuildingMovement,
     NextTurn,
     RoundComplete,
     GameOver,

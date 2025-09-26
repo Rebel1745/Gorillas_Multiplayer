@@ -14,7 +14,7 @@ public class Powerup_MovePlayer : Powerup
         }
         else
         {
-            //PlayerManager.Instance.Players[GameManager.Instance.CurrentPlayerId.Value].PlayerController.CancelMovementPowerupPosition();
+            PlayerMovementManager.Instance.ShowHideMovementPowerupIndicatorsRpc(GameManager.Instance.CurrentPlayerId.Value, false);
             //InputManager.Instance.EnableDisableGameplayControls(true);
             SetButtonColourRpc(_defaultColour);
         }

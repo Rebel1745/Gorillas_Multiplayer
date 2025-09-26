@@ -3,19 +3,22 @@ using UnityEngine;
 public class MovePlayerArrow : MonoBehaviour
 {
     private int _arrowIndex;
+    public int ArrowIndex { get { return _arrowIndex; } }
 
     public void SetArrowIndex(int index)
     {
         _arrowIndex = index;
     }
 
-    private void OnMouseEnter()
+    /*private void OnMouseEnter()
     {
-        //PlayerManager.Instance.Players[PlayerManager.Instance.CurrentPlayerId].PlayerController.SetPlayerMovementSprite(_arrowIndex);
+        Debug.Log("OnMouseEnter");
+        PlayerMovementManager.Instance.SetPlayerMovementSpriteRpc(_arrowIndex);
     }
 
     private void OnMouseExit()
     {
-        //PlayerManager.Instance.Players[PlayerManager.Instance.CurrentPlayerId].PlayerController.HidePlayerMovementSprite();
-    }
+        Debug.Log("OnMouseExit");
+        PlayerMovementManager.Instance.HidePlayerMovementSpriteRpc();
+    }*/
 }

@@ -26588,6 +26588,10 @@ PrefabInstance:
       value: PlayerMovementArrow
       objectReference: {fileID: 0}
     - target: {fileID: 2471747125706107073, guid: dc8e9024587c23d43b2b21d24c3bb49d, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471747125706107073, guid: dc8e9024587c23d43b2b21d24c3bb49d, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -26652,6 +26656,10 @@ PrefabInstance:
     - target: {fileID: 2471747125706107073, guid: dc8e9024587c23d43b2b21d24c3bb49d, type: 3}
       propertyPath: m_Name
       value: PlayerMovementArrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471747125706107073, guid: dc8e9024587c23d43b2b21d24c3bb49d, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2471747125706107073, guid: dc8e9024587c23d43b2b21d24c3bb49d, type: 3}
       propertyPath: m_IsActive
