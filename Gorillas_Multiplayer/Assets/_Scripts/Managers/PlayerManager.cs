@@ -41,7 +41,7 @@ public class PlayerManager : NetworkBehaviour
     {
         LevelManager.Instance.GetFirstAndLastSpawnPoints(out Vector3 firstSpawnPoint, out Vector3 lastSpawnPoint, out int firstSpawnPointIndex, out int lastSpawnPointIndex);
 
-        NetworkObject newPlayerNO;
+        NetworkObject newPlayerNO, playerMovementSpriteNO;
 
         if (GameManager.Instance.CurrentRound == 0)
         {
@@ -59,16 +59,26 @@ public class PlayerManager : NetworkBehaviour
             newPlayerNO.Spawn(true);
             newPlayerNO.TrySetParent(_playerHolder);
 
+            GameObject movementSpriteGO = Instantiate(Players[0].PlayerMovementSpritePrefab);
+            playerMovementSpriteNO = movementSpriteGO.GetComponent<NetworkObject>();
+            playerMovementSpriteNO.Spawn(true);
+            playerMovementSpriteNO.TrySetParent(_playerHolder);
+
             newPlayer.name = Players[0].Name;
-            SetPlayersDetailsRpc(0, newPlayerNO, firstSpawnPointIndex);
+            SetPlayersDetailsRpc(0, newPlayerNO, playerMovementSpriteNO, firstSpawnPointIndex);
 
             newPlayer = Instantiate(Players[1].PlayerPrefab, lastSpawnPoint, Quaternion.identity);
             newPlayerNO = newPlayer.GetComponent<NetworkObject>();
             newPlayerNO.Spawn(true);
             newPlayerNO.TrySetParent(_playerHolder);
 
+            movementSpriteGO = Instantiate(Players[1].PlayerMovementSpritePrefab);
+            playerMovementSpriteNO = movementSpriteGO.GetComponent<NetworkObject>();
+            playerMovementSpriteNO.Spawn(true);
+            playerMovementSpriteNO.TrySetParent(_playerHolder);
+
             newPlayer.name = Players[1].Name;
-            SetPlayersDetailsRpc(1, newPlayerNO, lastSpawnPointIndex);
+            SetPlayersDetailsRpc(1, newPlayerNO, playerMovementSpriteNO, lastSpawnPointIndex);
         }
         else
         {
@@ -82,22 +92,30 @@ public class PlayerManager : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void SetPlayersDetailsRpc(int playerId, NetworkObjectReference player, int spawnPointIndex)
+    private void SetPlayersDetailsRpc(int playerId, NetworkObjectReference player, NetworkObjectReference playerMovementSprite, int spawnPointIndex)
     {
-        if (!player.TryGet(out NetworkObject networkObject))
+        if (!player.TryGet(out NetworkObject playerNO))
         {
-            Debug.Log("Error: Could not retrieve NetworkObject");
+            Debug.Log("Error: Could not retrieve playerNetworkObject");
             return;
         }
 
-        Players[playerId].PlayerGameObject = networkObject.gameObject;
-        Players[playerId].PlayerController = networkObject.gameObject.GetComponent<PlayerController>();
-        Players[playerId].PlayerAnimator = networkObject.gameObject.GetComponentInChildren<Animator>();
-        Players[playerId].PlayerLineRenderer = networkObject.gameObject.GetComponent<LineRenderer>();
-        Players[playerId].PlayerTrajectoryLine = networkObject.gameObject.GetComponent<TrajectoryLine>();
+        if (!playerMovementSprite.TryGet(out NetworkObject playerMovementSpriteNO))
+        {
+            Debug.Log("Error: Could not retrieve playerNetworkObject");
+            return;
+        }
+
+        Players[playerId].PlayerGameObject = playerNO.gameObject;
+        Players[playerId].PlayerController = playerNO.gameObject.GetComponent<PlayerController>();
+        Players[playerId].PlayerAnimator = playerNO.gameObject.GetComponentInChildren<Animator>();
+        Players[playerId].PlayerLineRenderer = playerNO.gameObject.GetComponent<LineRenderer>();
+        Players[playerId].PlayerTrajectoryLine = playerNO.gameObject.GetComponent<TrajectoryLine>();
         Players[playerId].PlayerUI = Players[playerId].PlayerUIGO.GetComponent<PlayerUI>();
         Players[playerId].SpawnPointIndex = spawnPointIndex;
         Players[playerId].PlayerController.SetPlayerDetails(playerId);
+        Players[playerId].PlayerMovementSpriteGO = playerMovementSpriteNO.gameObject;
+        Players[playerId].PlayerMovementSpriteGO.SetActive(false);
 
         for (int i = 0; i < 49; i++)
         {
@@ -106,8 +124,8 @@ public class PlayerManager : NetworkBehaviour
 
         if (playerId == 1)
         {
-            networkObject.gameObject.GetComponentInChildren<SpriteRenderer>().transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-            networkObject.gameObject.transform.GetChild(1).transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            playerNO.gameObject.GetComponentInChildren<SpriteRenderer>().transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            playerNO.gameObject.transform.GetChild(1).transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
 
         CameraManager.Instance.AddPlayerRpc(Players[playerId].PlayerGameObject.transform.position);

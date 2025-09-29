@@ -65,6 +65,11 @@ public class ProjectileManager : NetworkBehaviour
         HidePlayerTrajectoryLineRpc(playerId);
     }
 
+    public void StartLaunchProjectileRpc()
+    {
+        StartLaunchProjectileRpc(_latestPowerValue, _latestAngleValue);
+    }
+
     [Rpc(SendTo.Server)]
     public void StartLaunchProjectileRpc(float power, float angle)
     {

@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +10,7 @@ public class PlayerMovementManager : NetworkBehaviour
     private int _currentPlayerId;
     [SerializeField] private int _movementDistance = 3;
     private int _currentArrowIndex;
-    private bool _isMoving;
+    public bool _isMoving;
     [SerializeField] private LayerMask _whatIsPlayerMovementArrow;
 
     private void Awake()
@@ -19,6 +20,12 @@ public class PlayerMovementManager : NetworkBehaviour
 
     private void Update()
     {
+        CheckForActiveMovementRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void CheckForActiveMovementRpc()
+    {
         if (GameManager.Instance.CurrentPlayerId.Value == (int)NetworkManager.Singleton.LocalClientId && _isMoving)
             CheckForMovementArrowMouseOver();
     }
@@ -26,8 +33,7 @@ public class PlayerMovementManager : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void ShowHideMovementPowerupIndicatorsRpc(int playerId, bool show)
     {
-        _currentPlayerId = playerId;
-        _isMoving = show;
+        SetIsMovingRpc(playerId, show);
 
         float lowestY = 999;
         float currentY;
@@ -84,6 +90,13 @@ public class PlayerMovementManager : NetworkBehaviour
         }
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetIsMovingRpc(int playerId, bool isMoving)
+    {
+        _currentPlayerId = playerId;
+        _isMoving = isMoving;
+    }
+
     private void CheckForMovementArrowMouseOver()
     {
         int arrowIndex;
@@ -106,23 +119,37 @@ public class PlayerMovementManager : NetworkBehaviour
         {
             _currentArrowIndex = arrowIndex;
             Vector3 spawnPointPosition = LevelManager.Instance.GetSpawnPointAtIndex(arrowIndex);
-
-            if (PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO == null)
-            {
-                PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO = Instantiate(PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpritePrefab, transform);
-                PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO.GetComponent<NetworkObject>().Spawn(true);
-            }
-
             PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO.transform.position = spawnPointPosition;
-            PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO.SetActive(true);
+            EnablePlayerMovementSpriteRpc();
         }
     }
 
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.ClientsAndHost)]
+    public void EnablePlayerMovementSpriteRpc()
+    {
+        PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO.SetActive(true);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
     public void HidePlayerMovementSpriteRpc()
     {
-        if (PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO != null)
-            PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO.SetActive(false);
+        PlayerManager.Instance.Players[_currentPlayerId].PlayerMovementSpriteGO.SetActive(false);
         _currentArrowIndex = -1;
+    }
+
+    [Rpc(SendTo.Server)]
+    public void ConfirmMovementPowerupPositionRpc()
+    {
+        if (_currentArrowIndex == -1) return;
+
+        Vector3 currentArrowPosition = LevelManager.Instance.GetSpawnPointAtIndex(_currentArrowIndex);
+
+        ShowHideMovementPowerupIndicatorsRpc(_currentPlayerId, false);
+        PlayerManager.Instance.Players[_currentPlayerId].PlayerGameObject.transform.position = currentArrowPosition;
+        PlayerManager.Instance.Players[_currentPlayerId].SpawnPointIndex = _currentArrowIndex;
+        HidePlayerMovementSpriteRpc();
+        CameraManager.Instance.UpdatePlayerPositionRpc(_currentPlayerId, currentArrowPosition);
+
+        GameManager.Instance.UpdateGameState(GameState.WaitingForLaunch);
     }
 }

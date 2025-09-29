@@ -212,6 +212,7 @@ public class GameManager : NetworkBehaviour
 
     private void WaitingForMovement()
     {
+        InputManager.Instance.EnableDisableMovementPowerupControls(true);
         PlayerMovementManager.Instance.ShowHideMovementPowerupIndicatorsRpc(CurrentPlayerId.Value, true);
     }
 }
