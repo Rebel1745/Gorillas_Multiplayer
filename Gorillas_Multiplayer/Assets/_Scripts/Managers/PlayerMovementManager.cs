@@ -150,6 +150,18 @@ public class PlayerMovementManager : NetworkBehaviour
         HidePlayerMovementSpriteRpc();
         CameraManager.Instance.UpdatePlayerPositionRpc(_currentPlayerId, currentArrowPosition);
 
+        // PlayerInputManager.Instance.EnableDisableCurrentPowerupButton(false);
+
+        GameManager.Instance.UpdateGameState(GameState.WaitingForLaunch);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void CancelMovementPowerupPositionRpc()
+    {
+        ShowHideMovementPowerupIndicatorsRpc(_currentPlayerId, false);
+        HidePlayerMovementSpriteRpc();
+        // PlayerInputManager.Instance.EnableDisableCurrentPowerupButton(true);
+        CameraManager.Instance.UpdatePlayerPositionRpc(_currentPlayerId, transform.position);
         GameManager.Instance.UpdateGameState(GameState.WaitingForLaunch);
     }
 }

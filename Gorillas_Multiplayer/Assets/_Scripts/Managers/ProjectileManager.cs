@@ -172,7 +172,7 @@ public class ProjectileManager : NetworkBehaviour
     }
 
     #region Powerup functions
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
     public void ShowPlayerTrajectoryLineRpc(int playerId, bool drawTrajectoryLine)
     {
         ShowPlayerTrajectoryLineRpc(playerId, _latestPowerValue, _latestAngleValue, drawTrajectoryLine);

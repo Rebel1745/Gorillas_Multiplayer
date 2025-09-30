@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using System;
 
 public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -12,13 +11,20 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     private PlayerUI _playerUI;
     private int _remainingUses = 1;
     [SerializeField] protected Button _powerupButton;
+    protected NetworkObject _powerupButtonNO;
     [SerializeField] protected TMP_Text _powerupNumberText;
     [SerializeField] protected string _powerupTitle;
     [SerializeField] protected string _powerupText;
     [SerializeField] protected Color _defaultColour = new(169, 169, 169);
     [SerializeField] protected Color _inUseColour = new(100, 200, 100);
     [SerializeField] protected Color _usedColour = new(200, 100, 100);
-    protected bool _powerupEnabled = false;
+    [SerializeField] protected bool _isCovertUse = false;
+    public bool _powerupEnabled = false;
+
+    public override void OnNetworkSpawn()
+    {
+        _powerupButtonNO = _powerupButton.GetComponent<NetworkObject>();
+    }
 
     [Rpc(SendTo.ClientsAndHost)]
     public void SetPlayerIdRpc(int playerId)
@@ -50,20 +56,9 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         HideTooltip();
 
-        //InputManager.Instance.SetCurrentPowerupButton(_powerupButton);
-
-        if (_powerupEnabled)
-            _remainingUses--;
-        else
-            _remainingUses++;
-
-        UpdatePowerupNumberTextRpc();
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    public void EnableDisableButtonRpc()
-    {
-        EnableDisableButtonRpc(!_powerupButton.enabled);
+        // if (_powerupEnabled)
+        //     PlayerInputManager.Instance.SetCurrentPowerupButtonRpc(_powerupButtonNO);
+        // else PlayerInputManager.Instance.NullCurrentPowerupButtonRpc();
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -71,19 +66,16 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         _powerupButton.enabled = enabled;
         _powerupEnabled = !enabled;
-        UpdatePowerupNumberTextRpc();
+        // UpdatePowerupNumberTextRpc();
 
         if (enabled)
         {
-            SetButtonColourRpc(_defaultColour);
+            PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _defaultColour);
         }
         else
         {
-            SetButtonColourRpc(_usedColour);
+            PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _usedColour);
         }
-
-        if (_remainingUses == 0 && !_powerupEnabled)
-            RemoveButtonRpc();
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -94,19 +86,8 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     protected void SetButtonColour(Color colour)
     {
-        // same as the above function but it is only set locally
-        // this stops the other player knowing when the shield is used
         _powerupButton.image.color = colour;
     }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    protected void RemoveButtonRpc()
-    {
-        PlayerManager.Instance.RemovePlayerPowerup(gameObject);
-        HideTooltip();
-        Destroy(gameObject);
-    }
-
 
     [Rpc(SendTo.ClientsAndHost)]
     public void AddPowerupUseRpc()
@@ -144,4 +125,11 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         _playerUI.HideTooltip();
     }
+}
+
+public enum POWERUP_BUTTON_COLOUR
+{
+    Default,
+    Used,
+    InUse
 }

@@ -442,3 +442,4 @@ MonoBehaviour:
   _defaultColour: {r: 0.14509805, g: 0.14901961, b: 0.16862746, a: 1}
   _inUseColour: {r: 0.39215687, g: 0.78431374, b: 0.39215687, a: 1}
   _usedColour: {r: 0.78431374, g: 0.39215687, b: 0.39215687, a: 1}
+  _isCovertUse: 1

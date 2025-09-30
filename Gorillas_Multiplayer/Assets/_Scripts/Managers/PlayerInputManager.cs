@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class InputManager : NetworkBehaviour
+public class PlayerInputManager : NetworkBehaviour
 {
-    public static InputManager Instance { get; private set; }
+    public static PlayerInputManager Instance { get; private set; }
     private PlayerInput _inputActions;
-    private Button _currentPowerupButton;
+    public Button _currentPowerupButton;
     private bool _enableControls;
 
     private void Awake()
@@ -58,6 +58,8 @@ public class InputManager : NetworkBehaviour
         if ((int)NetworkManager.Singleton.LocalClientId == GameManager.Instance.CurrentPlayerId.Value)
             _enableControls = true;
         else _enableControls = false;
+
+        _currentPowerupButton = null;
     }
 
     private void UpdatePower(InputAction.CallbackContext context)
@@ -109,16 +111,52 @@ public class InputManager : NetworkBehaviour
         EnableDisableGameplayControls(true);
     }
 
-    public void SetCurrentPowerupButton(Button button)
+    [Rpc(SendTo.Server)]
+    public void SetCurrentPowerupButtonRpc(NetworkObjectReference buttonOR)
     {
-        if (!_enableControls) return;
-        _currentPowerupButton = button;
+        if (!buttonOR.TryGet(out NetworkObject buttonNO))
+        {
+            Debug.Log("Error: Could not retrieve NetworkObject");
+            return;
+        }
+        _currentPowerupButton = buttonNO.gameObject.GetComponent<Button>();
+        SetCurrentPowerupButtonClientsRpc(buttonOR);
     }
 
-    public void EnableDisableCurrentPowerupButton(bool enable)
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetCurrentPowerupButtonClientsRpc(NetworkObjectReference buttonOR)
     {
-        if (!_enableControls) return;
-        //_currentPowerupButton.GetComponent<Powerup>().EnableDisableButton(false);
+        if (!buttonOR.TryGet(out NetworkObject buttonNO))
+        {
+            Debug.Log("Error: Could not retrieve NetworkObject");
+            return;
+        }
+        _currentPowerupButton = buttonNO.gameObject.GetComponent<Button>();
+    }
+
+    [Rpc(SendTo.Server)]
+    public void NullCurrentPowerupButtonRpc()
+    {
+        _currentPowerupButton = null;
+        NullCurrentPowerupButtonClientsRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void NullCurrentPowerupButtonClientsRpc()
+    {
+        _currentPowerupButton = null;
+    }
+
+    [Rpc(SendTo.Server)]
+    public void SetButtonColourRpc(NetworkObjectReference buttonOR, Color colour)
+    {
+        if (!buttonOR.TryGet(out NetworkObject buttonNO))
+        {
+            Debug.Log("Error: Could not retrieve NetworkObject");
+            return;
+        }
+        _currentPowerupButton = buttonNO.gameObject.GetComponent<Button>();
+        _currentPowerupButton.GetComponent<Powerup>().SetButtonColourRpc(colour);
     }
 
     public void EnableDisableUIControls(bool enabled)

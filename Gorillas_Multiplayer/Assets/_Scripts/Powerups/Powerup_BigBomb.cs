@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class Powerup_BigBomb : Powerup
@@ -10,13 +11,13 @@ public class Powerup_BigBomb : Powerup
 
         if (_powerupEnabled)
         {
-            SetButtonColourRpc(_inUseColour);
             PlayerManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBombVariablePower", false);
+            PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _inUseColour);
         }
         else
         {
-            SetButtonColourRpc(_defaultColour);
             PlayerManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBombVariablePower", true);
+            PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _defaultColour);
         }
     }
 }
