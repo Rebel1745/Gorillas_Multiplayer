@@ -155,7 +155,6 @@ public class Banana : NetworkBehaviour, IProjectile
     {
         if (createMask)
         {
-            //Debug.Log($"Create Mask {explosionRadiusMultiplier}");
             // create the explosion crater with a mask
             GameObject exGO = Instantiate(_explosionSpriteMask, transform.position, Quaternion.identity);
             exGO.GetComponent<NetworkObject>().Spawn(true);

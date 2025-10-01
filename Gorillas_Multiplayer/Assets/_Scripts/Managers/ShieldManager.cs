@@ -51,7 +51,7 @@ public class ShieldManager : NetworkBehaviour
         if (enable) _playerShieldActiveNextTurn[playerId] = false;
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
     public void SetShieldForNextTurnRpc(int playerId, bool active)
     {
         _playerShieldActiveNextTurn[playerId] = active;

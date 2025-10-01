@@ -196,6 +196,13 @@ public class CameraManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void RemoveProjectileRpc()
     {
+        // ensure we have 3 elements (2 players and a projectile)
+        if (_cameraTargets.Count != 3)
+        {
+            Debug.Log($"We tried to remove a projetile when only {_cameraTargets.Count} are in the target list");
+            return;
+        }
+
         // the projectile is always the last element, remove it
         _cameraTargets.RemoveAt(_cameraTargets.Count - 1);
 

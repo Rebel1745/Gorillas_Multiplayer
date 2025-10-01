@@ -159,6 +159,18 @@ public class PlayerInputManager : NetworkBehaviour
         _currentPowerupButton.GetComponent<Powerup>().SetButtonColourRpc(colour);
     }
 
+    [Rpc(SendTo.Server)]
+    public void SetButtonColourRpc(POWERUP_BUTTON_COLOUR colour)
+    {
+        _currentPowerupButton.GetComponent<Powerup>().SetButtonColourRpc(colour);
+    }
+
+    [Rpc(SendTo.Server)]
+    public void EnableDisablePowerupButtonRpc(bool enable)
+    {
+        _currentPowerupButton.GetComponent<Powerup>().EnableDisableButtonRpc(enable);
+    }
+
     public void EnableDisableUIControls(bool enabled)
     {
         if (!_enableControls) return;

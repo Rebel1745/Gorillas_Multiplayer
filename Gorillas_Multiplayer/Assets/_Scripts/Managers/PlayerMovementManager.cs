@@ -150,7 +150,7 @@ public class PlayerMovementManager : NetworkBehaviour
         HidePlayerMovementSpriteRpc();
         CameraManager.Instance.UpdatePlayerPositionRpc(_currentPlayerId, currentArrowPosition);
 
-        // PlayerInputManager.Instance.EnableDisableCurrentPowerupButton(false);
+        PlayerInputManager.Instance.EnableDisablePowerupButtonRpc(false);
 
         GameManager.Instance.UpdateGameState(GameState.WaitingForLaunch);
     }
@@ -160,7 +160,8 @@ public class PlayerMovementManager : NetworkBehaviour
     {
         ShowHideMovementPowerupIndicatorsRpc(_currentPlayerId, false);
         HidePlayerMovementSpriteRpc();
-        // PlayerInputManager.Instance.EnableDisableCurrentPowerupButton(true);
+        PlayerInputManager.Instance.EnableDisableGameplayControls(true);
+        PlayerInputManager.Instance.EnableDisablePowerupButtonRpc(true);
         CameraManager.Instance.UpdatePlayerPositionRpc(_currentPlayerId, transform.position);
         GameManager.Instance.UpdateGameState(GameState.WaitingForLaunch);
     }

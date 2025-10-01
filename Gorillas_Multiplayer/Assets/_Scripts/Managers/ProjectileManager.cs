@@ -76,13 +76,15 @@ public class ProjectileManager : NetworkBehaviour
         _currentPlayerId = GameManager.Instance.CurrentPlayerId.Value;
         _projectileLaunchPoint = PlayerManager.Instance.Players[_currentPlayerId].PlayerController.ProjectileLaunchPoint;
 
+        ShowPlayerTrajectoryLineRpc(_currentPlayerId, false);
+
         //PlayerManager.Instance.Players[PlayerManager.Instance.OtherPlayerId].PlayerController.CheckIfShieldShouldBeEnabled();
         //HideTooltip();
 
         // EnableDisableAllUIButtons(false);
         // ShowHideMovementPowerupIndicators(false);
 
-        HidePlayerTrajectoryLineRpc(_currentPlayerId);
+        //HidePlayerTrajectoryLineRpc(_currentPlayerId);
 
         ProjectileLaunchedClientsAndHostRpc();
 
@@ -194,13 +196,13 @@ public class ProjectileManager : NetworkBehaviour
             PlayerManager.Instance.Players[playerId].PlayerTrajectoryLine.HideTrajectoryLine();
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
     public void SetBigBombRpc(bool enabled)
     {
         _isBigBomb = enabled;
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
     public void SetProjectileBurstRpc(int number)
     {
         _burstCount = number;
@@ -221,7 +223,7 @@ public class ProjectileManager : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
     public void SetVariablePowerRpc()
     {
         _isVariablePower = true;
@@ -229,7 +231,7 @@ public class ProjectileManager : NetworkBehaviour
         _currentVariablePowerAmount = _variablePowerAmountPerShotOfBurst;
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
     public void ResetVariablePowerRpc()
     {
         _isVariablePower = false;

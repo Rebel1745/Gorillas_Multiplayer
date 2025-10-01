@@ -84,6 +84,23 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
         _powerupButton.image.color = colour;
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SetButtonColourRpc(POWERUP_BUTTON_COLOUR colour)
+    {
+        switch (colour)
+        {
+            case POWERUP_BUTTON_COLOUR.Default:
+                _powerupButton.image.color = _defaultColour;
+                break;
+            case POWERUP_BUTTON_COLOUR.InUse:
+                _powerupButton.image.color = _inUseColour;
+                break;
+            case POWERUP_BUTTON_COLOUR.Used:
+                _powerupButton.image.color = _usedColour;
+                break;
+        }
+    }
+
     protected void SetButtonColour(Color colour)
     {
         _powerupButton.image.color = colour;
