@@ -11,12 +11,12 @@ public class Powerup_BigBomb : Powerup
 
         if (_powerupEnabled)
         {
-            PlayerManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBombVariablePower", false);
+            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBombVariablePower", false);
             PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _inUseColour);
         }
         else
         {
-            PlayerManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBombVariablePower", true);
+            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBombVariablePower", true);
             PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _defaultColour);
         }
     }

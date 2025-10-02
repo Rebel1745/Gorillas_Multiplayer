@@ -701,6 +701,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298679031}
   m_CullTransparentMesh: 1
+--- !u!1 &434718512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 434718513}
+  - component: {fileID: 434718515}
+  - component: {fileID: 434718514}
+  m_Layer: 0
+  m_Name: PowerupManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &434718513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434718512}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1492897883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &434718514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434718512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3505849990
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &434718515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434718512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032465f6b8b196348829aeab91fb08cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PowerupManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  _availablePowerups:
+  - {fileID: 7830120543136791809, guid: 207ab88f321e7c448b0c7a20ab6df122, type: 3}
+  - {fileID: 7830120543136791809, guid: aaea9205ec760f942923337eb1b6a0db, type: 3}
+  - {fileID: 7830120543136791809, guid: 2e27b7773e890994e8d61ccffd288e87, type: 3}
+  - {fileID: 7830120543136791809, guid: c0f3516d05fd4004e9d360ccbb314c71, type: 3}
+  - {fileID: 7830120543136791809, guid: 7d9394bcf88a7a449bbe328aece2d1a2, type: 3}
+  - {fileID: 7830120543136791809, guid: 6efe37631be0f9740b11ae44acdcc2e0, type: 3}
 --- !u!1 &440236657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,6 +1395,9 @@ MonoBehaviour:
   StatusScreenUI: {fileID: 268274506}
   GameUI: {fileID: 254101144}
   GameOverUI: {fileID: 890095870}
+  _playerUIs:
+  - {fileID: 6865573088150978784}
+  - {fileID: 8152479119662407798}
 --- !u!114 &880960080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,6 +2832,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 440236658}
+  - {fileID: 434718513}
   - {fileID: 34193354}
   - {fileID: 522259935}
   m_Father: {fileID: 1955909302}
@@ -3204,13 +3286,6 @@ MonoBehaviour:
     SpawnPointIndex: 0
     PlayerMovementSpritePrefab: {fileID: 4992264888891436138, guid: cd71452f10104184eb3ad481b30e72c4, type: 3}
     PlayerMovementSpriteGO: {fileID: 0}
-  _availablePowerups:
-  - {fileID: 7830120543136791809, guid: 207ab88f321e7c448b0c7a20ab6df122, type: 3}
-  - {fileID: 7830120543136791809, guid: aaea9205ec760f942923337eb1b6a0db, type: 3}
-  - {fileID: 7830120543136791809, guid: 2e27b7773e890994e8d61ccffd288e87, type: 3}
-  - {fileID: 7830120543136791809, guid: c0f3516d05fd4004e9d360ccbb314c71, type: 3}
-  - {fileID: 7830120543136791809, guid: 7d9394bcf88a7a449bbe328aece2d1a2, type: 3}
-  - {fileID: 7830120543136791809, guid: 6efe37631be0f9740b11ae44acdcc2e0, type: 3}
 --- !u!1 &1757554732
 GameObject:
   m_ObjectHideFlags: 0
@@ -3967,6 +4042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputManager
   ShowTopMostFoldoutHeaderGroup: 1
+  _currentPowerupButton: {fileID: 0}
 --- !u!114 &2101564036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6054,7 +6130,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 50
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7600,7 +7676,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 45
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8039,7 +8115,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 50
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9264,8 +9340,8 @@ MonoBehaviour:
   _launchButton: {fileID: 3836140500319847057}
   _powerInput: {fileID: 706832865201456772}
   _angleInput: {fileID: 1863876572505659216}
-  _powerValue: 50
-  _angleValue: 45
+  _powerValue: 0
+  _angleValue: 0
   _powerUpGO: {fileID: 2257827140515730012}
   _tooltipGO: {fileID: 7424783007241274837}
   _tooltipTitle: {fileID: 2627093603465179991}
@@ -9380,7 +9456,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 45
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10101,8 +10177,8 @@ MonoBehaviour:
   _launchButton: {fileID: 3318608438233712155}
   _powerInput: {fileID: 2548666502440905844}
   _angleInput: {fileID: 4380592521960831076}
-  _powerValue: 50
-  _angleValue: 45
+  _powerValue: 0
+  _angleValue: 0
   _powerUpGO: {fileID: 8004877606523157889}
   _tooltipGO: {fileID: 6533554855271785327}
   _tooltipTitle: {fileID: 1861313750192608749}

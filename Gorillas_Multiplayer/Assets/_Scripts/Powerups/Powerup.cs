@@ -8,7 +8,7 @@ using System;
 public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private int _playerId;
-    private PlayerUI _playerUI;
+    //public PlayerUI _playerUI;
     private int _remainingUses = 1;
     [SerializeField] protected Button _powerupButton;
     protected NetworkObject _powerupButtonNO;
@@ -30,7 +30,7 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void SetPlayerIdRpc(int playerId)
     {
         _playerId = playerId;
-        _playerUI = PlayerManager.Instance.Players[playerId].PlayerUI.GetComponent<PlayerUI>();
+        //_playerUI = PlayerManager.Instance.Players[playerId].PlayerUI;
 
         UpdatePowerupNumberTextRpc();
 
@@ -55,10 +55,6 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
         _powerupEnabled = !_powerupEnabled;
 
         HideTooltip();
-
-        // if (_powerupEnabled)
-        //     PlayerInputManager.Instance.SetCurrentPowerupButtonRpc(_powerupButtonNO);
-        // else PlayerInputManager.Instance.NullCurrentPowerupButtonRpc();
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -128,7 +124,7 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_powerupButton.enabled)
-            _playerUI.ShowTooltip(_powerupTitle, _powerupText);
+            PlayerManager.Instance.Players[_playerId].PlayerUI.ShowTooltip(_powerupTitle, _powerupText);
         else
             HideTooltip();
     }
@@ -140,7 +136,7 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void HideTooltip()
     {
-        _playerUI.HideTooltip();
+        PlayerManager.Instance.Players[_playerId].PlayerUI.HideTooltip();
     }
 }
 

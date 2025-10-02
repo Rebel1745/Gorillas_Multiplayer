@@ -56,7 +56,7 @@ public class ProjectileManager : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
     public void SetLatestPowerAndAngleValuesRpc(int playerId, float power, float angle)
     {
         _latestPowerValue = power;

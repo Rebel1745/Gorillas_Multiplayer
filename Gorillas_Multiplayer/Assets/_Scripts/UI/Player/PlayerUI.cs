@@ -14,12 +14,22 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] private Button _launchButton;
     [SerializeField] private TMP_InputField _powerInput;
     [SerializeField] private TMP_InputField _angleInput;
-    public float _powerValue = 50f;
-    public float _angleValue = 45f;
+    private float _defaultPowerValue = 50f;
+    private float _defaultAngleValue = 45f;
+    public float _powerValue = 0f;
+    public float _angleValue = 0f;
     [SerializeField] private GameObject _powerUpGO;
     [SerializeField] private GameObject _tooltipGO;
     [SerializeField] private TMP_Text _tooltipTitle;
     [SerializeField] private TMP_Text _tooltipText;
+
+    public event EventHandler<OnPowerOrAngleChangedArgs> OnPowerOrAngleChanged;
+    public class OnPowerOrAngleChangedArgs : EventArgs
+    {
+        public int PlayerId;
+        public float PowerValue;
+        public float AngleValue;
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -28,13 +38,10 @@ public class PlayerUI : NetworkBehaviour
 
     private void GameManager_OnOnNewGame(object sender, EventArgs e)
     {
-        //Debug.Log($"PlayerUI:OnNewGame {_powerValue} {_angleValue}");
         Hide();
         SetViewMode();
-        _powerValue = 50f;
-        _angleValue = 45f;
-        UpdatePowerDetails(true);
-        UpdateAngleDetails(true);
+        _powerValue = _defaultPowerValue;
+        _angleValue = _defaultAngleValue;
     }
 
     private void GameManager_OnPlayerIdChanged(object sender, EventArgs e)
@@ -45,9 +52,7 @@ public class PlayerUI : NetworkBehaviour
 
             if ((int)NetworkManager.Singleton.LocalClientId == _playerId)
             {
-                //Debug.Log($"PlayerUI:OnPlayerIdChanged {GameManager.Instance.CurrentPlayerId.Value} {_powerValue} {_angleValue}");
-                UpdatePowerDetails(true);
-                UpdateAngleDetails(true);
+                ProjectileManager.Instance.SetLatestPowerAndAngleValuesRpc(_playerId, _powerValue, _angleValue);
             }
         }
         else
@@ -85,41 +90,25 @@ public class PlayerUI : NetworkBehaviour
     private void OnPowerSliderValueChanged(float power)
     {
         _powerValue = power;
-        UpdatePowerDetails(false);
-    }
-
-    private void UpdatePowerDetails(bool setSliderValue)
-    {
-        if (setSliderValue) _powerSlider.value = _powerValue;
-        _powerInput.text = _powerValue.ToString();
-        OnPowerValueChangedRpc(_powerValue);
+        ProjectileManager.Instance.SetLatestPowerAndAngleValuesRpc(_playerId, power, _angleValue);
+        OnPowerOrAngleChanged?.Invoke(this, new OnPowerOrAngleChangedArgs
+        {
+            PlayerId = _playerId,
+            PowerValue = power,
+            AngleValue = _angleValue
+        });
     }
 
     private void OnAngleSliderValueChanged(float angle)
     {
         _angleValue = angle;
-        UpdateAngleDetails(false);
-    }
-
-    private void UpdateAngleDetails(bool setSliderValue)
-    {
-        if (setSliderValue) _angleSlider.value = _angleValue;
-        _angleInput.text = _angleValue.ToString();
-        OnAngleValueChangedRpc(_angleValue);
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    private void OnPowerValueChangedRpc(float power)
-    {
-        _powerText.text = power.ToString("F1");
-        ProjectileManager.Instance.SetLatestPowerAndAngleValuesRpc(_playerId, power, _angleValue);
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    private void OnAngleValueChangedRpc(float angle)
-    {
-        _angleText.text = angle.ToString("F1");
         ProjectileManager.Instance.SetLatestPowerAndAngleValuesRpc(_playerId, _powerValue, angle);
+        OnPowerOrAngleChanged?.Invoke(this, new OnPowerOrAngleChangedArgs
+        {
+            PlayerId = _playerId,
+            PowerValue = _powerValue,
+            AngleValue = angle
+        });
     }
 
     private void OnPowerInputChanged(string power)
@@ -132,10 +121,12 @@ public class PlayerUI : NetworkBehaviour
 
         float powerInput = float.Parse(power);
         if (powerInput > 100)
+        {
             _powerInput.text = power[..^1];
+            return;
+        }
 
-        _powerValue = powerInput;
-        UpdatePowerDetails(true);
+        OnPowerSliderValueChanged(powerInput);
     }
 
     private void OnAngleInputChanged(string angle)
@@ -148,10 +139,22 @@ public class PlayerUI : NetworkBehaviour
 
         float angleInput = float.Parse(angle);
         if (angleInput > 100)
+        {
             _angleInput.text = angle[..^1];
+            return;
+        }
 
-        _angleValue = angleInput;
-        UpdateAngleDetails(true);
+        OnAngleSliderValueChanged(angleInput);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void UpdatePowerAndAngleTextRpc(int playerId, float power, float angle)
+    {
+        if (playerId == _playerId)
+        {
+            _powerText.text = power.ToString("F1");
+            _angleText.text = angle.ToString("F1");
+        }
     }
 
     private void OnLaunchButtonClicked()
