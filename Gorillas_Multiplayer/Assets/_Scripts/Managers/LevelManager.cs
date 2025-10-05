@@ -77,7 +77,7 @@ public class LevelManager : NetworkBehaviour
     {
         if (!networkObject.TryGet(out NetworkObject building))
         {
-            Debug.Log("Error: Could not retrieve NetworkObject");
+            Debug.Log("SetSpawnPointArrowListRpc Error: Could not retrieve NetworkObject");
             return;
         }
 

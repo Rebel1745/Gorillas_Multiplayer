@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileManager : NetworkBehaviour
@@ -76,6 +77,8 @@ public class ProjectileManager : NetworkBehaviour
         _currentPlayerId = GameManager.Instance.CurrentPlayerId.Value;
         _projectileLaunchPoint = PlayerManager.Instance.Players[_currentPlayerId].PlayerController.ProjectileLaunchPoint;
 
+        PowerupManager.Instance.EnableDisableAllPlayerPowerupButtonsRpc(_currentPlayerId, false, false);
+
         ShowPlayerTrajectoryLineRpc(_currentPlayerId, false);
 
         //PlayerManager.Instance.Players[PlayerManager.Instance.OtherPlayerId].PlayerController.CheckIfShieldShouldBeEnabled();
@@ -133,6 +136,7 @@ public class ProjectileManager : NetworkBehaviour
         {
             iProjectile.SetExplosionSizeMultiplier(2f);
             _isBigBomb = false;
+            PowerupManager.Instance.RemovePowerupUseRpc(_currentPlayerId, "Powerup_BigBomb");
         }
 
         if (_isBurstFiring)
@@ -144,7 +148,13 @@ public class ProjectileManager : NetworkBehaviour
             iProjectile.SetProjectileNumber(_currentBurstNumber);
 
             if (_currentBurstNumber == _burstCount)
+            {
                 iProjectile.SetLastProjectileInBurst();
+                if (_isVariablePower)
+                    PowerupManager.Instance.RemovePowerupUseRpc(_currentPlayerId, "Powerup_TripleBombVariablePower");
+                else
+                    PowerupManager.Instance.RemovePowerupUseRpc(_currentPlayerId, "Powerup_TripleBomb");
+            }
         }
         else
         {

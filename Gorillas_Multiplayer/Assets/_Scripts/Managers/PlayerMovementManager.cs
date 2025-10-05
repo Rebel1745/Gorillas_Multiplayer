@@ -140,7 +140,11 @@ public class PlayerMovementManager : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void ConfirmMovementPowerupPositionRpc()
     {
-        if (_currentArrowIndex == -1) return;
+        if (_currentArrowIndex == -1 || !_isMoving) return;
+
+        _isMoving = false;  // this is put here to stop this function inexplicably being called twice
+
+        PlayerInputManager.Instance.EnableDisableGameplayControls(true);
 
         Vector3 currentArrowPosition = LevelManager.Instance.GetSpawnPointAtIndex(_currentArrowIndex);
 
@@ -150,7 +154,9 @@ public class PlayerMovementManager : NetworkBehaviour
         HidePlayerMovementSpriteRpc();
         CameraManager.Instance.UpdatePlayerPositionRpc(_currentPlayerId, currentArrowPosition);
 
-        PlayerInputManager.Instance.EnableDisablePowerupButtonRpc(false);
+        PowerupManager.Instance.EnableDisablePowerupButtonRpc(_currentPlayerId, "Powerup_MovePlayer", false, true);
+
+        PowerupManager.Instance.RemovePowerupUseRpc(_currentPlayerId, "Powerup_MovePlayer");
 
         GameManager.Instance.UpdateGameState(GameState.WaitingForLaunch);
     }
@@ -158,10 +164,11 @@ public class PlayerMovementManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     public void CancelMovementPowerupPositionRpc()
     {
+        _isMoving = false;
         ShowHideMovementPowerupIndicatorsRpc(_currentPlayerId, false);
         HidePlayerMovementSpriteRpc();
         PlayerInputManager.Instance.EnableDisableGameplayControls(true);
-        PlayerInputManager.Instance.EnableDisablePowerupButtonRpc(true);
+        PowerupManager.Instance.EnableDisablePowerupButtonRpc(_currentPlayerId, "Powerup_MovePlayer", false, true);
         CameraManager.Instance.UpdatePlayerPositionRpc(_currentPlayerId, transform.position);
         GameManager.Instance.UpdateGameState(GameState.WaitingForLaunch);
     }

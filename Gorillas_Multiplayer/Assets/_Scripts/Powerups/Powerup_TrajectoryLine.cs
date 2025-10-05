@@ -10,7 +10,9 @@ public class Powerup_TrajectoryLine : Powerup
 
         PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _usedColour);
 
+        PowerupManager.Instance.RemovePowerupUseRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TrajectoryLine");
+
         // the trajectory line can't be turned on and off, only on once per throw so disable it straight after use
-        EnableDisableButtonRpc(false);
+        EnableDisableButtonRpc(false, true);
     }
 }

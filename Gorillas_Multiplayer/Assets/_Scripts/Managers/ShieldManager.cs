@@ -37,6 +37,7 @@ public class ShieldManager : NetworkBehaviour
         if (_playerShieldActiveNextTurn[otherPlayerId])
         {
             EnableDisableShieldRpc(otherPlayerId, true);
+            PowerupManager.Instance.RemovePowerupUseRpc(otherPlayerId, "Powerup_Shield", true);
         }
     }
 

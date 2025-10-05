@@ -11,16 +11,16 @@ public class Powerup_TripleBombVariablePower : Powerup
             ProjectileManager.Instance.SetProjectileBurstRpc(3);
             ProjectileManager.Instance.SetVariablePowerRpc();
             PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _inUseColour);
-            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBomb", false);
-            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_BigBomb", false);
+            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBomb", false, true);
+            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_BigBomb", false, true);
         }
         else
         {
             ProjectileManager.Instance.SetProjectileBurstRpc(1);
             ProjectileManager.Instance.ResetVariablePowerRpc();
             PlayerInputManager.Instance.SetButtonColourRpc(_powerupButtonNO, _defaultColour);
-            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBomb", true);
-            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_BigBomb", true);
+            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_TripleBomb", true, true);
+            PowerupManager.Instance.EnableDisablePowerupButtonRpc(GameManager.Instance.CurrentPlayerId.Value, "Powerup_BigBomb", true, true);
         }
     }
 }

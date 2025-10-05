@@ -4,12 +4,11 @@ using UnityEngine.EventSystems;
 using TMPro;
 using Unity.Netcode;
 using System;
+using Unity.Services.Matchmaker.Models;
 
 public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private int _playerId;
-    //public PlayerUI _playerUI;
-    private int _remainingUses = 1;
     [SerializeField] protected Button _powerupButton;
     protected NetworkObject _powerupButtonNO;
     [SerializeField] protected TMP_Text _powerupNumberText;
@@ -30,24 +29,11 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void SetPlayerIdRpc(int playerId)
     {
         _playerId = playerId;
-        //_playerUI = PlayerManager.Instance.Players[playerId].PlayerUI;
-
-        UpdatePowerupNumberTextRpc();
 
         if ((int)NetworkManager.Singleton.LocalClientId == _playerId)
         {
             _powerupButton.onClick.AddListener(UsePowerup);
-            GameManager.Instance.OnCurrentPlayerIdChanged += GameManager_OnCurrentPlayerIdChanged;
         }
-    }
-
-    private void GameManager_OnCurrentPlayerIdChanged(object sender, EventArgs e)
-    {
-        // when we change player, disable or enable powerup buttons
-        if ((int)NetworkManager.Singleton.LocalClientId == _playerId)
-            EnableDisableButtonRpc(true);
-        else
-            EnableDisableButtonRpc(false);
     }
 
     public virtual void UsePowerup()
@@ -58,11 +44,12 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    public void EnableDisableButtonRpc(bool enabled)
+    public void EnableDisableButtonRpc(bool enabled, bool changeColour)
     {
         _powerupButton.enabled = enabled;
         _powerupEnabled = !enabled;
-        // UpdatePowerupNumberTextRpc();
+
+        if (!changeColour) return;
 
         if (enabled)
         {
@@ -80,41 +67,17 @@ public class Powerup : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandl
         _powerupButton.image.color = colour;
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
-    public void SetButtonColourRpc(POWERUP_BUTTON_COLOUR colour)
-    {
-        switch (colour)
-        {
-            case POWERUP_BUTTON_COLOUR.Default:
-                _powerupButton.image.color = _defaultColour;
-                break;
-            case POWERUP_BUTTON_COLOUR.InUse:
-                _powerupButton.image.color = _inUseColour;
-                break;
-            case POWERUP_BUTTON_COLOUR.Used:
-                _powerupButton.image.color = _usedColour;
-                break;
-        }
-    }
-
     protected void SetButtonColour(Color colour)
     {
         _powerupButton.image.color = colour;
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    public void AddPowerupUseRpc()
+    public void SetPowerupCountTextRpc(int count)
     {
-        _remainingUses++;
-        UpdatePowerupNumberTextRpc();
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    private void UpdatePowerupNumberTextRpc()
-    {
-        if (_remainingUses > 1)
+        if (count > 1)
         {
-            _powerupNumberText.text = _remainingUses.ToString();
+            _powerupNumberText.text = count.ToString();
             _powerupNumberText.gameObject.SetActive(true);
         }
         else

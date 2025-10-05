@@ -39,7 +39,7 @@ public class UIManager : NetworkBehaviour
     {
         if (!element.TryGet(out NetworkObject networkObject))
         {
-            Debug.Log("Error: Could not retrieve NetworkObject");
+            Debug.Log("ShowHideUIElementRpc Error: Could not retrieve NetworkObject");
             return;
         }
         networkObject.gameObject.SetActive(show);

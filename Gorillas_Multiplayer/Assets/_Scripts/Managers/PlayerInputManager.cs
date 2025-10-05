@@ -95,7 +95,8 @@ public class PlayerInputManager : NetworkBehaviour
     private void MovementPowerupConfirm(InputAction.CallbackContext context)
     {
         if (!_enableControls) return;
-        PlayerMovementManager.Instance.ConfirmMovementPowerupPositionRpc();
+        if (context.started)
+            PlayerMovementManager.Instance.ConfirmMovementPowerupPositionRpc();
     }
 
     private void MovementPowerupDirection(InputAction.CallbackContext context)
@@ -112,63 +113,15 @@ public class PlayerInputManager : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    public void SetCurrentPowerupButtonRpc(NetworkObjectReference buttonOR)
-    {
-        if (!buttonOR.TryGet(out NetworkObject buttonNO))
-        {
-            Debug.Log("Error: Could not retrieve NetworkObject");
-            return;
-        }
-        _currentPowerupButton = buttonNO.gameObject.GetComponent<Button>();
-        SetCurrentPowerupButtonClientsRpc(buttonOR);
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    public void SetCurrentPowerupButtonClientsRpc(NetworkObjectReference buttonOR)
-    {
-        if (!buttonOR.TryGet(out NetworkObject buttonNO))
-        {
-            Debug.Log("Error: Could not retrieve NetworkObject");
-            return;
-        }
-        _currentPowerupButton = buttonNO.gameObject.GetComponent<Button>();
-    }
-
-    [Rpc(SendTo.Server)]
-    public void NullCurrentPowerupButtonRpc()
-    {
-        _currentPowerupButton = null;
-        NullCurrentPowerupButtonClientsRpc();
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    public void NullCurrentPowerupButtonClientsRpc()
-    {
-        _currentPowerupButton = null;
-    }
-
-    [Rpc(SendTo.Server)]
     public void SetButtonColourRpc(NetworkObjectReference buttonOR, Color colour)
     {
         if (!buttonOR.TryGet(out NetworkObject buttonNO))
         {
-            Debug.Log("Error: Could not retrieve NetworkObject");
+            Debug.Log("SetButtonColourRpc Error: Could not retrieve NetworkObject");
             return;
         }
         _currentPowerupButton = buttonNO.gameObject.GetComponent<Button>();
         _currentPowerupButton.GetComponent<Powerup>().SetButtonColourRpc(colour);
-    }
-
-    [Rpc(SendTo.Server)]
-    public void SetButtonColourRpc(POWERUP_BUTTON_COLOUR colour)
-    {
-        _currentPowerupButton.GetComponent<Powerup>().SetButtonColourRpc(colour);
-    }
-
-    [Rpc(SendTo.Server)]
-    public void EnableDisablePowerupButtonRpc(bool enable)
-    {
-        _currentPowerupButton.GetComponent<Powerup>().EnableDisableButtonRpc(enable);
     }
 
     public void EnableDisableUIControls(bool enabled)
