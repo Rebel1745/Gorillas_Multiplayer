@@ -222,7 +222,6 @@ public enum GameState
     None,
     WaitingForClientConnection,
     StartScreen,
-    SettingsScreen,
     GameSetupScreen,
     InitialiseGame,
     BuildLevel,

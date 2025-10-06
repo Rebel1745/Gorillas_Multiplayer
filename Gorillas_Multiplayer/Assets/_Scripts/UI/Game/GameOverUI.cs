@@ -15,7 +15,6 @@ public class GameOverUI : NetworkBehaviour
     [SerializeField] private float _winningImageSize = 150f;
     [SerializeField] private float _losingImageSize = 100f;
     [SerializeField] private float _losingImageOffset = -25f;
-    [SerializeField] private AudioClip _gameOverAudio;
     [SerializeField] private Button _playAgainButton;
     [SerializeField] private Button _mainMenuButton;
 
@@ -91,7 +90,7 @@ public class GameOverUI : NetworkBehaviour
 
         _scoreText.text = scores[0] + " - " + scores[1];
 
-        //AudioManager.Instance.PlayAudioClip(_gameOverAudio);
+        AudioManager.Instance.PlayAudioClipRpc(AudioClipType.GameOverMusic);
     }
 
     private void Show()

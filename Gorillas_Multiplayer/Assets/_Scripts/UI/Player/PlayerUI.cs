@@ -22,6 +22,7 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] private GameObject _tooltipGO;
     [SerializeField] private TMP_Text _tooltipTitle;
     [SerializeField] private TMP_Text _tooltipText;
+    private string _viewMode = "Sliders";
 
     public event EventHandler<OnPowerOrAngleChangedArgs> OnPowerOrAngleChanged;
     public class OnPowerOrAngleChangedArgs : EventArgs
@@ -166,11 +167,20 @@ public class PlayerUI : NetworkBehaviour
     #endregion
 
     #region View Modes
+    public void UpdateViewMode(string mode)
+    {
+        _viewMode = mode;
+        SetViewMode();
+    }
+
     private void SetViewMode()
     {
         if (_playerId == (int)NetworkManager.Singleton.LocalClientId)
         {
-            SetViewModeSliders();
+            if (_viewMode == "Sliders")
+                SetViewModeSliders();
+            else
+                SetViewModeInputBoxes();
         }
         else
         {

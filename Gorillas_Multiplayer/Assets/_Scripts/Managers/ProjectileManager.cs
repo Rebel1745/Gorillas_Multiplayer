@@ -81,14 +81,6 @@ public class ProjectileManager : NetworkBehaviour
 
         ShowPlayerTrajectoryLineRpc(_currentPlayerId, false);
 
-        //PlayerManager.Instance.Players[PlayerManager.Instance.OtherPlayerId].PlayerController.CheckIfShieldShouldBeEnabled();
-        //HideTooltip();
-
-        // EnableDisableAllUIButtons(false);
-        // ShowHideMovementPowerupIndicators(false);
-
-        //HidePlayerTrajectoryLineRpc(_currentPlayerId);
-
         ProjectileLaunchedClientsAndHostRpc();
 
         if (_burstCount == 1)
@@ -106,7 +98,7 @@ public class ProjectileManager : NetworkBehaviour
     {
         // set animation and return to idle
         PlayerManager.Instance.SetPlayerAnimation(_currentPlayerId, "Throw");
-        //AudioManager.Instance.PlayAudioClip(_throwSFX, 0.95f, 1.05f);
+        AudioManager.Instance.PlayAudioClipRpc(AudioClipType.ThrowSFX, 0.95f, 1.05f);
 
         if (_isBurstFiring)
             StartCoroutine(PlayerManager.Instance.ResetAnimation(_currentPlayerId, _timeBetweenBurstFire - 0.05f));

@@ -17,7 +17,6 @@ public class Banana : NetworkBehaviour, IProjectile
     private bool _createExplosionMask;
     private float _explosionRadius;
     private Transform _explosionTransform;
-    [SerializeField] private AudioClip _explosionSFX;
     private float _explosionRadiusMultiplier = 1f;
     [SerializeField] private float _explosionRadiusDamageMultiplier = 2;
     [SerializeField] private GameObject _explosionPrefab;
@@ -177,8 +176,8 @@ public class Banana : NetworkBehaviour, IProjectile
 
         GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         explosion.GetComponent<NetworkObject>().Spawn(true);
-        //AudioManager.Instance.PlayAudioClip(_explosionSFX, 0.95f, 1.05f);
-        //Debug.Log("CreateExplosionAndDestroyRpc");
+        AudioManager.Instance.PlayAudioClipRpc(AudioClipType.ExplosionSFX, 0.95f, 1.05f);
+
         Destroy(gameObject);
     }
 

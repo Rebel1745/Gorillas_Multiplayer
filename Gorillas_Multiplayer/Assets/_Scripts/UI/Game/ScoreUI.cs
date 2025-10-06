@@ -2,6 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ScoreUI : NetworkBehaviour
 {
@@ -35,6 +36,11 @@ public class ScoreUI : NetworkBehaviour
     {
         UIManager.Instance.GameOverUI.GetComponent<GameOverUI>().SetGameOverDetails(_playerScores);
         Hide();
+    }
+
+    private void OnSettingsButtonClicked()
+    {
+        SettingsManager.Instance.Show();
     }
 
     private void UpdateScoreText()

@@ -10,6 +10,7 @@ public class UIManager : NetworkBehaviour
     public GameObject StatusScreenUI;
     public GameObject GameUI;
     public GameObject GameOverUI;
+    public GameObject SettingsUI;
     [SerializeField] PlayerUI[] _playerUIs;
 
     private void Awake()
@@ -43,6 +44,11 @@ public class UIManager : NetworkBehaviour
             return;
         }
         networkObject.gameObject.SetActive(show);
+    }
+
+    public void ShowHideUIElement(GameObject element, bool show)
+    {
+        element.SetActive(show);
     }
 
     public void UpdateStatusScreenText(string text)
