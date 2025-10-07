@@ -11,12 +11,9 @@ public class GameManager : NetworkBehaviour
     public GameState PreviousState { get; private set; }
 
     public NetworkVariable<int> CurrentPlayerId = new();
-    [SerializeField] private int _numberOfRounds = 5;
     private int _currentRound = 0;
     public int CurrentRound { get { return _currentRound; } }
     [SerializeField] private float _timeBetweenRounds = 3f;
-    private bool _usePowerups = true;
-    public bool UsePowerups { get { return _usePowerups; } }
 
     #region Events
     public event EventHandler OnNewGame;
@@ -41,6 +38,9 @@ public class GameManager : NetworkBehaviour
 
         switch (newState)
         {
+            case GameState.StartScreen:
+                ShowStartScreen();
+                break;
             case GameState.WaitingForClientConnection:
                 WaitingForClientConnection();
                 break;
@@ -104,6 +104,11 @@ public class GameManager : NetworkBehaviour
         UIManager.Instance.UpdateStatusScreenText("Waiting for client to connect...");
     }
 
+    private void ShowStartScreen()
+    {
+
+    }
+
     private void InitialiseGame()
     {
         UIManager.Instance.UpdateStatusScreenText("Initialising game...");
@@ -137,6 +142,7 @@ public class GameManager : NetworkBehaviour
     {
         UIManager.Instance.UpdateStatusScreenText("Setting up game...");
         UIManager.Instance.ShowHideUIElementRpc(UIManager.Instance.StatusScreenUI, false);
+
         if (_currentRound == 0)
         {
             CurrentPlayerId.Value = 0;
@@ -174,7 +180,7 @@ public class GameManager : NetworkBehaviour
     {
         _currentRound++;
 
-        if (_currentRound == _numberOfRounds)
+        if (_currentRound == SettingsManager.Instance.NumberOfRounds)
             UpdateGameState(GameState.GameOver);
         else
             UpdateGameState(GameState.BuildLevel);

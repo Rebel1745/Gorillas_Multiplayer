@@ -37,9 +37,29 @@ public class PlayerUI : NetworkBehaviour
         SetupListeners();
     }
 
+    private void SetupListeners()
+    {
+        GameManager.Instance.OnNewGame += GameManager_OnOnNewGame;
+        GameManager.Instance.OnCurrentPlayerIdChanged += GameManager_OnPlayerIdChanged;
+        GameManager.Instance.OnGameOver += GameManager_OnGameOver;
+
+        _powerSlider.onValueChanged.AddListener(OnPowerSliderValueChanged);
+        _angleSlider.onValueChanged.AddListener(OnAngleSliderValueChanged);
+
+        _powerInput.onValueChanged.AddListener(OnPowerInputChanged);
+        _angleInput.onValueChanged.AddListener(OnAngleInputChanged);
+
+        _launchButton.onClick.AddListener(OnLaunchButtonClicked);
+    }
+
     private void GameManager_OnOnNewGame(object sender, EventArgs e)
     {
         Hide();
+
+        string savedColourString = PlayerPrefs.GetString("BackgroundColour", ColorUtility.ToHtmlStringRGBA(SettingsManager.Instance.DefaultBackgroundColour));
+        ColorUtility.TryParseHtmlString("#" + savedColourString, out Color savedColour);
+        Camera.main.backgroundColor = savedColour;
+
         SetViewMode();
         _powerValue = _defaultPowerValue;
         _angleValue = _defaultAngleValue;
@@ -70,21 +90,6 @@ public class PlayerUI : NetworkBehaviour
     private void GameManager_OnGameOver(object sender, EventArgs e)
     {
         Hide();
-    }
-
-    private void SetupListeners()
-    {
-        GameManager.Instance.OnNewGame += GameManager_OnOnNewGame;
-        GameManager.Instance.OnCurrentPlayerIdChanged += GameManager_OnPlayerIdChanged;
-        GameManager.Instance.OnGameOver += GameManager_OnGameOver;
-
-        _powerSlider.onValueChanged.AddListener(OnPowerSliderValueChanged);
-        _angleSlider.onValueChanged.AddListener(OnAngleSliderValueChanged);
-
-        _powerInput.onValueChanged.AddListener(OnPowerInputChanged);
-        _angleInput.onValueChanged.AddListener(OnAngleInputChanged);
-
-        _launchButton.onClick.AddListener(OnLaunchButtonClicked);
     }
 
     #region Power and angle controls
@@ -169,12 +174,17 @@ public class PlayerUI : NetworkBehaviour
     #region View Modes
     public void UpdateViewMode(string mode)
     {
+        string uiTypePref = "UIType" + _playerId;
+        PlayerPrefs.SetString(uiTypePref, mode);
         _viewMode = mode;
         SetViewMode();
     }
 
     private void SetViewMode()
     {
+        string uiTypePref = "UIType" + _playerId;
+        _viewMode = PlayerPrefs.GetString(uiTypePref, "Sliders");
+
         if (_playerId == (int)NetworkManager.Singleton.LocalClientId)
         {
             if (_viewMode == "Sliders")

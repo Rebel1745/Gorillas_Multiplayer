@@ -97,7 +97,7 @@ public class PowerupManager : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void AddRandomPlayerPowerupRpc(int playerId)
     {
-        if (!GameManager.Instance.UsePowerups) return;
+        if (!SettingsManager.Instance.UsePowerups) return;
 
         int randomPowerupIndex = UnityEngine.Random.Range(0, _availablePowerups.Length);
         GameObject powerup = _availablePowerups[randomPowerupIndex];

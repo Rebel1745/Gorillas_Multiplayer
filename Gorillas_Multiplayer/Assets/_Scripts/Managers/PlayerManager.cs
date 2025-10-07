@@ -106,6 +106,16 @@ public class PlayerManager : NetworkBehaviour
         Players[playerId].PlayerMovementSpriteGO = playerMovementSpriteNO.gameObject;
         Players[playerId].PlayerMovementSpriteGO.SetActive(false);
 
+        // set outline colour
+        string savedColourString = PlayerPrefs.GetString("PlayerOutlineColour", ColorUtility.ToHtmlStringRGBA(SettingsManager.Instance.DefaultPlayerOutlineColour));
+        ColorUtility.TryParseHtmlString("#" + savedColourString, out Color savedColour);
+        Material mat = playerNO.gameObject.GetComponentInChildren<SpriteRenderer>().material;
+        mat.SetColor("_SolidOutline", savedColour);
+
+        // UI size
+        float savedUIScale = PlayerPrefs.GetFloat("UIScale", 1f);
+        Players[playerId].PlayerUI.transform.localScale = new Vector3(savedUIScale, savedUIScale, 0);
+
         if (playerId == 1)
         {
             playerNO.gameObject.GetComponentInChildren<SpriteRenderer>().transform.rotation = Quaternion.Euler(0f, 180f, 0f);
