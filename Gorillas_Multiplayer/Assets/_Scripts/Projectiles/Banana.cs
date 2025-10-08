@@ -32,7 +32,7 @@ public class Banana : NetworkBehaviour, IProjectile
 
     void Update()
     {
-        CheckForGroundHit();
+        CheckForGroundHitRpc();
 
         // if the banana goes too far offscreen, destroy it
         if (transform.position.y < _destroyWhenDistanceOffscreen)
@@ -53,7 +53,8 @@ public class Banana : NetworkBehaviour, IProjectile
         transform.Rotate(0, 0, -_rotationRate * Time.deltaTime);
     }
 
-    private void CheckForGroundHit()
+    [Rpc(SendTo.Server)]
+    private void CheckForGroundHitRpc()
     {
         _createExplosionMask = true;
         int playerHitId, otherPlayerId;
@@ -137,7 +138,7 @@ public class Banana : NetworkBehaviour, IProjectile
 
                     if (_createExplosionMask)
                     {
-                        Debug.Log("Missed");
+                        Debug.Log($"Missed {_isLastProjectile} {GameManager.Instance.State.ToString()}");
                         CreateExplosionAndDestroyRpc();
 
                         // Next Players turn
@@ -178,10 +179,12 @@ public class Banana : NetworkBehaviour, IProjectile
         explosion.GetComponent<NetworkObject>().Spawn(true);
         AudioManager.Instance.PlayAudioClipRpc(AudioClipType.ExplosionSFX, 0.95f, 1.05f);
 
-        Destroy(gameObject);
+        //gameObject);
+        gameObject.GetComponent<NetworkObject>().Despawn(true);
     }
 
-    public void SetLastProjectileInBurst()
+    [Rpc(SendTo.Server)]
+    public void SetLastProjectileInBurstRpc()
     {
         _isLastProjectile = true;
     }

@@ -241,7 +241,8 @@ public class PowerupManager : NetworkBehaviour
         _playerPowerups[playerId].Remove(powerupNO.gameObject);
         _playerPowerupNames[playerId].Remove(puName);
 
-        Destroy(powerupNO.gameObject);
+        //Destroy(powerupNO.gameObject);
+        powerupNO.Despawn(true);
     }
 
     public void RemoveAllPowerups()
@@ -253,7 +254,8 @@ public class PowerupManager : NetworkBehaviour
 
             for (int j = 0; j < PlayerManager.Instance.Players[i].PlayerUIPowerupHolder.childCount; j++)
             {
-                Destroy(PlayerManager.Instance.Players[i].PlayerUIPowerupHolder.GetChild(j).gameObject);
+                //Destroy(PlayerManager.Instance.Players[i].PlayerUIPowerupHolder.GetChild(j).gameObject);
+                PlayerManager.Instance.Players[i].PlayerUIPowerupHolder.GetChild(j).gameObject.GetComponent<NetworkObject>().Despawn(true);
             }
         }
     }

@@ -30,7 +30,8 @@ public class PlayerManager : NetworkBehaviour
     {
         for (int i = 0; i < _playerHolder.childCount; i++)
         {
-            Destroy(_playerHolder.GetChild(i).gameObject);
+            //Destroy(_playerHolder.GetChild(i).gameObject);
+            _playerHolder.GetChild(i).gameObject.GetComponent<NetworkObject>().Despawn(true);
         }
     }
 

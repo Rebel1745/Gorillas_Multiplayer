@@ -168,5 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ab2a49fa7ea4d419c06e58e04d8745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Explosion
+  ShowTopMostFoldoutHeaderGroup: 1
   _cameraShakeDuration: 0.1
   _cameraShakeAmount: 1
+  _destroyAfterTime: 6

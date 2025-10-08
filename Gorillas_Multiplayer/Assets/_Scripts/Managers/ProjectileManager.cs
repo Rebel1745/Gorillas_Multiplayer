@@ -141,7 +141,7 @@ public class ProjectileManager : NetworkBehaviour
 
             if (_currentBurstNumber == _burstCount)
             {
-                iProjectile.SetLastProjectileInBurst();
+                iProjectile.SetLastProjectileInBurstRpc();
                 if (_isVariablePower)
                     PowerupManager.Instance.RemovePowerupUseRpc(_currentPlayerId, "Powerup_TripleBombVariablePower");
                 else
@@ -151,7 +151,7 @@ public class ProjectileManager : NetworkBehaviour
         else
         {
             CameraManager.Instance.UpdateCameraForProjectileRpc();
-            iProjectile.SetLastProjectileInBurst();
+            iProjectile.SetLastProjectileInBurstRpc();
         }
 
         _lastLaunchTime = Time.time;
