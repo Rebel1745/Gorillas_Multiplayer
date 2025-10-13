@@ -17,7 +17,7 @@ public class Explosion : NetworkBehaviour
 
     private void Update()
     {
-        if (Time.time > _startTime + _destroyAfterTime && !_destroying)
+        if (Time.time > _startTime + _destroyAfterTime && !_destroying && IsServer)
             DestroyExplosionRpc();
     }
 

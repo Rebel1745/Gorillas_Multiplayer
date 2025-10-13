@@ -50,11 +50,19 @@ public class ScoreUI : NetworkBehaviour
 
     public void AddScore(int winningPlayerId)
     {
+        int otherPlayerId = PlayerManager.Instance.GetOtherPlayerId(winningPlayerId);
         _playerScores[winningPlayerId]++;
         _gamesLostInARow[winningPlayerId] = 0;
-        _gamesLostInARow[PlayerManager.Instance.GetOtherPlayerId(winningPlayerId)]++;
+        _gamesLostInARow[otherPlayerId]++;
 
         UpdateScoreText();
+
+        if (!IsServer) return;
+
+        for (int i = 0; i < _gamesLostInARow[otherPlayerId]; i++)
+        {
+            PowerupManager.Instance.AddRandomPlayerPowerupRpc(otherPlayerId);
+        }
     }
 
     private void Show()

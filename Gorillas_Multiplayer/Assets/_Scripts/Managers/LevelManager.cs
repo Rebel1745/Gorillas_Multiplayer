@@ -30,6 +30,8 @@ public class LevelManager : NetworkBehaviour
 
     public void BuildLevel()
     {
+        if (!IsServer) return;
+
         ClearCurrentLevel();
 
         // time to build the level
@@ -141,8 +143,8 @@ public class LevelManager : NetworkBehaviour
         // loop through all of the level element game objects and destroy
         foreach (GameObject go in _levelElementGOs)
         {
-            //Destroy(go);
-            go.GetComponent<NetworkObject>().Despawn(true);
+            Destroy(go);
+            //go.GetComponent<NetworkObject>().Despawn(true);
         }
         _levelElementGOs.Clear();
 
@@ -154,22 +156,22 @@ public class LevelManager : NetworkBehaviour
         // destroy the level elements
         for (int i = 0; i < _levelElementHolder.childCount; i++)
         {
-            //Destroy(_levelElementHolder.GetChild(i).gameObject);
-            _levelElementHolder.GetChild(i).gameObject.GetComponent<NetworkObject>().Despawn(true);
+            Destroy(_levelElementHolder.GetChild(i).gameObject);
+            //_levelElementHolder.GetChild(i).gameObject.GetComponent<NetworkObject>().Despawn(true);
         }
 
         // destroy the explosion masks
         for (int i = 0; i < _explosionMaskHolder.childCount; i++)
         {
-            //Destroy(_explosionMaskHolder.GetChild(i).gameObject);
-            _explosionMaskHolder.GetChild(i).gameObject.GetComponent<NetworkObject>().Despawn(true);
+            Destroy(_explosionMaskHolder.GetChild(i).gameObject);
+            //_explosionMaskHolder.GetChild(i).gameObject.GetComponent<NetworkObject>().Despawn(true);
         }
 
         // destroy the broken windows
         for (int i = 0; i < _brokenWindowHolder.childCount; i++)
         {
-            //Destroy(_brokenWindowHolder.GetChild(i).gameObject);
-            _brokenWindowHolder.GetChild(i).gameObject.GetComponent<NetworkObject>().Despawn(true);
+            Destroy(_brokenWindowHolder.GetChild(i).gameObject);
+            //_brokenWindowHolder.GetChild(i).gameObject.GetComponent<NetworkObject>().Despawn(true);
         }
     }
 

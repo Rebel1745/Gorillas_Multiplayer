@@ -13,14 +13,6 @@ public class PowerupManager : NetworkBehaviour
     private List<string>[] _playerPowerupNames = new List<string>[2];
     private List<int>[] _playerPowerupCounts = new List<int>[2];
 
-    // USED FOR DEBUG, DELETE WHEN NOT NEEDED
-    public List<GameObject> _player1Powerups = new();
-    public List<string> _player1PowerupNames = new();
-    public List<int> _player1PowerupCounts = new();
-    public List<GameObject> _player2Powerups = new();
-    public List<string> _player2PowerupNames = new();
-    public List<int> _player2PowerupCounts = new();
-
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -79,19 +71,12 @@ public class PowerupManager : NetworkBehaviour
 
         _playerPowerupCounts[0].Clear();
         _playerPowerupCounts[1].Clear();
-
-        if (!IsServer) return;
-
-        for (int i = 0; i < 30; i++)
-        {
-            AddRandomPlayerPowerupRpc(0);
-            AddRandomPlayerPowerupRpc(1);
-        }
     }
 
     private void GameManager_OnGameOver(object sender, System.EventArgs e)
     {
-        RemoveAllPowerups();
+        if (!IsServer) return;
+        RemoveAllPowerupsRpc();
     }
 
     [Rpc(SendTo.Server)]
@@ -128,20 +113,6 @@ public class PowerupManager : NetworkBehaviour
             _playerPowerupCounts[playerId] = ppuCountList;
             powerupId = 1;
             pu.GetComponent<Powerup>().SetPowerupCountTextRpc(1);
-        }
-
-        // DEBUG STUFF
-        if (playerId == 0)
-        {
-            _player1Powerups = ppuList;
-            _player1PowerupNames = ppuNameList;
-            _player1PowerupCounts = ppuCountList;
-        }
-        else
-        {
-            _player2Powerups = ppuList;
-            _player2PowerupNames = ppuNameList;
-            _player2PowerupCounts = ppuCountList;
         }
     }
 
@@ -245,7 +216,8 @@ public class PowerupManager : NetworkBehaviour
         powerupNO.Despawn(true);
     }
 
-    public void RemoveAllPowerups()
+    [Rpc(SendTo.Server)]
+    public void RemoveAllPowerupsRpc()
     {
         // clear out all of the powerup buttons
         for (int i = 0; i < 2; i++)

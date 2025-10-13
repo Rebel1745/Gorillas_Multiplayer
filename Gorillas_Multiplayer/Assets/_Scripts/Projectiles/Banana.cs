@@ -32,6 +32,8 @@ public class Banana : NetworkBehaviour, IProjectile
 
     void Update()
     {
+        if (!IsServer) return;
+
         CheckForGroundHitRpc();
 
         // if the banana goes too far offscreen, destroy it
@@ -65,11 +67,11 @@ public class Banana : NetworkBehaviour, IProjectile
 
         if (hit)
         {
-            Debug.Log("Direct hit");
+            //Debug.Log("Direct hit");
             // if we hit the shield, bail
             if (hit.collider.gameObject.name == "Shield")
             {
-                Debug.Log("HitShield");
+                //Debug.Log("HitShield");
                 // don't destroy the shield unless it is the end of the round otherwise a triple shot would win despite the shield
                 //hit.transform.GetComponentInParent<PlayerController>().HideShield();
                 CreateExplosionAndDestroyRpc(false);
@@ -106,7 +108,7 @@ public class Banana : NetworkBehaviour, IProjectile
                         // if we hit the shield, bail
                         if (h.gameObject.name == "Shield")
                         {
-                            Debug.Log("HitShield2");
+                            //Debug.Log("HitShield2");
                             //h.transform.GetComponentInParent<PlayerController>().HideShield();
                             CreateExplosionAndDestroyRpc(false);
                             if (_isLastProjectile)
@@ -114,7 +116,7 @@ public class Banana : NetworkBehaviour, IProjectile
                             return;
                         }
                     }
-                    Debug.Log("Indirect hit");
+                    //Debug.Log("Indirect hit");
 
                     playerHitId = hits[0].transform.GetComponent<PlayerController>().PlayerId;
                     otherPlayerId = PlayerManager.Instance.GetOtherPlayerId(playerHitId);
@@ -138,7 +140,6 @@ public class Banana : NetworkBehaviour, IProjectile
 
                     if (_createExplosionMask)
                     {
-                        Debug.Log($"Missed {_isLastProjectile} {GameManager.Instance.State.ToString()}");
                         CreateExplosionAndDestroyRpc();
 
                         // Next Players turn

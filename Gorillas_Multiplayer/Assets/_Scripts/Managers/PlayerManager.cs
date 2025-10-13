@@ -151,20 +151,6 @@ public class PlayerManager : NetworkBehaviour
         StartCoroutine(ResetAnimation(playerId, 0));
     }
 
-    // [Rpc(SendTo.ClientsAndHost)]
-    // public void ShowPlayerTrajectoryLineRpc(int playerId, bool drawTrajectoryLine)
-    // {
-    //     Players[playerId].PlayerTrajectoryLine.CalculateTrajectoryLine(_latestPowerValue, _latestAngleValue, Players[playerId].ThrowDirection, Players[playerId].PlayerController.DefaultForceMultiplier);
-    //     if (drawTrajectoryLine) Players[playerId].PlayerTrajectoryLine.DrawTrajectoryLine();
-    // }
-
-    // [Rpc(SendTo.ClientsAndHost)]
-    // public void HidePlayerTrajectoryLineRpc(int playerId)
-    // {
-    //     if (playerId == GameManager.Instance.CurrentPlayerId.Value)
-    //         Players[playerId].PlayerTrajectoryLine.HideTrajectoryLine();
-    // }
-
     public void SetPlayerAnimation(int playerId, string animation)
     {
         Players[playerId].PlayerAnimator.Play(animation);
