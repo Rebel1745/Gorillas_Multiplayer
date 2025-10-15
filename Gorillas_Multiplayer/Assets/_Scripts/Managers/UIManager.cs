@@ -7,6 +7,8 @@ public class UIManager : NetworkBehaviour
     public static UIManager Instance { get; private set; }
 
     public GameObject NetworkManagerUI;
+    public GameObject MultiplayerUI;
+    public GameObject StartScreenUI;
     public GameObject StatusScreenUI;
     public GameObject GameUI;
     public GameObject GameOverUI;

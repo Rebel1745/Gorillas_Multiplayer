@@ -19,7 +19,7 @@ public class RelayManager : MonoBehaviour
     {
         try
         {
-            Debug.Log("Starting relay");
+            UIManager.Instance.UpdateStatusScreenText("Starting relay");
 
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(1);
 
@@ -29,7 +29,7 @@ public class RelayManager : MonoBehaviour
 
             NetworkManager.Singleton.StartHost();
 
-            Debug.Log("Started relay");
+            UIManager.Instance.UpdateStatusScreenText("Started relay");
 
             return joinCode;
         }
@@ -45,7 +45,7 @@ public class RelayManager : MonoBehaviour
     {
         try
         {
-            Debug.Log($"Join relay with code: {joinCode}");
+            UIManager.Instance.UpdateStatusScreenText($"Join relay with code: {joinCode}");
 
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 

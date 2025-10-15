@@ -2,10 +2,13 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class SettingsManager : NetworkBehaviour
 {
     public static SettingsManager Instance { get; private set; }
+
+    private bool _fromStartScreen;
 
     [SerializeField] private int _numberOfRounds = 5;
     public int NumberOfRounds { get { return _numberOfRounds; } }
@@ -46,6 +49,12 @@ public class SettingsManager : NetworkBehaviour
         Hide();
     }
 
+    public void SetRoundsAndPowerups(int rounds, bool usePowerups)
+    {
+        _numberOfRounds = rounds;
+        _usePowerups = usePowerups;
+    }
+
     private void SetupListeners()
     {
         _settingsButton.onClick.AddListener(OnSettingsButton);
@@ -73,8 +82,18 @@ public class SettingsManager : NetworkBehaviour
         Show();
     }
 
+    public void OnSettingsButton(bool fromStartScreen)
+    {
+        _fromStartScreen = fromStartScreen;
+        Show();
+    }
+
     private void OnBackButton()
     {
+        if (_fromStartScreen)
+            UIManager.Instance.ShowHideUIElement(UIManager.Instance.StartScreenUI, true);
+
+        _fromStartScreen = false;
         Hide();
     }
 

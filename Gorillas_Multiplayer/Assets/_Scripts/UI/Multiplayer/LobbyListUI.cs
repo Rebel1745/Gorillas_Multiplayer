@@ -37,7 +37,7 @@ public class LobbyListUI : MonoBehaviour
 
     private void LobbyManager_OnAuthenticated(object sender, EventArgs e)
     {
-        Debug.Log("Authenticated");
+        //Debug.Log("Authenticated");
         Show();
     }
 

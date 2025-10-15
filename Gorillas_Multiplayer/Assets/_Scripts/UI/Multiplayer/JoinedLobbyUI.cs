@@ -88,7 +88,8 @@ public class LobbyUI : MonoBehaviour
         _usePowerupsText.text = usePowerupsString == "True" ? "Yes" : "No";
         _numberOfRoundsText.text = lobby.Data[LobbyManager.KEY_ROUNDS].Value;
 
-        Show();
+        if (!gameObject.activeInHierarchy)
+            Show();
     }
 
     private void ClearLobby()

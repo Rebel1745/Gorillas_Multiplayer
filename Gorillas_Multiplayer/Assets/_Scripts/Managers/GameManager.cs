@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 public class GameManager : NetworkBehaviour
@@ -14,6 +15,7 @@ public class GameManager : NetworkBehaviour
     private int _currentRound = 0;
     public int CurrentRound { get { return _currentRound; } }
     [SerializeField] private float _timeBetweenRounds = 3f;
+    private Lobby _lobby;
 
     #region Events
     public event EventHandler OnNewGame;
@@ -77,8 +79,11 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        UIManager.Instance.ShowHideUIElement(UIManager.Instance.MultiplayerUI, false);
+
         if (IsServer)
         {
+            LobbyManager.Instance.OnGameStarted += LobbyManager_OnGameStarted;
             CurrentPlayerId.Value = 3;
             UpdateGameState(GameState.WaitingForClientConnection);
             NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
@@ -88,6 +93,16 @@ public class GameManager : NetworkBehaviour
         {
             OnCurrentPlayerIdChanged?.Invoke(this, EventArgs.Empty);
         };
+    }
+
+    private void LobbyManager_OnGameStarted(object sender, LobbyManager.LobbyEventArgs e)
+    {
+        _lobby = e.lobby;
+
+        int rounds = int.Parse(_lobby.Data[LobbyManager.Instance.Key_Rounds].Value);
+        bool usePowerups = _lobby.Data[LobbyManager.Instance.Key_Use_Powerups].Value == "True" ? true : false;
+
+        SettingsManager.Instance.SetRoundsAndPowerups(rounds, usePowerups);
     }
 
     private void NetworkManager_OnClientConnectedCallback(ulong obj)

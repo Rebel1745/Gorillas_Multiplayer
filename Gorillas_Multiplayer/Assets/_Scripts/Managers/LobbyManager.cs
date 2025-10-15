@@ -5,7 +5,6 @@ using System;
 using Unity.Services.Lobbies;
 using System.Collections.Generic;
 using Unity.Services.Lobbies.Models;
-using UnityEditor.Rendering;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -14,7 +13,9 @@ public class LobbyManager : MonoBehaviour
     public const string KEY_PLAYER_NAME = "PlayerName";
     public string Key_Player_Name { get { return KEY_PLAYER_NAME; } }
     public const string KEY_USE_POWERUPS = "UsePowerups";
+    public string Key_Use_Powerups { get { return KEY_USE_POWERUPS; } }
     public const string KEY_ROUNDS = "Rounds";
+    public string Key_Rounds { get { return KEY_ROUNDS; } }
     public const string KEY_JOIN_CODE = "0";
     private string _playerName;
 
@@ -64,7 +65,7 @@ public class LobbyManager : MonoBehaviour
 
         AuthenticationService.Instance.SignedIn += () =>
         {
-            Debug.Log($"Signed in with id: {AuthenticationService.Instance.PlayerId}");
+            UIManager.Instance.UpdateStatusScreenText($"Signed in with id: {AuthenticationService.Instance.PlayerId}");
         };
 
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
@@ -240,7 +241,7 @@ public class LobbyManager : MonoBehaviour
 
         OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = lobby });
 
-        Debug.Log("Created Lobby " + lobby.Name);
+        UIManager.Instance.UpdateStatusScreenText("Created Lobby " + lobby.Name);
     }
 
     public async void RefreshLobbyList()
@@ -315,7 +316,8 @@ public class LobbyManager : MonoBehaviour
         {
             try
             {
-                Debug.Log("StartGame");
+                UIManager.Instance.ShowHideUIElement(UIManager.Instance.MultiplayerUI, false);
+                UIManager.Instance.UpdateStatusScreenText("Starting game...");
 
                 string relayCode = await RelayManager.Instance.CreateRelay();
 

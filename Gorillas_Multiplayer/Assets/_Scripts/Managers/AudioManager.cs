@@ -16,10 +16,7 @@ public class AudioManager : NetworkBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-    }
 
-    private void Start()
-    {
         _sourceBg.volume = PlayerPrefs.GetFloat("MusicVolume", 1);
         _sourceSFX.volume = PlayerPrefs.GetFloat("sfxVolume", 1);
 
@@ -38,9 +35,10 @@ public class AudioManager : NetworkBehaviour
         _sourceSFX.PlayOneShot(_audioClips[audioClipType]);
     }
 
-    public void PlayBackgroundMusic(AudioClip clip)
+    public void PlayBackgroundMusic(AudioClipType audioClipType)
     {
-        _sourceBg.PlayOneShot(clip);
+        if (_audioClips[audioClipType] != null)
+            _sourceBg.PlayOneShot(_audioClips[audioClipType]);
     }
 
     public void StopBackgroundMusic()

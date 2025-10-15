@@ -20,7 +20,7 @@ public class CreateLobbyUI : MonoBehaviour
             LobbyManager.Instance.CreateLobby(
                 _lobbyNameInput.text,
                 false,
-                _numberOfRoundsDropdown.value.ToString(),
+                _numberOfRoundsDropdown.options[_numberOfRoundsDropdown.value].text,
                 _usePowerupsToggle.isOn
             );
             Hide();
