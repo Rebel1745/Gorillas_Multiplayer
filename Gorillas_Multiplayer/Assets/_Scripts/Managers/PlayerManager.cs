@@ -105,6 +105,7 @@ public class PlayerManager : NetworkBehaviour
         Players[playerId].SpawnPointIndex = spawnPointIndex;
         Players[playerId].PlayerController.SetPlayerDetails(playerId);
         Players[playerId].PlayerMovementSpriteGO = playerMovementSpriteNO.gameObject;
+        Players[playerId].PlayerMovementSpriteGO.transform.position = Players[playerId].PlayerGameObject.transform.position;
         Players[playerId].PlayerMovementSpriteGO.SetActive(false);
 
         // set outline colour
@@ -124,6 +125,11 @@ public class PlayerManager : NetworkBehaviour
         }
 
         CameraManager.Instance.AddPlayerRpc(Players[playerId].PlayerGameObject.transform.position);
+
+        for (int i = 0; i < 50; i++)
+        {
+            PowerupManager.Instance.AddRandomPlayerPowerupRpc(playerId);
+        }
     }
 
     public int GetOtherPlayerId()
@@ -146,6 +152,8 @@ public class PlayerManager : NetworkBehaviour
     public void PlacePlayerAndEnableRpc(int playerId, Vector3 position, int spawnPointIndex)
     {
         Players[playerId].PlayerGameObject.transform.position = position;
+        Players[playerId].PlayerMovementSpriteGO.transform.position = position;
+        Players[playerId].PlayerMovementSpriteGO.SetActive(false);
         Players[playerId].SpawnPointIndex = spawnPointIndex;
         Players[playerId].PlayerGameObject.SetActive(true);
         StartCoroutine(ResetAnimation(playerId, 0));

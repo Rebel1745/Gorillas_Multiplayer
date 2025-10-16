@@ -96,25 +96,31 @@ public class PlayerUI : NetworkBehaviour
     private void OnPowerSliderValueChanged(float power)
     {
         _powerValue = power;
+        _powerText.text = power.ToString("F1");
         ProjectileManager.Instance.SetLatestPowerAndAngleValuesRpc(_playerId, power, _angleValue);
-        OnPowerOrAngleChanged?.Invoke(this, new OnPowerOrAngleChangedArgs
-        {
-            PlayerId = _playerId,
-            PowerValue = power,
-            AngleValue = _angleValue
-        });
+
+        if (GameManager.Instance.CurrentPlayerId.Value == _playerId)
+            OnPowerOrAngleChanged?.Invoke(this, new OnPowerOrAngleChangedArgs
+            {
+                PlayerId = _playerId,
+                PowerValue = power,
+                AngleValue = _angleValue
+            });
     }
 
     private void OnAngleSliderValueChanged(float angle)
     {
         _angleValue = angle;
+        _angleText.text = angle.ToString("F1");
         ProjectileManager.Instance.SetLatestPowerAndAngleValuesRpc(_playerId, _powerValue, angle);
-        OnPowerOrAngleChanged?.Invoke(this, new OnPowerOrAngleChangedArgs
-        {
-            PlayerId = _playerId,
-            PowerValue = _powerValue,
-            AngleValue = angle
-        });
+
+        if (GameManager.Instance.CurrentPlayerId.Value == _playerId)
+            OnPowerOrAngleChanged?.Invoke(this, new OnPowerOrAngleChangedArgs
+            {
+                PlayerId = _playerId,
+                PowerValue = _powerValue,
+                AngleValue = angle
+            });
     }
 
     private void OnPowerInputChanged(string power)

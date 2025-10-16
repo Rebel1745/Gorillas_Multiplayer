@@ -32,7 +32,7 @@ public class LevelManager : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        ClearCurrentLevel();
+        ClearCurrentLevelRpc();
 
         // time to build the level
         ChooseElements();
@@ -89,6 +89,7 @@ public class LevelManager : NetworkBehaviour
             _playerSpawnPointList.Add(building.transform.GetChild(1).GetChild(i).transform.position);
             // first child of the spawn point is the arrow
             _playerSpawnPointArrows.Add(building.transform.GetChild(1).GetChild(i).GetChild(0).gameObject);
+            Debug.Log(building.transform.GetChild(1).GetChild(i).GetChild(0).name);
             _playerSpawnPointArrows[_playerSpawnPointArrows.Count - 1].GetComponentInChildren<MovePlayerArrow>().SetArrowIndex(_playerSpawnPointArrows.Count - 1);
         }
     }
@@ -138,13 +139,17 @@ public class LevelManager : NetworkBehaviour
         }
     }
 
-    private void ClearCurrentLevel()
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ClearCurrentLevelRpc()
     {
-        // loop through all of the level element game objects and destroy
-        foreach (GameObject go in _levelElementGOs)
+        if (IsServer)
         {
-            Destroy(go);
-            //go.GetComponent<NetworkObject>().Despawn(true);
+            // loop through all of the level element game objects and destroy
+            foreach (GameObject go in _levelElementGOs)
+            {
+                Destroy(go);
+                //go.GetComponent<NetworkObject>().Despawn(true);
+            }
         }
         _levelElementGOs.Clear();
 
@@ -152,6 +157,8 @@ public class LevelManager : NetworkBehaviour
         _playerSpawnPointList.Clear();
         _playerSpawnPointArrows.Clear();
         _totalElementWidth = 0;
+
+        if (!IsServer) return;
 
         // destroy the level elements
         for (int i = 0; i < _levelElementHolder.childCount; i++)
