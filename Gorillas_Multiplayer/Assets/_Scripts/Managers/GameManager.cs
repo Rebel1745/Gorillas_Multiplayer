@@ -101,8 +101,10 @@ public class GameManager : NetworkBehaviour
 
         int rounds = int.Parse(_lobby.Data[LobbyManager.Instance.Key_Rounds].Value);
         bool usePowerups = _lobby.Data[LobbyManager.Instance.Key_Use_Powerups].Value == "True" ? true : false;
+        string player1Name = _lobby.Players[0].Data[LobbyManager.Instance.Key_Player_Name].Value;
+        string player2Name = _lobby.Players[1].Data[LobbyManager.Instance.Key_Player_Name].Value;
 
-        SettingsManager.Instance.SetRoundsAndPowerups(rounds, usePowerups);
+        SettingsManager.Instance.SetRoundsPowerupsAndNames(rounds, usePowerups, player1Name, player2Name);
     }
 
     private void NetworkManager_OnClientConnectedCallback(ulong obj)
@@ -121,7 +123,7 @@ public class GameManager : NetworkBehaviour
 
     private void ShowStartScreen()
     {
-
+        UIManager.Instance.ShowHideUIElement(UIManager.Instance.StartScreenUI, true);
     }
 
     private void InitialiseGame()

@@ -18,8 +18,8 @@ public class ProjectileManager : NetworkBehaviour
     // explosion stuff
     private Transform _explosionMaskParent;
     private Transform _brokenWindowParent;
-    public float _latestPowerValue;
-    public float _latestAngleValue;
+    private float _latestPowerValue;
+    private float _latestAngleValue;
 
     // powerup stuff
     private bool _isBigBomb = false;

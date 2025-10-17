@@ -16,7 +16,7 @@ public class GameOverUI : NetworkBehaviour
     [SerializeField] private float _losingImageSize = 100f;
     [SerializeField] private float _losingImageOffset = -25f;
     [SerializeField] private Button _playAgainButton;
-    [SerializeField] private Button _mainMenuButton;
+    [SerializeField] private Button _quitGameButton;
 
     public override void OnNetworkSpawn()
     {
@@ -25,15 +25,16 @@ public class GameOverUI : NetworkBehaviour
 
         _playAgainButton.onClick.AddListener(() =>
         {
-            GameManager.Instance.StartNewGameRpc();
+            UIManager.Instance.UpdateStatusScreenText("Waiting for host to start...");
+            UIManager.Instance.ShowHideUIElement(UIManager.Instance.StatusScreenUI, true);
+
+            if (IsServer)
+                GameManager.Instance.UpdateGameState(GameState.InitialiseGame);
+
             Hide();
         });
 
-        _mainMenuButton.onClick.AddListener(() =>
-        {
-            GameManager.Instance.UpdateGameState(GameState.StartScreen);
-            Hide();
-        });
+        _quitGameButton.onClick.AddListener(() => { Application.Quit(); });
     }
 
     private void GameManager_OnNewGame(object sender, EventArgs e)

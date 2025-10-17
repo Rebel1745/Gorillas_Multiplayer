@@ -28,6 +28,8 @@ public class LobbyUI : MonoBehaviour
             LobbyManager.Instance.LeaveLobby();
         });
 
+        _leaveLobbyButton.gameObject.SetActive(false);
+
         _startGameButton.onClick.AddListener(() =>
         {
             LobbyManager.Instance.StartGame();
@@ -64,6 +66,11 @@ public class LobbyUI : MonoBehaviour
     private void UpdateLobby(Lobby lobby)
     {
         ClearLobby();
+
+        if (lobby.Players.Count == 2)
+            _startGameButton.gameObject.SetActive(true);
+        else
+            _startGameButton.gameObject.SetActive(false);
 
         if (!LobbyManager.Instance.IsLobbyHost())
             _startGameButton.gameObject.SetActive(false);

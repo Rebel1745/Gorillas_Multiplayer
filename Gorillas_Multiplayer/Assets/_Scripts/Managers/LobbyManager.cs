@@ -293,6 +293,7 @@ public class LobbyManager : MonoBehaviour
                 Debug.Log(e);
             }
         }
+        else Debug.Log("No Joined Lobby");
     }
 
     public async void KickPlayer(string playerId)

@@ -126,10 +126,10 @@ public class PlayerManager : NetworkBehaviour
 
         CameraManager.Instance.AddPlayerRpc(Players[playerId].PlayerGameObject.transform.position);
 
-        for (int i = 0; i < 50; i++)
-        {
-            PowerupManager.Instance.AddRandomPlayerPowerupRpc(playerId);
-        }
+        // for (int i = 0; i < 50; i++)
+        // {
+        //     PowerupManager.Instance.AddRandomPlayerPowerupRpc(playerId);
+        // }
     }
 
     public int GetOtherPlayerId()

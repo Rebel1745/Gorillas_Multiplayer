@@ -1,8 +1,8 @@
+using System;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public class SettingsManager : NetworkBehaviour
 {
@@ -10,7 +10,7 @@ public class SettingsManager : NetworkBehaviour
 
     private bool _fromStartScreen;
 
-    [SerializeField] private int _numberOfRounds = 5;
+    private int _numberOfRounds = 5;
     public int NumberOfRounds { get { return _numberOfRounds; } }
     private bool _usePowerups = true;
     public bool UsePowerups { get { return _usePowerups; } }
@@ -35,6 +35,7 @@ public class SettingsManager : NetworkBehaviour
     [SerializeField] private TMP_Dropdown _player2UITypeDropdown;
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _backButton;
+    [SerializeField] private Button _quitButton;
     [SerializeField] private GameObject _player1UITypeLayout;
     [SerializeField] private GameObject _player2UITypeLayout;
 
@@ -49,16 +50,19 @@ public class SettingsManager : NetworkBehaviour
         Hide();
     }
 
-    public void SetRoundsAndPowerups(int rounds, bool usePowerups)
+    public void SetRoundsPowerupsAndNames(int rounds, bool usePowerups, string player1Name, string player2Name)
     {
         _numberOfRounds = rounds;
         _usePowerups = usePowerups;
+        PlayerManager.Instance.Players[0].Name = player1Name;
+        PlayerManager.Instance.Players[1].Name = player2Name;
     }
 
     private void SetupListeners()
     {
         _settingsButton.onClick.AddListener(OnSettingsButton);
         _backButton.onClick.AddListener(OnBackButton);
+        _quitButton.onClick.AddListener(OnQuitButton);
 
         _showColourPickerButton.onClick.AddListener(ShowBackgroundColourPicker);
         _confirmColourButton.onClick.AddListener(ConfirmBackgroundColour);
@@ -75,6 +79,11 @@ public class SettingsManager : NetworkBehaviour
         _sfxVolumeSlider.onValueChanged.AddListener(SetSFXVolume);
 
         _uiScaleSlider.onValueChanged.AddListener(SetUIScale);
+    }
+
+    private void OnQuitButton()
+    {
+        Application.Quit();
     }
 
     private void OnSettingsButton()
